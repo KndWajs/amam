@@ -1,53 +1,62 @@
 package com.aws.codestar.projecttemplates.controller;
 
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for {@link HelloWorldController}. Modify the tests in order to support your use case as you build your project.
  */
-@DisplayName("Tests for HelloWorldController")
-class HelloWorldControllerTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+//@DisplayName("Tests for HelloWorldController")
+public class HelloWorldControllerTest {
 
     private static final String EXPECTED_RESPONSE_VALUE = "Hello AWS CodeStar!";
     private static final String INPUT_NAME = "AWS CodeStar";
 
-    private final HelloWorldController controller = new HelloWorldController();
+
+    @Autowired
+    private HelloWorldController controller;
+
 
     /**
      * Initializing variables before we run the tests.
      * Use @BeforeAll for initializing static variables at the start of the test class execution.
      * Use @BeforeEach for initializing variables before each test is run.
      */
-    @BeforeAll
-    static void setup() {
-        // Use as needed.
-    }
+//    @BeforeAll
+//    static void setup() {
+//        // Use as needed.
+//    }
 
     /**
      * De-initializing variables after we run the tests.
      * Use @AfterAll for de-initializing static variables at the end of the test class execution.
      * Use @AfterEach for de-initializing variables at the end of each test.
      */
-    @AfterAll
-    static void tearDown() {
-        // Use as needed.
-    }
+//    @AfterAll
+//    static void tearDown() {
+//        // Use as needed.
+//    }
 
     /**
      * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldGet} successfully.
      */
     @Test
     @DisplayName("Basic test for GET request")
-    void testGetRequest() {
+    public void testGetRequest() throws JSONException {
         ResponseEntity responseEntity = controller.helloWorldGet(INPUT_NAME);
+        System.out.println(controller.getAllIngredients().toString());
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(responseEntity.getBody().toString());
@@ -60,7 +69,7 @@ class HelloWorldControllerTest {
      */
     @Test
     @DisplayName("Basic test for POST request")
-    void testPostRequest() {
+    public void testPostRequest() throws JSONException {
         ResponseEntity responseEntity = controller.helloWorldPost(INPUT_NAME);
 
         // Verify the response obtained matches the values we expect.
