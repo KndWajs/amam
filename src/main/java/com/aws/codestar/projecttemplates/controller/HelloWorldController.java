@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * Basic Spring web service controller that handles all GET requests.
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class HelloWorldController {
     private IngredientRepository ingredientRepository;
     private MealRepository mealRepository;
