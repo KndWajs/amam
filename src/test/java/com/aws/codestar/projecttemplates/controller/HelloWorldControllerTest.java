@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests for {@link HelloWorldController}. Modify the tests in order to support your use case as you build your project.
@@ -49,6 +52,34 @@ public class HelloWorldControllerTest {
 //        // Use as needed.
 //    }
 
+    @Test
+    public void testGetAllIngredients() throws JSONException {
+        ArrayList response = (ArrayList) controller.getAllIngredients();
+        System.out.println(response);
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testGetAllMeals() throws JSONException {
+        ArrayList response = (ArrayList) controller.getAllMeals();
+        System.out.println(response);
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testGetMenu() throws JSONException {
+        ArrayList response = (ArrayList) controller.getMenu();
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testGetMealsIngredients() throws JSONException {
+        ArrayList response = (ArrayList) controller.getMealsIngredients();
+        assertNotNull(response);
+    }
+
+
+
     /**
      * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldGet} successfully.
      */
@@ -56,7 +87,6 @@ public class HelloWorldControllerTest {
     @DisplayName("Basic test for GET request")
     public void testGetRequest() throws JSONException {
         ResponseEntity responseEntity = controller.helloWorldGet(INPUT_NAME);
-        System.out.println(controller.getAllIngredients().toString());
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(responseEntity.getBody().toString());
