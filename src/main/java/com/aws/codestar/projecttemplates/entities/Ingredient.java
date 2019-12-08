@@ -1,24 +1,23 @@
 package com.aws.codestar.projecttemplates.entities;
 
 import com.aws.codestar.projecttemplates.enums.IngredientUnit;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
-@Getter
-@Setter
-@ToString
-public class Ingredient {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Ingredient implements EntityInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -27,7 +26,6 @@ public class Ingredient {
     @Column(name = "unit")
     private IngredientUnit ingredientUnit;
 
-    //    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "ingredients")
     @OneToMany(mappedBy = "ingredient")
     private List<MealIngredient> mealIngredients;
 }

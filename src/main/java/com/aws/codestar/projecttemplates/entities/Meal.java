@@ -2,48 +2,44 @@ package com.aws.codestar.projecttemplates.entities;
 
 import com.aws.codestar.projecttemplates.enums.MealType;
 import com.aws.codestar.projecttemplates.enums.PreparingType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "meals")
-@Getter
-@Setter
-@ToString
-public class Meal {
-
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Meal implements EntityInterface {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="typeOfMeal")
+    @Column(name = "typeOfMeal")
     private MealType typeOfMeal;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="typeOfPreparing")
+    @Column(name = "typeOfPreparing")
     private PreparingType typeOfPreparing;
 
-    @Column(name="recipe")
+    @Column(name = "recipe")
     private String recipe;
 
-    @Column(name="minToPrepare")
+    @Column(name = "minToPrepare")
     private Integer minutesToPrepare;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "mealIngredients",
-//            joinColumns = @JoinColumn(name = "mealId"),
-//            inverseJoinColumns = @JoinColumn(name = "ingredientId"))
-
-    @OneToMany (mappedBy = "meal")
+    @OneToMany(mappedBy = "meal")
     private List<MealIngredient> mealIngredients;
+
 }

@@ -1,26 +1,25 @@
 package com.aws.codestar.projecttemplates.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "mealIngredients")
-@Getter
-@Setter
-@ToString
-public class MealIngredient {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class MealIngredient implements EntityInterface {
 
     @Id
-    @Column(name="id")
-    private Integer id;
-
+    @Column(name = "id")
+    private Long id;
+//TODO this id in manytomany table is not necessary
 
     @ManyToOne
     @MapsId("mealId")
-    @JoinColumn(name = "mealId")
+    @JoinColumn(name = "mealId")//TODO not necessary>
     private Meal meal;
 
 
@@ -29,7 +28,7 @@ public class MealIngredient {
     @JoinColumn(name = "ingredientId")
     private Ingredient ingredient;
 
-    @Column(name="amount")
+    @Column(name = "amount")
     private Double amount;
 
 }

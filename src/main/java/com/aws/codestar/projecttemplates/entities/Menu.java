@@ -1,22 +1,24 @@
 package com.aws.codestar.projecttemplates.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "menu")
-@Getter
-@Setter
-@ToString
-public class Menu {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Menu implements EntityInterface {
 
     @Id
-    @Column(name="dayNumber")
-    private Integer dayNumber;
+    @Column(name = "dayNumber")
+    private Long id;  //TODO id which is also day numer can be misleading
 
-    @Column(name="mealName")
+    @Column(name = "mealName")
     private String mealName;
 }

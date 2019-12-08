@@ -4,15 +4,20 @@ import com.aws.codestar.projecttemplates.dao.IngredientRepository;
 import com.aws.codestar.projecttemplates.dao.MealIngredientRepository;
 import com.aws.codestar.projecttemplates.dao.MealRepository;
 import com.aws.codestar.projecttemplates.dao.MenuRepository;
+import com.aws.codestar.projecttemplates.dto.MealDto;
 import com.aws.codestar.projecttemplates.entities.Ingredient;
 import com.aws.codestar.projecttemplates.entities.Meal;
 import com.aws.codestar.projecttemplates.entities.MealIngredient;
 import com.aws.codestar.projecttemplates.entities.Menu;
+import com.aws.codestar.projecttemplates.mappers.MealMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Basic Spring web service controller that handles all GET requests.
@@ -24,15 +29,19 @@ public class HelloWorldController {
     private MealRepository mealRepository;
     private MenuRepository menuRepository;
     private MealIngredientRepository mealIngredientRepository;
+    private MealMapper mealMapper;
 
 
-    @Autowired
-    public HelloWorldController(IngredientRepository ingredientRepository, MealRepository mealRepository, MenuRepository menuRepository, MealIngredientRepository mealIngredientRepository) {
+    public HelloWorldController(IngredientRepository ingredientRepository, MealRepository mealRepository, MenuRepository menuRepository, MealIngredientRepository mealIngredientRepository, MealMapper mealMapper) {
         this.ingredientRepository = ingredientRepository;
         this.mealRepository = mealRepository;
         this.menuRepository = menuRepository;
         this.mealIngredientRepository = mealIngredientRepository;
+        this.mealMapper = mealMapper;
     }
+
+    @Autowired
+
 
     @GetMapping(path="/ingredients")
     public @ResponseBody Iterable<Ingredient> getAllIngredients() {
@@ -42,6 +51,16 @@ public class HelloWorldController {
     @GetMapping(path="/meals")
     public @ResponseBody Iterable<Meal> getAllMeals() {
         return mealRepository.findAll();
+    }
+
+    @GetMapping(path="/mealsdto")
+    public @ResponseBody  List<MealDto> getAllMealsDto() {
+        List<Meal> meals = new ArrayList<>();
+
+        for (Meal meal:mealRepository.findAll()) {
+            meals.add(meal);
+        }
+        return mealMapper.toDtos(meals);
     }
 
     @GetMapping(path="/menu")
