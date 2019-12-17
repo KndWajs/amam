@@ -41,11 +41,11 @@ public class MenuController {
         return null;
     }
 
-    @GetMapping(path = "/menu")
-    public @ResponseBody
-    MenuDto getMenusById(@PathParam("id") Long id) {
-        return menuMapper.toDto(menuRepository.findById(id.intValue()).get()); //TODO redirect to service
-    }
+//    @GetMapping(path = "/menu")
+//    public @ResponseBody
+//    MenuDto getMenusById(@PathParam("id") Long id) {
+//        return menuMapper.toDto(menuRepository.findById(id.intValue()).get()); //TODO redirect to service
+//    }
 
     @PostMapping(path = "/menu")
     public @ResponseBody

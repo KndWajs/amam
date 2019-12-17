@@ -41,11 +41,11 @@ public class MealsController {
         return null;
     }
 
-    @GetMapping(path = "/meal")
-    public @ResponseBody
-    MealDto getMealsById(@PathParam("id") Long id) {
-        return mealMapper.toDto(mealRepository.findById(id.intValue()).get()); //TODO redirect to service
-    }
+//    @GetMapping(path = "/meal")
+//    public @ResponseBody
+//    MealDto getMealsById(@PathParam("id") Long id) {
+//        return mealMapper.toDto(mealRepository.findById(id.intValue()).get()); //TODO redirect to service
+//    }
 
     @PostMapping(path = "/meal")
     public @ResponseBody
