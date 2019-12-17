@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests for {@link HelloWorldController}. Modify the tests in order to support your use case as you build your project.
@@ -52,31 +49,31 @@ public class HelloWorldControllerTest {
 //        // Use as needed.
 //    }
 
-    @Test
-    public void testGetAllIngredients() throws JSONException {
-        ArrayList response = (ArrayList) controller.getAllIngredients();
-        System.out.println(response);
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testGetAllMeals() throws JSONException {
-        ArrayList response = (ArrayList) controller.getAllMeals();
-        System.out.println(response);
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testGetMenu() throws JSONException {
-        ArrayList response = (ArrayList) controller.getMenu();
-        assertNotNull(response);
-    }
-
-    @Test
-    public void testGetMealsIngredients() throws JSONException {
-        ArrayList response = (ArrayList) controller.getMealsIngredients();
-        assertNotNull(response);
-    }
+//    @Test
+//    public void testGetAllIngredients() throws JSONException {
+//        ArrayList response = (ArrayList) controller.getAllIngredients();
+//        System.out.println(response);
+//        assertNotNull(response);
+//    }
+//
+//    @Test
+//    public void testGetAllMeals() throws JSONException {
+//        ArrayList response = (ArrayList) controller.getAllMeals();
+//        System.out.println(response);
+//        assertNotNull(response);
+//    }
+//
+//    @Test
+//    public void testGetMenu() throws JSONException {
+//        ArrayList response = (ArrayList) controller.getMenu();
+//        assertNotNull(response);
+//    }
+//
+//    @Test
+//    public void testGetMealsIngredients() throws JSONException {
+//        ArrayList response = (ArrayList) controller.getMealsIngredients();
+//        assertNotNull(response);
+//    }
 
 
 
