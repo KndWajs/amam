@@ -1,9 +1,13 @@
 package com.aws.codestar.projecttemplates.entities;
 
 import com.aws.codestar.projecttemplates.enums.IngredientUnit;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -12,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient implements EntityInterface {
+public class Ingredient implements EntityInterface, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

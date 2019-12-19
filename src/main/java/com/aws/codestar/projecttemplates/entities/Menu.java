@@ -1,14 +1,15 @@
 package com.aws.codestar.projecttemplates.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menus")
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,9 +17,15 @@ import javax.persistence.Table;
 public class Menu implements EntityInterface {
 
     @Id
-    @Column(name = "dayNumber")
-    private Long id;  //TODO id which is also day numer can be misleading
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "mealName")
-    private String mealName;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "userId")
+    private Integer userId;
+
+    @OneToMany(mappedBy = "menu")
+    private List<MenuMeal> menuMeals;
 }

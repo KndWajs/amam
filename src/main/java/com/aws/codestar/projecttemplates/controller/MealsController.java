@@ -35,29 +35,34 @@ public class MealsController {
         return meals;
     }
 
-    @GetMapping(path = "/meal")
-    public @ResponseBody
-    MealDto getMealByName(@PathParam("name") String name) {
-        return null;
-    }
+//    @GetMapping(path = "/meal")
+//    public @ResponseBody
+//    MealDto getMealByName(@PathParam("name") String name) {
+//        return null;
+//    }
 
     @GetMapping(path = "/meal")
     public @ResponseBody
-    MealDto getMealsById(@PathParam("id") Long id) {
+    MealDto getMealById(@PathParam("id") Long id) {
         return mealMapper.toDto(mealRepository.findById(id.intValue()).get()); //TODO redirect to service
     }
 
     @PostMapping(path = "/meal")
     public @ResponseBody
     MealDto addNewMeal(@RequestBody MealDto mealdto) {
-        return null;
+        return null; //TODO implement
     }
 
     @PutMapping(path = "/meal/{id}")
     public @ResponseBody
     MealDto updateMeal(@RequestBody MealDto mealdto, @PathVariable Long id) {
-        return null;
+        return null; //TODO implement
     }
 
+    @DeleteMapping(path = "/meal/{id}")
+    public @ResponseBody
+    MealDto deleteMeal(@PathVariable Long id) {
+        return null; //TODO implement
+    }
 
 }

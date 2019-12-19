@@ -35,37 +35,6 @@ public class HelloWorldController {
         this.mealMapper = mealMapper;
     }
 
-//    @GetMapping(path="/ingredients")
-//    public @ResponseBody Iterable<Ingredient> getAllIngredients() {
-//        return ingredientRepository.findAll();
-//    }
-
-//    @GetMapping(path="/meals")
-//    public @ResponseBody Iterable<Meal> getAllMeals() {
-//        return mealRepository.findAll();
-//    }
-
-//    @GetMapping(path="/mealsdto")
-//    public @ResponseBody  List<MealDto> getAllMealsDto() {
-//        List<Meal> meals = new ArrayList<>();
-//
-//        for (Meal meal:mealRepository.findAll()) {
-//            meals.add(meal);
-//        }
-//        return mealMapper.toDtos(meals);
-//    }
-//
-//    @GetMapping(path="/menu")
-//    public @ResponseBody Iterable<Menu> getMenu() {
-//        return menuRepository.findAll();
-//    }
-//
-//    @GetMapping(path="/meals-ingredients")
-//    public @ResponseBody Iterable<MealIngredient> getMealsIngredients() {
-//        return mealIngredientRepository.findAll();
-//    }
-
-
     private static final String MESSAGE_FORMAT = "Hello %s!";
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
