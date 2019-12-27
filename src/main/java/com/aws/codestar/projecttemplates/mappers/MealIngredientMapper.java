@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class MealIngredientMapper implements Mapper<MealIngredientDto, MealIngredient> {
+public class MealIngredientMapper {
 
     private IngredientMapper ingredientMapper;
     private MealRepository mealRepository;
@@ -21,21 +21,16 @@ public class MealIngredientMapper implements Mapper<MealIngredientDto, MealIngre
         this.mealRepository = mealRepository;
     }
 
-    @Override
     public MealIngredientDto toDto(MealIngredient mealIngredient) {
         return MealIngredientDto.builder()
-                .id(mealIngredient.getId())
-                .mealId(mealIngredient.getMeal().getId())
                 .ingredient(ingredientMapper.toDto(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())
                 .build();
     }
 
-    @Override
-    public MealIngredient toEntity(MealIngredientDto mealIngredientDto) {
+    public MealIngredient toEntity(MealIngredientDto mealIngredientDto, Long mealId) {
         return MealIngredient.builder()
-                .id(mealIngredientDto.getId())
-                .meal(mealRepository.findById(mealIngredientDto.getMealId().intValue()).get())
+                .meal(mealRepository.findById(mealId.intValue()).get())
                 .ingredient(ingredientMapper.toEntity(mealIngredientDto.getIngredient()))
                 .amount(mealIngredientDto.getAmount())
                 .build();
@@ -45,7 +40,7 @@ public class MealIngredientMapper implements Mapper<MealIngredientDto, MealIngre
         return mealIngredients.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
     }
 
-    public List<MealIngredient> toEntities(List<MealIngredientDto> mealIngredientsDto) {
-        return mealIngredientsDto.stream().map(dto -> toEntity(dto)).collect(Collectors.toList());
+    public List<MealIngredient> toEntities(List<MealIngredientDto> mealIngredientsDto, Long mealId) {
+        return mealIngredientsDto.stream().map(dto -> toEntity(dto, mealId)).collect(Collectors.toList());
     }
 }

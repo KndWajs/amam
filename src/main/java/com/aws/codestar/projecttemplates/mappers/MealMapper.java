@@ -1,5 +1,6 @@
 package com.aws.codestar.projecttemplates.mappers;
 
+import com.aws.codestar.projecttemplates.dao.MealIngredientDao;
 import com.aws.codestar.projecttemplates.dto.MealDto;
 import com.aws.codestar.projecttemplates.entities.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.stream.Collectors;
 public class MealMapper implements Mapper<MealDto, Meal> {
 
     private MealIngredientMapper mealIngredientMapper;
+    private MealIngredientDao mealIngredientDao;
 
     @Autowired
-    public MealMapper(MealIngredientMapper mealIngredientMapper) {
+    public MealMapper(MealIngredientMapper mealIngredientMapper, MealIngredientDao mealIngredientDao) {
         this.mealIngredientMapper = mealIngredientMapper;
+        this.mealIngredientDao = mealIngredientDao;
     }
 
     @Override
@@ -32,15 +35,15 @@ public class MealMapper implements Mapper<MealDto, Meal> {
     }
 
     @Override
-    public Meal toEntity(MealDto MealDto) {
+    public Meal toEntity(MealDto mealDto) {
         return Meal.builder()
-                .id(MealDto.getId())
-                .name(MealDto.getName())
-                .typeOfMeal(MealDto.getTypeOfMeal())
-                .typeOfPreparing(MealDto.getTypeOfPreparing())
-                .recipe(MealDto.getRecipe())
-                .minutesToPrepare(MealDto.getMinutesToPrepare())
-                .mealIngredients(mealIngredientMapper.toEntities(MealDto.getIngredients()))
+                .id(mealDto.getId())
+                .name(mealDto.getName())
+                .typeOfMeal(mealDto.getTypeOfMeal())
+                .typeOfPreparing(mealDto.getTypeOfPreparing())
+                .recipe(mealDto.getRecipe())
+                .minutesToPrepare(mealDto.getMinutesToPrepare())
+                .mealIngredients(mealIngredientDao.getMealIngredientsByMealId(mealDto.getId()))
                 .build();
     }
 

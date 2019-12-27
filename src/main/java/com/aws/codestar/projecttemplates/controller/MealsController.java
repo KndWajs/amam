@@ -25,6 +25,7 @@ public class MealsController {
         this.mealMapper = mealMapper;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/meals/")
     public @ResponseBody
     List<MealDto> getAllMeals() {

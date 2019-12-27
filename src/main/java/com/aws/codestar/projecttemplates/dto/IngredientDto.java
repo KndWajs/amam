@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @Data
 @AllArgsConstructor
@@ -18,6 +16,4 @@ public class IngredientDto {
     private String name;
 
     private IngredientUnit ingredientUnit;
-
-    private List<Long> mealIngredientsId;
 }

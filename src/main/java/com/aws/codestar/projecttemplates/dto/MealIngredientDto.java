@@ -8,8 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class MealIngredientDto {
-    private Long id;
-    private Long mealId;
     private IngredientDto ingredient;
     private Double amount;
 }
