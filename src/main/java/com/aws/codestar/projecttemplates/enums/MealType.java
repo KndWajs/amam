@@ -1,9 +1,9 @@
 package com.aws.codestar.projecttemplates.enums;
 
 public enum MealType {
-    breakfast,
-    lunch,
-    dinner,
-    snack,
-    supper
+    BREAKFAST,
+    LUNCH,
+    DINNER,
+    SNACK,
+    SUPPER
 }

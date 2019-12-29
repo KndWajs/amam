@@ -1,6 +1,6 @@
 package com.aws.codestar.projecttemplates.enums;
 
 public enum IngredientUnit {
-    mlOrGram,
-    pcs
+    ML_OR_GRAM,
+    PCS
 }
