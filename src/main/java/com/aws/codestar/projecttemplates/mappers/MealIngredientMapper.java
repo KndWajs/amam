@@ -30,7 +30,7 @@ public class MealIngredientMapper {
 
     public MealIngredient toEntity(MealIngredientDto mealIngredientDto, Long mealId) {
         return MealIngredient.builder()
-                .meal(mealRepository.findById(mealId.intValue()).get())
+                .meal(mealRepository.findById(mealId).get())
                 .ingredient(ingredientMapper.toEntity(mealIngredientDto.getIngredient()))
                 .amount(mealIngredientDto.getAmount())
                 .build();

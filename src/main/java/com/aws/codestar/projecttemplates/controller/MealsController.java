@@ -45,7 +45,7 @@ public class MealsController {
     @GetMapping(path = "/meal")
     public @ResponseBody
     MealDto getMealById(@PathParam("id") Long id) {
-        return mealMapper.toDto(mealRepository.findById(id.intValue()).get()); //TODO redirect to service
+        return mealMapper.toDto(mealRepository.findById(id).get()); //TODO redirect to service
     }
 
     @PostMapping(path = "/meal")
@@ -60,10 +60,13 @@ public class MealsController {
         return null; //TODO implement
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(path = "/meal/{id}")
     public @ResponseBody
     MealDto deleteMeal(@PathVariable Long id) {
-        return null; //TODO implement
+        MealDto deletedMeal = mealMapper.toDto(mealRepository.findById(id).get());
+        mealRepository.deleteById(id);
+        return deletedMeal; //TODO check if it is deleted?
     }
 
 }
