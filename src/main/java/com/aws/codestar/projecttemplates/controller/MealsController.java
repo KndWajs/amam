@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api")
+@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
 public class MealsController {
 
     private MealRepository mealRepository;
@@ -25,7 +26,6 @@ public class MealsController {
         this.mealMapper = mealMapper;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/meals/")
     public @ResponseBody
     List<MealDto> getAllMeals() {
@@ -60,7 +60,6 @@ public class MealsController {
         return null; //TODO implement
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(path = "/meal/{id}")
     public @ResponseBody
     MealDto deleteMeal(@PathVariable Long id) {
