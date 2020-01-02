@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class MenuMeal implements EntityInterface {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 //TODO this id in manytomany table is not necessary

@@ -39,7 +39,9 @@ public class Meal implements EntityInterface {
     @Column(name = "minToPrepare")
     private Integer minutesToPrepare;
 
-    @OneToMany(mappedBy = "meal")
+//    @OneToMany(mappedBy = "meal")
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
+            mappedBy = "meal", orphanRemoval = true)
     private List<MealIngredient> mealIngredients;
 
 }

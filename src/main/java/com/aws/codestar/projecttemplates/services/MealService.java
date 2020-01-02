@@ -2,6 +2,7 @@ package com.aws.codestar.projecttemplates.services;
 
 
 import com.aws.codestar.projecttemplates.dto.MealDTO;
+import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealMapper;
@@ -19,16 +20,24 @@ import java.util.List;
 public class MealService {
     private MealRepository mealRepository;
     private MealMapper mealMapper;
+    private MealIngredientService mealIngredientService;
 
     @Autowired
-    public MealService(MealRepository mealRepository, MealMapper mealMapper) {
+    public MealService(MealRepository mealRepository, MealMapper mealMapper, MealIngredientService mealIngredientService) {
         this.mealRepository = mealRepository;
         this.mealMapper = mealMapper;
+        this.mealIngredientService = mealIngredientService;
     }
 
     public MealDTO create(MealDTO meal) throws ObjectIsNullException {
         validateMealObject(meal);
-        return mealMapper.toDTO(mealRepository.save(mealMapper.toEntity(meal)));
+        MealDTO savedMeal = mealMapper.toDTO(mealRepository.save(mealMapper.toEntity(meal)));
+
+        for (MealIngredientDTO mealIngredient : meal.getIngredients()) {
+            savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
+        }
+
+        return savedMeal;
     }
 
     @Transactional(readOnly = true)

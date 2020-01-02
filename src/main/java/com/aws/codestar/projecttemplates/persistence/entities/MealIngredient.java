@@ -13,18 +13,19 @@ import javax.persistence.*;
 public class MealIngredient implements EntityInterface {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 //TODO this id in manytomany table is not necessary
 
     @ManyToOne
-    @MapsId("mealId")
-    @JoinColumn(name = "mealId")//TODO not necessary>
+//    @MapsId("mealId")
+    @JoinColumn(name = "mealId")//TODO not necessary
     private Meal meal;
 
 
     @ManyToOne
-    @MapsId("ingredientId")
+//    @MapsId("ingredientId")
     @JoinColumn(name = "ingredientId")
     private Ingredient ingredient;
 
