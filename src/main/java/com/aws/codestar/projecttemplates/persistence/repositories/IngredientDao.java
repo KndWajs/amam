@@ -1,7 +1,7 @@
 package com.aws.codestar.projecttemplates.persistence.repositories;
 
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
-import com.aws.codestar.projecttemplates.entities.QIngredient;
+import com.aws.codestar.projecttemplates.persistence.entities.QIngredient;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
