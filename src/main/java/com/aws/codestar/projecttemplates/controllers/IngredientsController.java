@@ -1,15 +1,13 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
-import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.IngredientRepository;
 import com.aws.codestar.projecttemplates.dto.IngredientDTO;
-import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.mappers.IngredientMapper;
+import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
+import com.aws.codestar.projecttemplates.services.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,13 +16,13 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class IngredientsController {
 
-    private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
     private IngredientDao ingredientDao;
     private IngredientMapper ingredientMapper;
 
     @Autowired
-    public IngredientsController(IngredientRepository ingredientRepository, IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
-        this.ingredientRepository = ingredientRepository;
+    public IngredientsController(IngredientService ingredientService, IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
+        this.ingredientService = ingredientService;
         this.ingredientDao = ingredientDao;
         this.ingredientMapper = ingredientMapper;
     }
@@ -32,21 +30,13 @@ public class IngredientsController {
     @GetMapping(path = "/ingredients/")
     public @ResponseBody
     List<IngredientDTO> getAllIngredients() {
-        List<IngredientDTO> ingredients = new ArrayList<>();
-        for (Ingredient ingredient : ingredientRepository.findAll()) {
-            ingredients.add(ingredientMapper.toDto(ingredient));
-        }
-        return ingredients;
+        return ingredientService.getAll();
     }
 
     @GetMapping(path = "/ingredients/{name}/{numberOfResults}")
     public @ResponseBody
     List<IngredientDTO> getIngredientsByPartialName(@PathVariable String name, @PathVariable int numberOfResults) {
-        List<IngredientDTO> ingredients = new ArrayList<>();
-        for (Ingredient ingredient : ingredientDao.getIngredientsByPartialName(name.toLowerCase(), numberOfResults)) {
-            ingredients.add(ingredientMapper.toDto(ingredient));
-        }
-        return ingredients;
+        return ingredientService.getIngredientsByPartialName(name, numberOfResults);
     }
 
 

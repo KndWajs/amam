@@ -65,7 +65,7 @@ public class MenuController {
     List<ShoppingListDTO> getShoppingListForMenu() {
         List<ShoppingListDTO> shoppingLists = new ArrayList<>();
         for (ShoppingList sl : shoppingListRepository.findAll()) {
-            shoppingLists.add(shoppingListMapper.toDto(sl));
+            shoppingLists.add(shoppingListMapper.toDTO(sl));
         }
         return shoppingLists; //TODO add mapers
         //todo find by id

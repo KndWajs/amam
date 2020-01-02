@@ -15,9 +15,9 @@ public class ShoppingListMapper {
         this.ingredientMapper = ingredientMapper;
     }
 
-    public ShoppingListDTO toDto(ShoppingList shoppingList) {
+    public ShoppingListDTO toDTO(ShoppingList shoppingList) {
         return ShoppingListDTO.builder()
-                .ingredient(ingredientMapper.toDto(shoppingList.getIngredient()))
+                .ingredient(ingredientMapper.toDTO(shoppingList.getIngredient()))
                 .amount(shoppingList.getAmount())
                 .build();
     }

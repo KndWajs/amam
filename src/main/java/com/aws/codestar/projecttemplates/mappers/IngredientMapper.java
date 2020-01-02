@@ -20,7 +20,7 @@ public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
     }
 
     @Override
-    public IngredientDTO toDto(Ingredient ingredient) {
+    public IngredientDTO toDTO(Ingredient ingredient) {
         return IngredientDTO.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())
@@ -32,7 +32,7 @@ public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
     public Ingredient toEntity(IngredientDTO ingredientDto) {
         return Ingredient.builder()
                 .id(ingredientDto.getId())
-                .name(ingredientDto.getName())
+                .name(ingredientDto.getName().toLowerCase())
                 .ingredientUnit(ingredientDto.getIngredientUnit())
                 .mealIngredients(mealIngredientDao.getMealIngredientsByIngredientId(ingredientDto.getId()))
                 .build();
