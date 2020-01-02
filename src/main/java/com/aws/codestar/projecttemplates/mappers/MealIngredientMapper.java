@@ -1,8 +1,8 @@
 package com.aws.codestar.projecttemplates.mappers;
 
-import com.aws.codestar.projecttemplates.dao.MealRepository;
-import com.aws.codestar.projecttemplates.dto.MealIngredientDto;
-import com.aws.codestar.projecttemplates.entities.MealIngredient;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealRepository;
+import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
+import com.aws.codestar.projecttemplates.persistence.entities.MealIngredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,26 +21,26 @@ public class MealIngredientMapper {
         this.mealRepository = mealRepository;
     }
 
-    public MealIngredientDto toDto(MealIngredient mealIngredient) {
-        return MealIngredientDto.builder()
+    public MealIngredientDTO toDto(MealIngredient mealIngredient) {
+        return MealIngredientDTO.builder()
                 .ingredient(ingredientMapper.toDto(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())
                 .build();
     }
 
-    public MealIngredient toEntity(MealIngredientDto mealIngredientDto, Long mealId) {
+    public MealIngredient toEntity(MealIngredientDTO mealIngredientDto, Long mealId) {
         return MealIngredient.builder()
-                .meal(mealRepository.findById(mealId).get())
+                .meal(mealId == null ? null : mealRepository.findById(mealId).get())
                 .ingredient(ingredientMapper.toEntity(mealIngredientDto.getIngredient()))
                 .amount(mealIngredientDto.getAmount())
                 .build();
     }
 
-    public List<MealIngredientDto> toDtos(List<MealIngredient> mealIngredients) {
+    public List<MealIngredientDTO> toDtos(List<MealIngredient> mealIngredients) {
         return mealIngredients.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
     }
 
-    public List<MealIngredient> toEntities(List<MealIngredientDto> mealIngredientsDto, Long mealId) {
+    public List<MealIngredient> toEntities(List<MealIngredientDTO> mealIngredientsDto, Long mealId) {
         return mealIngredientsDto.stream().map(dto -> toEntity(dto, mealId)).collect(Collectors.toList());
     }
 }

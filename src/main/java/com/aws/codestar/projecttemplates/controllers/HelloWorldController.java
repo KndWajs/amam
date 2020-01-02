@@ -1,6 +1,6 @@
-package com.aws.codestar.projecttemplates.controller;
+package com.aws.codestar.projecttemplates.controllers;
 
-import com.aws.codestar.projecttemplates.dao.MealIngredientDao;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

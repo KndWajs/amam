@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.entities;
+package com.aws.codestar.projecttemplates.persistence.entities;
 
 import com.aws.codestar.projecttemplates.enums.MealType;
 import com.aws.codestar.projecttemplates.enums.PreparingType;
@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Meal implements EntityInterface {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

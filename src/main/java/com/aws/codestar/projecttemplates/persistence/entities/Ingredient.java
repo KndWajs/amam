@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.entities;
+package com.aws.codestar.projecttemplates.persistence.entities;
 
 import com.aws.codestar.projecttemplates.enums.IngredientUnit;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 public class Ingredient implements EntityInterface, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

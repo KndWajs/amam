@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.entities;
+package com.aws.codestar.projecttemplates.persistence.entities;
 
 public interface EntityInterface {
 

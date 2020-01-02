@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Data
 @AllArgsConstructor
-public class MealDto {
+public class MealDTO {
     private Long id;
 
     private String name;
@@ -24,6 +24,6 @@ public class MealDto {
 
     private Integer minutesToPrepare;
 
-    private List<MealIngredientDto> ingredients;
+    private List<MealIngredientDTO> ingredients;
 
 }

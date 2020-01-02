@@ -1,14 +1,14 @@
 package com.aws.codestar.projecttemplates.mappers;
 
-import com.aws.codestar.projecttemplates.dao.MealIngredientDao;
-import com.aws.codestar.projecttemplates.dao.MealIngredientRepository;
-import com.aws.codestar.projecttemplates.dto.IngredientDto;
-import com.aws.codestar.projecttemplates.entities.Ingredient;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientRepository;
+import com.aws.codestar.projecttemplates.dto.IngredientDTO;
+import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IngredientMapper implements Mapper<IngredientDto, Ingredient> {
+public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
 
     private MealIngredientRepository mealIngredientRepository;
     private MealIngredientDao mealIngredientDao;
@@ -20,8 +20,8 @@ public class IngredientMapper implements Mapper<IngredientDto, Ingredient> {
     }
 
     @Override
-    public IngredientDto toDto(Ingredient ingredient) {
-        return IngredientDto.builder()
+    public IngredientDTO toDto(Ingredient ingredient) {
+        return IngredientDTO.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())
                 .ingredientUnit(ingredient.getIngredientUnit())
@@ -29,7 +29,7 @@ public class IngredientMapper implements Mapper<IngredientDto, Ingredient> {
     }
 
     @Override
-    public Ingredient toEntity(IngredientDto ingredientDto) {
+    public Ingredient toEntity(IngredientDTO ingredientDto) {
         return Ingredient.builder()
                 .id(ingredientDto.getId())
                 .name(ingredientDto.getName())

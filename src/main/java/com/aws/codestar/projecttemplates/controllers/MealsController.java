@@ -1,9 +1,9 @@
-package com.aws.codestar.projecttemplates.controller;
+package com.aws.codestar.projecttemplates.controllers;
 
 
-import com.aws.codestar.projecttemplates.dao.MealRepository;
-import com.aws.codestar.projecttemplates.dto.MealDto;
-import com.aws.codestar.projecttemplates.entities.Meal;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealRepository;
+import com.aws.codestar.projecttemplates.dto.MealDTO;
+import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.mappers.MealMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api")
-@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
+//@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
+@CrossOrigin(origins = "*")
 public class MealsController {
 
     private MealRepository mealRepository;
@@ -28,8 +29,8 @@ public class MealsController {
 
     @GetMapping(path = "/meals/")
     public @ResponseBody
-    List<MealDto> getAllMeals() {
-        List<MealDto> meals = new ArrayList<>();
+    List<MealDTO> getAllMeals() {
+        List<MealDTO> meals = new ArrayList<>();
         for (Meal meal : mealRepository.findAll()) {
             meals.add(mealMapper.toDto(meal));
         }
@@ -44,26 +45,26 @@ public class MealsController {
 
     @GetMapping(path = "/meal")
     public @ResponseBody
-    MealDto getMealById(@PathParam("id") Long id) {
+    MealDTO getMealById(@PathParam("id") Long id) {
         return mealMapper.toDto(mealRepository.findById(id).get()); //TODO redirect to service
     }
 
     @PostMapping(path = "/meal")
     public @ResponseBody
-    MealDto addNewMeal(@RequestBody MealDto mealdto) {
-        return null; //TODO implement
+    MealDTO addNewMeal(@RequestBody MealDTO mealdto) {
+        return mealMapper.toDto(mealRepository.save(mealMapper.toEntity(mealdto)));
     }
 
     @PutMapping(path = "/meal/{id}")
     public @ResponseBody
-    MealDto updateMeal(@RequestBody MealDto mealdto, @PathVariable Long id) {
+    MealDTO updateMeal(@RequestBody MealDTO mealdto, @PathVariable Long id) {
         return null; //TODO implement
     }
 
     @DeleteMapping(path = "/meal/{id}")
     public @ResponseBody
-    MealDto deleteMeal(@PathVariable Long id) {
-        MealDto deletedMeal = mealMapper.toDto(mealRepository.findById(id).get());
+    MealDTO deleteMeal(@PathVariable Long id) {
+        MealDTO deletedMeal = mealMapper.toDto(mealRepository.findById(id).get());
         mealRepository.deleteById(id);
         return deletedMeal; //TODO check if it is deleted?
     }

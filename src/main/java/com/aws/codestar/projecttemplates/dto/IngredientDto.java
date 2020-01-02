@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientDto {
+public class IngredientDTO {
     private Long id;
 
     private String name;

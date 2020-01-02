@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class MealIngredientDto {
-    private IngredientDto ingredient;
+public class MealIngredientDTO {
+    private IngredientDTO ingredient;
     private Double amount;
 }

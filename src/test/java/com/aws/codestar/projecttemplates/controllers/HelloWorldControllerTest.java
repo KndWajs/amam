@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.controller;
+package com.aws.codestar.projecttemplates.controllers;
 
 import org.json.JSONException;
 import org.json.JSONObject;

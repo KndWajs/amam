@@ -1,6 +1,6 @@
-package com.aws.codestar.projecttemplates.dao;
+package com.aws.codestar.projecttemplates.persistence.repositories;
 
-import com.aws.codestar.projecttemplates.entities.MealIngredient;
+import com.aws.codestar.projecttemplates.persistence.entities.MealIngredient;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

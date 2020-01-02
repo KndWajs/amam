@@ -1,11 +1,11 @@
-package com.aws.codestar.projecttemplates.controller;
+package com.aws.codestar.projecttemplates.controllers;
 
 
-import com.aws.codestar.projecttemplates.dao.MenuRepository;
-import com.aws.codestar.projecttemplates.dao.ShoppingListRepository;
-import com.aws.codestar.projecttemplates.dto.MenuDto;
-import com.aws.codestar.projecttemplates.dto.ShoppingListDto;
-import com.aws.codestar.projecttemplates.entities.ShoppingList;
+import com.aws.codestar.projecttemplates.persistence.repositories.MenuRepository;
+import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
+import com.aws.codestar.projecttemplates.dto.MenuDTO;
+import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
+import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,26 +44,26 @@ public class MenuController {
 
     @PostMapping(path = "/menu")
     public @ResponseBody
-    MenuDto addNewMenu(@RequestBody MenuDto menuDto) {
+    MenuDTO addNewMenu(@RequestBody MenuDTO menuDto) {
         return null; //TODO implement
     }
 
     @PutMapping(path = "/menu/{id}")
     public @ResponseBody
-    MenuDto updateMenu(@RequestBody MenuDto menuDto, @PathVariable Long id) {
+    MenuDTO updateMenu(@RequestBody MenuDTO menuDto, @PathVariable Long id) {
         return null; //TODO implement
     }
 
     @DeleteMapping(path = "/menu/{id}")
     public @ResponseBody
-    MenuDto deleteMenu(@PathVariable Long id) {
+    MenuDTO deleteMenu(@PathVariable Long id) {
         return null; //TODO implement
     }
 
     @GetMapping(path = "/menu/{id}/shopping-list")
     public @ResponseBody
-    List<ShoppingListDto> getShoppingListForMenu() {
-        List<ShoppingListDto> shoppingLists = new ArrayList<>();
+    List<ShoppingListDTO> getShoppingListForMenu() {
+        List<ShoppingListDTO> shoppingLists = new ArrayList<>();
         for (ShoppingList sl : shoppingListRepository.findAll()) {
             shoppingLists.add(shoppingListMapper.toDto(sl));
         }
