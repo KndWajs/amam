@@ -21,9 +21,9 @@ public class MealIngredientMapper {
         this.mealRepository = mealRepository;
     }
 
-    public MealIngredientDTO toDto(MealIngredient mealIngredient) {
+    public MealIngredientDTO toDTO(MealIngredient mealIngredient) {
         return MealIngredientDTO.builder()
-                .ingredient(ingredientMapper.toDto(mealIngredient.getIngredient()))
+                .ingredient(ingredientMapper.toDTO(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())
                 .build();
     }
@@ -36,8 +36,8 @@ public class MealIngredientMapper {
                 .build();
     }
 
-    public List<MealIngredientDTO> toDtos(List<MealIngredient> mealIngredients) {
-        return mealIngredients.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
+    public List<MealIngredientDTO> toDTOs(List<MealIngredient> mealIngredients) {
+        return mealIngredients.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
     }
 
     public List<MealIngredient> toEntities(List<MealIngredientDTO> mealIngredientsDto, Long mealId) {

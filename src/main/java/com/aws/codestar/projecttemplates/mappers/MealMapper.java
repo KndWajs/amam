@@ -22,7 +22,7 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
     }
 
     @Override
-    public MealDTO toDto(Meal Meal) {
+    public MealDTO toDTO(Meal Meal) {
         return MealDTO.builder()
                 .id(Meal.getId())
                 .name(Meal.getName())
@@ -30,7 +30,7 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .typeOfPreparing(Meal.getTypeOfPreparing())
                 .recipe(Meal.getRecipe())
                 .minutesToPrepare(Meal.getMinutesToPrepare())
-                .ingredients(mealIngredientMapper.toDtos(Meal.getMealIngredients()))
+                .ingredients(mealIngredientMapper.toDTOs(Meal.getMealIngredients()))
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
     public Meal toEntity(MealDTO mealDto) {
         return Meal.builder()
                 .id(mealDto.getId())
-                .name(mealDto.getName())
+                .name(mealDto.getName().toLowerCase())
                 .typeOfMeal(mealDto.getTypeOfMeal())
                 .typeOfPreparing(mealDto.getTypeOfPreparing())
                 .recipe(mealDto.getRecipe())
@@ -47,8 +47,8 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .build();
     }
 
-    public List<MealDTO> toDtos(List<Meal> meals) {
-        return meals.stream().map(entity -> toDto(entity)).collect(Collectors.toList());
+    public List<MealDTO> toDTOs(List<Meal> meals) {
+        return meals.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
     }
 
     public List<Meal> toEntities(List<MealDTO> mealsDto) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class MenuMapper implements Mapper<MenuDTO, Menu>{
 
     @Override
-    public MenuDTO toDto(Menu entity) {
+    public MenuDTO toDTO(Menu entity) {
         return null;
     }
 
