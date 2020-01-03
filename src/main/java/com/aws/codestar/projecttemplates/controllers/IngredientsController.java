@@ -27,7 +27,7 @@ public class IngredientsController {
         this.ingredientMapper = ingredientMapper;
     }
 
-    @GetMapping(path = "/ingredients/")
+    @GetMapping(path = "/ingredients")
     public @ResponseBody
     List<IngredientDTO> getAllIngredients() {
         return ingredientService.getAll();
@@ -37,6 +37,12 @@ public class IngredientsController {
     public @ResponseBody
     List<IngredientDTO> getIngredientsByPartialName(@PathVariable String name, @PathVariable int numberOfResults) {
         return ingredientService.getIngredientsByPartialName(name, numberOfResults);
+    }
+
+    @PostMapping(path = "/ingredient")
+    public @ResponseBody
+    IngredientDTO addNewMeal(@RequestBody IngredientDTO ingredientDTO) {
+        return ingredientService.create(ingredientDTO);
     }
 
 

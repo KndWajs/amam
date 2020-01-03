@@ -34,7 +34,7 @@ public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
                 .id(ingredientDto.getId())
                 .name(ingredientDto.getName().toLowerCase())
                 .ingredientUnit(ingredientDto.getIngredientUnit())
-                .mealIngredients(mealIngredientDao.getMealIngredientsByIngredientId(ingredientDto.getId()))
+                .mealIngredients(ingredientDto.getId() == null ? null : mealIngredientDao.getMealIngredientsByIngredientId(ingredientDto.getId()))
                 .build();
     }
 }

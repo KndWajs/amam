@@ -29,9 +29,14 @@ public class IngredientService {
         this.ingredientMapper = ingredientMapper;
     }
 
-    public IngredientDTO create(IngredientDTO ingredient) throws ObjectIsNullException {
-        validateIngredientObject(ingredient);
-        return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredient)));
+    public IngredientDTO create(IngredientDTO ingredientDTO) throws ObjectIsNullException {
+        validateIngredientObject(ingredientDTO);
+        Ingredient outcomeIngredient = ingredientDao.getIngredientByNameAndUnit(ingredientMapper.toEntity(ingredientDTO));
+        if (outcomeIngredient == null) {
+            return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredientDTO)));
+        }
+        //TODO give response that meal exists
+        return ingredientMapper.toDTO(outcomeIngredient);
     }
 
     @Transactional(readOnly = true)

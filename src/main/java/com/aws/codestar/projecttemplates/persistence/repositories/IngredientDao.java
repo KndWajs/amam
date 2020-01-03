@@ -23,4 +23,14 @@ public class IngredientDao {
                 .where(ingredient.name.contains(ingredientPartialName)).limit(numberOfResults).fetch();
         return ingredients;
     }
+
+    public Ingredient getIngredientByNameAndUnit(Ingredient incomingIngredient){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QIngredient ingredient = QIngredient.ingredient;
+
+       Ingredient outcomingIngredient = queryFactory.selectFrom(ingredient)
+                .where(ingredient.name.eq(incomingIngredient.getName()), ingredient.ingredientUnit.eq(incomingIngredient.getIngredientUnit()))
+                .fetchOne();
+        return outcomingIngredient;
+    }
 }
