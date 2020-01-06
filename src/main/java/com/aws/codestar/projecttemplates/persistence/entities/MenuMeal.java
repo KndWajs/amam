@@ -22,12 +22,10 @@ public class MenuMeal implements EntityInterface {
 //TODO this id in manytomany table is not necessary
 
     @ManyToOne
-    @MapsId("menuId")
-    @JoinColumn(name = "menuId")//TODO not necessary>
+    @JoinColumn(name = "menuId")
     private Menu menu;
 
     @ManyToOne
-    @MapsId("mealId")
     @JoinColumn(name = "mealId")
     private Meal meal;
 

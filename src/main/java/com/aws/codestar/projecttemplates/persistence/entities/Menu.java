@@ -21,6 +21,9 @@ public class Menu implements EntityInterface {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "numberOfPeople")
+    private int numberOfPeople;
+
     @Column(name = "name")
     private String name;
 
