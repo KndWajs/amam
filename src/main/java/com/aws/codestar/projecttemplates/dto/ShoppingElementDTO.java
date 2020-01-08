@@ -7,9 +7,11 @@ import lombok.Data;
 @Builder
 @Data
 @AllArgsConstructor
-public class ShoppingListDTO {
+public class ShoppingElementDTO {
 
     private IngredientDTO ingredient;
 
     private Double amount;
+
+    private MenuDTO menu;
 }

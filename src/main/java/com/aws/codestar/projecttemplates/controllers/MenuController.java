@@ -3,16 +3,13 @@ package com.aws.codestar.projecttemplates.controllers;
 
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
-import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
-import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
-import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
-import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
+import com.aws.codestar.projecttemplates.mappers.ShoppingElementMapper;
+import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
 import com.aws.codestar.projecttemplates.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,14 +19,14 @@ public class MenuController {
 
     private MenuService menuService;
 
-    private ShoppingListRepository shoppingListRepository;
-    private ShoppingListMapper shoppingListMapper;
+    private ShoppingElementRepository shoppingElementRepository;
+    private ShoppingElementMapper shoppingElementMapper;
 
     @Autowired
-    public MenuController(MenuService menuService, ShoppingListRepository shoppingListRepository, ShoppingListMapper shoppingListMapper) {
+    public MenuController(MenuService menuService, ShoppingElementRepository shoppingElementRepository, ShoppingElementMapper shoppingElementMapper) {
         this.menuService = menuService;
-        this.shoppingListRepository = shoppingListRepository;
-        this.shoppingListMapper = shoppingListMapper;
+        this.shoppingElementRepository = shoppingElementRepository;
+        this.shoppingElementMapper = shoppingElementMapper;
     }
 
     @GetMapping(path = "/menus/")
@@ -68,17 +65,6 @@ public class MenuController {
         MenuDTO deletedMenu = menuService.get(id);
         menuService.delete(id);
         return deletedMenu; //TODO check if it is deleted?
-    }
-
-    @GetMapping(path = "/menu/{id}/shopping-list")
-    public @ResponseBody
-    List<ShoppingListDTO> getShoppingListForMenu() {
-        List<ShoppingListDTO> shoppingLists = new ArrayList<>();
-        for (ShoppingList sl : shoppingListRepository.findAll()) {
-            shoppingLists.add(shoppingListMapper.toDTO(sl));
-        }
-        return shoppingLists; //TODO add mapers
-        //todo find by id
     }
 
     @PostMapping(path = "/menu/parameters")

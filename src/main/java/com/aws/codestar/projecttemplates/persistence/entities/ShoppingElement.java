@@ -10,12 +10,12 @@ import javax.persistence.*;
 
 @Entity
 @Immutable
-@Table(name = "shoppingList")
+@Table(name = "shoppingElements")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingList {//TODO change to ShoppingListElement?
+public class ShoppingElement {//TODO change to ShoppingListElement?
 
     @EmbeddedId
     ShoppingListKey id;
@@ -28,5 +28,9 @@ public class ShoppingList {//TODO change to ShoppingListElement?
     private Double amount;
 
     @Column(name = "userId")
-    private Integer userId;
+    private Long userId;
+
+    @OneToOne
+    @JoinColumn(name = "menuId", referencedColumnName = "id", updatable = false, insertable = false)
+    private Menu menu;
 }
