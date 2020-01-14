@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api")
-//@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
 @CrossOrigin(origins = "*")
 public class MealsController {
 
