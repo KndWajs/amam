@@ -67,6 +67,13 @@ public class IngredientService {
 //        return ingredientMapper.toDTO(ingredientRepository.saveAndFlush(ingredientMapper.toEntity(ingredient)));
 //    }
 
+
+    public IngredientDTO update(IngredientDTO ingredientDTO, Long id) {
+        validateIngredientId(id);
+        validateIngredientObject(ingredientDTO);
+        return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredientDTO)));
+    }
+
     public void delete(Long id) {
         validateIngredientId(id);
         ingredientRepository.deleteById(id);

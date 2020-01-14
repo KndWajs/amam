@@ -30,6 +30,9 @@ public class Ingredient implements EntityInterface, Serializable {
     @Column(name = "unit")
     private IngredientUnit ingredientUnit;
 
+    @Column(name = "category")
+    private String category;
+
     @OneToMany(mappedBy = "ingredient")
     private List<MealIngredient> mealIngredients;
 }

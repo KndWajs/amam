@@ -16,4 +16,6 @@ public class IngredientDTO {
     private String name;
 
     private IngredientUnit ingredientUnit;
+    
+    private String category;
 }

@@ -41,8 +41,14 @@ public class IngredientsController {
 
     @PostMapping(path = "/ingredient")
     public @ResponseBody
-    IngredientDTO addNewMeal(@RequestBody IngredientDTO ingredientDTO) {
+    IngredientDTO addNewIngredient(@RequestBody IngredientDTO ingredientDTO) {
         return ingredientService.create(ingredientDTO);
+    }
+
+    @PutMapping(path = "/ingredient/{id}")
+    public @ResponseBody
+    IngredientDTO updateIngredient(@RequestBody IngredientDTO ingredientDTO, @PathVariable Long id) {
+        return ingredientService.update(ingredientDTO, id);
     }
 
 
