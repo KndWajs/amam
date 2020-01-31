@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.services.MealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class MealsController {
     public @ResponseBody
     MealDTO getMealById(@PathParam("id") Long id) {
         return mealService.get(id);
+    }
+
+    @GetMapping(path = "/meals/{name}/{numberOfResults}")
+    public @ResponseBody
+    List<MealDTO> getMealsByPartialName(@PathVariable String name, @PathVariable int numberOfResults) {
+        return mealService.getMealsByPartialName(name, numberOfResults);
     }
 
     @PostMapping(path = "/meal")

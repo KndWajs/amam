@@ -24,4 +24,13 @@ public class MealDao {
                 .where(meal.typeOfMeal.eq(mealType)).fetch();
         return meals;
     }
+
+    public List<Meal> getMealsByPartialName(String mealPartialName, int numberOfResults){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QMeal meal = QMeal.meal;
+
+        List<Meal> meals = queryFactory.selectFrom(meal)
+                .where(meal.name.contains(mealPartialName)).limit(numberOfResults).fetch();
+        return meals;
+    }
 }
