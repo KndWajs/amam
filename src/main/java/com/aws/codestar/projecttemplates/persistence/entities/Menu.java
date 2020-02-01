@@ -22,7 +22,7 @@ public class Menu implements EntityInterface {
     private Long id;
 
     @Column(name = "numberOfPeople")
-    private int numberOfPeople;
+    private double numberOfPeople;
 
     @Column(name = "name")
     private String name;

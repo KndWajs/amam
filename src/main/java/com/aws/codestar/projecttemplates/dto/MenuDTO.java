@@ -12,7 +12,7 @@ import java.util.List;
 public class MenuDTO {
     private Long id;
 
-    private int numberOfPeople;
+    private double numberOfPeople;
 
     private String name;
 
