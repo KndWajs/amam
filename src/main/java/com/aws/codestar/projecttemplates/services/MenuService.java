@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -87,23 +88,54 @@ public class MenuService {
                 .id(null)
                 .numberOfPeople(menuParametersDTO.getNumberOfPersons())
                 .name(menuParametersDTO.getName())
-                .meals(findRandomMenus(menuParametersDTO.getNumberOfDays(), menuParametersDTO.getMealTypes()))
+                .meals(createRandomMenu(menuParametersDTO.getNumberOfDays(), menuParametersDTO.getMealTypes(), menuParametersDTO.isDinnerForTwoDays()))
                 .build();
     }
 
-    private List<MenuMealDTO> findRandomMenus(int numberOfDays, List<MealType> mealTypes) {
+    private List<MenuMealDTO> createRandomMenu(int numberOfDays, List<MealType> mealTypes, boolean isOneDinnerForTwoDays) {
 
         List<MenuMealDTO> menuMealDTOS = new ArrayList<>();
+        MealDTO lastDinner = new MealDTO();
 
         for (int i = 1; i <= numberOfDays; i++) {
             for (MealType mealType:mealTypes){
-                List<MealDTO> meals = mealService.getMealsByType(mealType);
+                if(mealType.equals(MealType.DINNER) && isOneDinnerForTwoDays && i%2 == 0){
+                    menuMealDTOS.add(
+                            MenuMealDTO.builder()
+                                    .meal(lastDinner)
+                                    .dayNumber(i)
+                                    .build());
+                } else {
+                    List<MealDTO> mealsAlreadyAdded = new LinkedList<>();
+                    for (MenuMealDTO menuMealDTO:menuMealDTOS) {
+                        mealsAlreadyAdded.add(menuMealDTO.getMeal());
+                    }
 
-                menuMealDTOS.add(
-                MenuMealDTO.builder()
-                        .meal(meals.get((int) (Math.random() * (meals.size()))))
-                        .dayNumber(i)
-                        .build());
+                    List<MealDTO> meals = mealService.getMealsByTypeWithoutCertainMeals(mealType, mealsAlreadyAdded);
+
+                    while(mealsAlreadyAdded.size() > 0 && meals.size()==0){
+                        mealsAlreadyAdded.remove(0);
+                        meals = mealService.getMealsByTypeWithoutCertainMeals(mealType, mealsAlreadyAdded);
+                    }
+
+                    if(meals.size()==0){
+                        meals = mealService.getMealsByType(mealType);
+                    }
+
+                    MealDTO drawnMeal = meals.get((int) (Math.random() * (meals.size())));
+
+                    menuMealDTOS.add(
+                            MenuMealDTO.builder()
+                                    .meal(drawnMeal)
+                                    .dayNumber(i)
+                                    .build());
+                    if(mealType.equals(MealType.DINNER) && isOneDinnerForTwoDays){
+                        lastDinner = drawnMeal;
+                    }
+                }
+
+
+
             }
         }
         return menuMealDTOS;

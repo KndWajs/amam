@@ -1,14 +1,12 @@
 package com.aws.codestar.projecttemplates.services;
 
 
-import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
 import com.aws.codestar.projecttemplates.enums.MealType;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealMapper;
-import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealRepository;
@@ -70,6 +68,14 @@ public class MealService {
         return meals;
     }
 
+    public List<MealDTO> getMealsByTypeWithoutCertainMeals(MealType mealType, List<MealDTO> excludedMeals) {
+        List<MealDTO> meals = new ArrayList<>();
+        for (Meal meal : mealDao.getMealsByTypeWithoutCertainMeals(mealType, mealMapper.toEntities(excludedMeals))) {
+            meals.add(mealMapper.toDTO(meal));
+        }
+        return meals;
+    }
+
     @Transactional(readOnly = true)
     public List<MealDTO> getMealsByPartialName(String name, int numberOfResults) {
         List<MealDTO> meals = new ArrayList<>();
@@ -100,4 +106,5 @@ public class MealService {
             throw new ObjectIsNullException(MealDTO.class.getName());
         }
     }
+
 }

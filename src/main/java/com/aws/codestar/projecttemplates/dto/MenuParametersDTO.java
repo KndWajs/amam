@@ -14,5 +14,6 @@ public class MenuParametersDTO {
     private String name;
     private int numberOfDays;
     private int numberOfPersons;
+    private boolean isDinnerForTwoDays;
     private List<MealType> mealTypes;
 }
