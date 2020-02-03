@@ -3,6 +3,7 @@ package com.aws.codestar.projecttemplates.controllers;
 
 import com.aws.codestar.projecttemplates.persistence.entities.IngredientCategory;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientCategoryRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/v1/api")
 //@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
 @CrossOrigin(origins = "*")
+@Tag(name = "IngredientCategoryController", description = "desc class")
 public class IngredientCategoryController {
 
     private IngredientCategoryRepository ingredientCategoryRepository;

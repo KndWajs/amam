@@ -6,6 +6,7 @@ import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
 import com.aws.codestar.projecttemplates.mappers.ShoppingElementMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
 import com.aws.codestar.projecttemplates.services.MenuService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api")
 @CrossOrigin(origins = "*")
+@Tag(name = "MenuController", description = "desc class")
 public class MenuController {
 
     private MenuService menuService;

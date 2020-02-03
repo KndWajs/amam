@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/api/")
 @CrossOrigin(origins = "*")
+
+@Tag(name = "HelloWorldController", description = "desc class")
 public class HelloWorldController {
 
     private MealIngredientDao mealIngredientDao;

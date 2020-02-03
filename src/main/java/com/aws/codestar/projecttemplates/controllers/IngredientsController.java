@@ -5,6 +5,7 @@ import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.mappers.IngredientMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
 import com.aws.codestar.projecttemplates.services.IngredientService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/v1/api")
 //@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
 @CrossOrigin(origins = "*")
+@Tag(name = "IngredientsController", description = "desc class")
 public class IngredientsController {
 
     private IngredientService ingredientService;

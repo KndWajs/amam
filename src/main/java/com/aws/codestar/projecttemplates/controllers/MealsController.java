@@ -1,9 +1,9 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
-import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.services.MealService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api")
 @CrossOrigin(origins = "*")
+@Tag(name = "MealsController", description = "desc class")
 public class MealsController {
 
     private MealService mealService;
