@@ -3,7 +3,7 @@ package com.aws.codestar.projecttemplates.controllers;
 
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
-import com.aws.codestar.projecttemplates.mappers.ShoppingElementMapper;
+import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
 import com.aws.codestar.projecttemplates.services.MenuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,13 +22,13 @@ public class MenuController {
     private MenuService menuService;
 
     private ShoppingElementRepository shoppingElementRepository;
-    private ShoppingElementMapper shoppingElementMapper;
+    private ShoppingListProposalElementMapper shoppingListProposalElementMapper;
 
     @Autowired
-    public MenuController(MenuService menuService, ShoppingElementRepository shoppingElementRepository, ShoppingElementMapper shoppingElementMapper) {
+    public MenuController(MenuService menuService, ShoppingElementRepository shoppingElementRepository, ShoppingListProposalElementMapper shoppingListProposalElementMapper) {
         this.menuService = menuService;
         this.shoppingElementRepository = shoppingElementRepository;
-        this.shoppingElementMapper = shoppingElementMapper;
+        this.shoppingListProposalElementMapper = shoppingListProposalElementMapper;
     }
 
     @GetMapping(path = "/menus/")

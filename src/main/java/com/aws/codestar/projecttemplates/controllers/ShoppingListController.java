@@ -1,7 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
-import com.aws.codestar.projecttemplates.dto.ShoppingElementDTO;
+import com.aws.codestar.projecttemplates.dto.ShoppingListProposalElementDTO;
 import com.aws.codestar.projecttemplates.services.ShoppingListService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class ShoppingListController {
 
     @GetMapping(path = "/shopping-lists")
     public @ResponseBody
-    List<List<ShoppingElementDTO>> getShoppingListForAllMenus() {
+    List<List<ShoppingListProposalElementDTO>> getShoppingListForAllMenus() {
 
-        return shoppingListService.getAllShoppingLists();
+        return shoppingListService.getAllShoppingListsProposals();
         //todo find by user id
     }
 }

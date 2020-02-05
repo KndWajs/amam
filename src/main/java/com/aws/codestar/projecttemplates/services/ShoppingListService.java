@@ -1,11 +1,11 @@
 package com.aws.codestar.projecttemplates.services;
 
 
-import com.aws.codestar.projecttemplates.dto.ShoppingElementDTO;
-import com.aws.codestar.projecttemplates.mappers.ShoppingElementMapper;
+import com.aws.codestar.projecttemplates.dto.ShoppingListProposalElementDTO;
+import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
-import com.aws.codestar.projecttemplates.persistence.entities.ShoppingElement;
-import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
+import com.aws.codestar.projecttemplates.persistence.entities.ShoppingListProposalElement;
+import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListProposalElementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,30 +17,31 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ShoppingListService {
-    private ShoppingElementRepository shoppingElementRepository;
-    private ShoppingElementMapper shoppingElementMapper;
+    private ShoppingListProposalElementRepository shoppingListProposalElementRepository;
+    private ShoppingListProposalElementMapper shoppingListProposalElementMapper;
 
     @Autowired
-    public ShoppingListService(ShoppingElementRepository shoppingElementRepository, ShoppingElementMapper shoppingElementMapper) {
-        this.shoppingElementRepository = shoppingElementRepository;
-        this.shoppingElementMapper = shoppingElementMapper;
+    public ShoppingListService(ShoppingListProposalElementRepository shoppingListProposalElementRepository,
+                               ShoppingListProposalElementMapper shoppingListProposalElementMapper) {
+        this.shoppingListProposalElementRepository = shoppingListProposalElementRepository;
+        this.shoppingListProposalElementMapper = shoppingListProposalElementMapper;
     }
 
-    public List<List<ShoppingElementDTO>> getAllShoppingLists() {
-        List<ShoppingElement> shoppingElements = new ArrayList<>();
-        for (ShoppingElement sl : shoppingElementRepository.findAll()) {
-            shoppingElements.add(sl);
+    public List<List<ShoppingListProposalElementDTO>> getAllShoppingListsProposals() {
+        List<ShoppingListProposalElement> shoppingListProposalElements = new ArrayList<>();
+        for (ShoppingListProposalElement sl : shoppingListProposalElementRepository.findAll()) {
+            shoppingListProposalElements.add(sl);
         }
 
-        List<Menu> menus = shoppingElements.stream().map(item -> item.getMenu()).distinct().collect(Collectors.toList());
+        List<Menu> menus = shoppingListProposalElements.stream().map(item -> item.getMenu()).distinct().collect(Collectors.toList());
 
-        List<List<ShoppingElementDTO>> shoppingLists = new ArrayList();
+        List<List<ShoppingListProposalElementDTO>> shoppingLists = new ArrayList();
 
-        for (Menu menu: menus) {
-            shoppingLists.add(shoppingElements
+        for (Menu menu : menus) {
+            shoppingLists.add(shoppingListProposalElements
                     .stream()
                     .filter(item -> item.getMenu() == menu)
-                    .map(item -> shoppingElementMapper.toDTO(item))
+                    .map(item -> shoppingListProposalElementMapper.toDTO(item))
                     .collect(Collectors.toList()));
         }
 

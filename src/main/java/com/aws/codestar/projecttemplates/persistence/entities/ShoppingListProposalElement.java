@@ -4,23 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 
 @Entity
-@Immutable
-@Table(name = "shoppingElements")
+@Table(name = "shoppingListProposalElements")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingElement implements EntityInterface {//TODO change to ShoppingListElement?
+public class ShoppingListProposalElement {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @EmbeddedId
+    private ShoppingListProposalElementKey id;
 
     @ManyToOne
     @JoinColumn(name = "ingredientId", updatable = false, insertable = false)
@@ -35,7 +31,4 @@ public class ShoppingElement implements EntityInterface {//TODO change to Shoppi
     @OneToOne
     @JoinColumn(name = "menuId", referencedColumnName = "id", updatable = false, insertable = false)
     private Menu menu;
-
-    @Column(name = "alreadyBought")
-    private boolean alreadyBought;
 }

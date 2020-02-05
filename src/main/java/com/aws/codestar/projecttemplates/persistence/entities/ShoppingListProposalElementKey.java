@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class ShoppingListKey implements Serializable {
+public class ShoppingListProposalElementKey implements Serializable {
 
     @Column(name = "ingredientId")
     Integer ingredientId;
