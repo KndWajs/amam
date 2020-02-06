@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 
 @Entity
-@Immutable
 @Table(name = "shoppingElements")
 @Data
 @Builder
@@ -20,10 +18,14 @@ public class ShoppingElement implements EntityInterface {//TODO change to Shoppi
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ingredientId", updatable = false, insertable = false)
+    @JoinColumn(name = "shoppingListId")
+    private ShoppingList shoppingList;
+
+    @ManyToOne
+    @JoinColumn(name = "ingredientId")
     private Ingredient ingredient;
 
     @Column(name = "amount")
@@ -31,10 +33,6 @@ public class ShoppingElement implements EntityInterface {//TODO change to Shoppi
 
     @Column(name = "userId")
     private Long userId;
-
-    @OneToOne
-    @JoinColumn(name = "menuId", referencedColumnName = "id", updatable = false, insertable = false)
-    private Menu menu;
 
     @Column(name = "alreadyBought")
     private boolean alreadyBought;
