@@ -17,8 +17,6 @@ public class ShoppingListDTO {
 
     private double numberOfPeople;
 
-    private MenuDTO menu;
-
     private List<ShoppingElementDTO> shoppingElements;
 
 }

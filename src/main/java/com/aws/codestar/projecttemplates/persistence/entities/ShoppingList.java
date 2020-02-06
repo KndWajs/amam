@@ -28,10 +28,6 @@ public class ShoppingList implements EntityInterface {
     @Column(name = "numberOfPeople")
     private double numberOfPeople;
 
-    @OneToOne
-    @JoinColumn(name = "menuId", referencedColumnName = "id")
-    private Menu menu;
-
     @OneToMany(
             cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH}
             ,mappedBy = "shoppingList"

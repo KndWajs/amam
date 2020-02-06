@@ -24,7 +24,6 @@ public class ShoppingListMapper {
                 .id(shoppingElement.getId())
                 .name(shoppingElement.getName())
                 .numberOfPeople(shoppingElement.getNumberOfPeople())
-                .menu(shoppingElement.getMenu() == null ? null : menuMapper.toDTO(shoppingElement.getMenu()))
                 .shoppingElements(shoppingElementMapper.toDTOs(shoppingElement.getShoppingElements()))
                 .build();
     }
@@ -34,7 +33,6 @@ public class ShoppingListMapper {
                 .id(shoppingElementDTO.getId())
                 .name(shoppingElementDTO.getName())
                 .numberOfPeople(shoppingElementDTO.getNumberOfPeople())
-                .menu(shoppingElementDTO.getMenu() == null ? null :menuMapper.toEntity(shoppingElementDTO.getMenu()))
                 .shoppingElements(shoppingElementMapper.toEntities(shoppingElementDTO.getShoppingElements(), shoppingElementDTO.getId()))
                 .build();
     }
