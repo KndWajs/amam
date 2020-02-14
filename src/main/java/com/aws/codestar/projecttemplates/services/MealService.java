@@ -62,7 +62,7 @@ public class MealService {
     @Transactional(readOnly = true)
     public List<MealDTO> getMealsByType(MealType mealType) {
         List<MealDTO> meals = new ArrayList<>();
-        for (Meal meal : mealDao.getMealsByMealType(mealType)) {
+        for (Meal meal : mealDao.getMealsByType(mealType)) {
             meals.add(mealMapper.toDTO(meal));
         }
         return meals;

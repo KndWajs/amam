@@ -18,7 +18,7 @@ public class MealDao {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Meal> getMealsByMealType(MealType mealType){
+    public List<Meal> getMealsByType(MealType mealType){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QMeal meal = QMeal.meal;
 

@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -30,21 +32,65 @@ public class MealDaoTest {
     private MealDao mealDao;
 
     @Test
-    public void shouldFindMeal() {
+    public void shouldFindOneMealContainingSpecificStringInName() {
         // given
-        Meal meal = Meal.builder()
+        Meal meal = getSampleMeal();
+        entityManager.persist(meal);
+
+        // when
+        List<Meal> searchResult = mealDao.getMealsByPartialName("test", 10);
+
+        // then
+        assertEquals(1, searchResult.size());
+    }
+
+    @Test
+    public void shouldFindOneMealWithTypeDinner() {
+        // given
+        MealType givenMealType = MealType.DINNER;
+        Meal dinnerMeal = getSampleMeal();
+        dinnerMeal.setTypeOfMeal(givenMealType);
+        entityManager.persist(dinnerMeal);
+
+        Meal otherMeal = getSampleMeal();
+        otherMeal.setName("otherMeal");
+        entityManager.persist(otherMeal);
+
+        // when
+        List<Meal> searchResult = mealDao.getMealsByType(givenMealType);
+
+        // then
+        assertEquals(1, searchResult.size());
+    }
+
+    @Test
+    public void shouldFindOneMealTypeDinner() {
+        // given
+        MealType givenMealType = MealType.DINNER;
+        Meal dinnerMeal = getSampleMeal();
+        dinnerMeal.setTypeOfMeal(givenMealType);
+        entityManager.persist(dinnerMeal);
+
+        Meal dinnerMealToExclude = getSampleMeal();
+        dinnerMealToExclude.setTypeOfMeal(givenMealType);
+        dinnerMealToExclude.setName("otherMeal");
+        entityManager.persist(dinnerMealToExclude);
+
+        // when
+        List<Meal> searchResult = mealDao.getMealsByTypeWithoutCertainMeals(givenMealType, Arrays.asList(dinnerMealToExclude));
+        System.out.println(dinnerMealToExclude.getId());
+
+        // then
+        assertEquals(1, searchResult.size());
+    }
+
+    private Meal getSampleMeal() {
+        return Meal.builder()
                 .name("test meal")
-                .typeOfMeal(MealType.DINNER)
+                .typeOfMeal(MealType.SUPPER)
                 .typeOfPreparing(PreparingType.BOILED)
                 .recipe("recipe")
                 .minutesToPrepare(66)
                 .build();
-        entityManager.persist(meal);
-
-        // when
-        List<Meal> searchResult = mealDao.getMealsByPartialName("test", 1);
-
-        // then
-        assertEquals(1, searchResult.size());
     }
 }
