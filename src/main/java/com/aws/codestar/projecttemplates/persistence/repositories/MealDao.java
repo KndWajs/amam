@@ -14,42 +14,35 @@ import java.util.List;
 
 @Repository
 public class MealDao {
+    private QMeal qMeal;
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<Meal> getMealsByMealType(MealType mealType){
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QMeal meal = QMeal.meal;
+    public MealDao() {
+        this.qMeal = QMeal.meal;
+    }
 
-        List<Meal> meals = queryFactory.selectFrom(meal)
-                .where(meal.typeOfMeal.eq(mealType)).fetch();
-        return meals;
+    public List<Meal> getMealsByType(MealType mealType) {
+        return selectFromMealTable().where(this.qMeal.typeOfMeal.eq(mealType)).fetch();
     }
 
     public List<Meal> getMealsByTypeWithoutCertainMeals(MealType mealType, List<Meal> excludedMeals) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QMeal meal = QMeal.meal;
+        Predicate predicate = qMeal.typeOfMeal.eq(mealType);
 
-        Predicate predicate = meal.typeOfMeal.eq(mealType);
-
-        for (Meal excludedMeal :excludedMeals) {
-            predicate = meal.id.ne(excludedMeal.getId()).and(predicate);
+        for (Meal excludedMeal : excludedMeals) {
+            predicate = this.qMeal.id.ne(excludedMeal.getId()).and(predicate);
         }
 
-        JPAQuery<Meal> jPAQueryMeals = queryFactory.selectFrom(meal)
-                .where(predicate);
-
-        return jPAQueryMeals.fetch();
+        return selectFromMealTable().where(predicate).fetch();
     }
 
-    public List<Meal> getMealsByPartialName(String mealPartialName, int numberOfResults){
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QMeal meal = QMeal.meal;
-
-        List<Meal> meals = queryFactory.selectFrom(meal)
-                .where(meal.name.contains(mealPartialName)).limit(numberOfResults).fetch();
-        return meals;
+    public List<Meal> getMealsByPartialName(String mealPartialName, int numberOfResults) {
+        return selectFromMealTable().where(this.qMeal.name.contains(mealPartialName))
+                .limit(numberOfResults).fetch();
     }
 
+    private JPAQuery<Meal> selectFromMealTable() {
+        return new JPAQueryFactory(this.em).selectFrom(this.qMeal);
+    }
 }
