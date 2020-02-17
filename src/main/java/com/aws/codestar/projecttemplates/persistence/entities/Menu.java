@@ -30,6 +30,9 @@ public class Menu implements EntityInterface {
     @Column(name = "userId")
     private Integer userId;
 
+    @Column(name = "archival")
+    private boolean archival;
+
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
             mappedBy = "menu", orphanRemoval = true)
     private List<MenuMeal> menuMeals;

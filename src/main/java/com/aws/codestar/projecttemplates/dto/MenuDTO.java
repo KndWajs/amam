@@ -17,4 +17,6 @@ public class MenuDTO {
     private String name;
 
     private List<MenuMealDTO> meals;
+
+    private boolean archival;
 }

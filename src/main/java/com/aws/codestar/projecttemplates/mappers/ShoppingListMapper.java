@@ -24,6 +24,7 @@ public class ShoppingListMapper {
                 .id(shoppingElement.getId())
                 .name(shoppingElement.getName())
                 .numberOfPeople(shoppingElement.getNumberOfPeople())
+                .archival(shoppingElement.isArchival())
                 .shoppingElements(shoppingElementMapper.toDTOs(shoppingElement.getShoppingElements()))
                 .build();
     }
@@ -33,6 +34,7 @@ public class ShoppingListMapper {
                 .id(shoppingElementDTO.getId())
                 .name(shoppingElementDTO.getName())
                 .numberOfPeople(shoppingElementDTO.getNumberOfPeople())
+                .archival(shoppingElementDTO.isArchival())
                 .shoppingElements(shoppingElementMapper.toEntities(shoppingElementDTO.getShoppingElements(), shoppingElementDTO.getId()))
                 .build();
     }

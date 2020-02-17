@@ -28,6 +28,9 @@ public class ShoppingList implements EntityInterface {
     @Column(name = "numberOfPeople")
     private double numberOfPeople;
 
+    @Column(name = "archival")
+    private boolean archival;
+
     @OneToMany(
             cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH}
             ,mappedBy = "shoppingList"

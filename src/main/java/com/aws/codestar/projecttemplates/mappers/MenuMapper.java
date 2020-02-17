@@ -22,6 +22,7 @@ public class MenuMapper implements Mapper<MenuDTO, Menu>{
                 .numberOfPeople(menu.getNumberOfPeople())
                 .name(menu.getName())
                 .meals(menuMealMapper.toDTOs(menu.getMenuMeals()))
+                .archival(menu.isArchival())
                 .build();
     }
 
@@ -32,6 +33,7 @@ public class MenuMapper implements Mapper<MenuDTO, Menu>{
                 .numberOfPeople(menuDTO.getNumberOfPeople())
                 .name(menuDTO.getName().toLowerCase())
                 .menuMeals(menuMealMapper.toEntities(menuDTO.getMeals(), menuDTO.getId()))
+                .archival(menuDTO.isArchival())
                 .build();
     }
 }

@@ -19,4 +19,5 @@ public class ShoppingListDTO {
 
     private List<ShoppingElementDTO> shoppingElements;
 
+    private boolean archival;
 }
