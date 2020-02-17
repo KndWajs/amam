@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.persistence.entities.IngredientCategory;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientCategoryRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,8 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/v1/api")
-//@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
 @Tag(name = "IngredientCategoryController", description = "desc class")
 public class IngredientCategoryController {

@@ -1,5 +1,6 @@
 package com.aws.codestar.projecttemplates.controllers;
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
@@ -12,10 +13,9 @@ import org.springframework.web.bind.annotation.*;
  * Basic Spring web service controller that handles all GET requests.
  */
 @RestController
-@RequestMapping("/v1/api/")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
-
-@Tag(name = "HelloWorldController", description = "desc class")
+@Tag(name = "HelloWorldController", description = "this is HelloWorldController")
 public class HelloWorldController {
 
     private MealIngredientDao mealIngredientDao;
@@ -29,11 +29,6 @@ public class HelloWorldController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity helloWorldGet(@RequestParam(value = "name", defaultValue = "World") String name) throws JSONException {
-        return ResponseEntity.ok(createResponse(name));
-    }
-
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity helloWorldPost(@RequestParam(value = "name", defaultValue = "World") String name) throws JSONException {
         return ResponseEntity.ok(createResponse(name));
     }
 

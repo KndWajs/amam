@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
@@ -14,7 +15,7 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
 @Tag(name = "MenuController", description = "desc class")
 public class MenuController {

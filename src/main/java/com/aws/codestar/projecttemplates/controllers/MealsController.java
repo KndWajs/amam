@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.services.MealService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +12,7 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
 @Tag(name = "MealsController", description = "desc class")
 public class MealsController {

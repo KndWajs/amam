@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.mappers.IngredientMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api")
-//@CrossOrigin(origins = "http://amam-frontend.s3-website.eu-central-1.amazonaws.com")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
 @Tag(name = "IngredientsController", description = "desc class")
 public class IngredientsController {
@@ -52,6 +52,4 @@ public class IngredientsController {
     IngredientDTO updateIngredient(@RequestBody IngredientDTO ingredientDTO, @PathVariable Long id) {
         return ingredientService.update(ingredientDTO, id);
     }
-
-
 }

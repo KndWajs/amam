@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.controllers;
 
 
+import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
 import com.aws.codestar.projecttemplates.dto.ShoppingListProposalElementDTO;
 import com.aws.codestar.projecttemplates.services.ShoppingListService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
 @Tag(name = "ShoppingListController", description = "desc class")
 public class ShoppingListController {
