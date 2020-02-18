@@ -1,6 +1,9 @@
 package com.aws.codestar.projecttemplates.persistence.repositories;
 
 import com.aws.codestar.projecttemplates.Application;
+import com.aws.codestar.projecttemplates.base.IngredientGenerator;
+import com.aws.codestar.projecttemplates.base.MealGenerator;
+import com.aws.codestar.projecttemplates.base.MealIngredientGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.enums.IngredientUnit;
 import com.aws.codestar.projecttemplates.enums.MealType;
@@ -35,14 +38,14 @@ public class MealIngredientDaoTest {
     @Test
     public void shouldFindOneMealIngredientByIngredientId() {
         // given
-        MealIngredient mealIngredient = getSampleMealIngredient();
-        Ingredient ingredient = getSampleIngredient();
+        MealIngredient mealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
+        Ingredient ingredient = IngredientGenerator.getSampleIngredientEntity();
         entityManager.persist(ingredient);
         mealIngredient.setIngredient(ingredient);
         entityManager.persist(mealIngredient);
 
-        MealIngredient anotherMealIngredient = getSampleMealIngredient();
-        Ingredient anotherIngredient = getSampleIngredient();
+        MealIngredient anotherMealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
+        Ingredient anotherIngredient = IngredientGenerator.getSampleIngredientEntity();
         entityManager.persist(anotherIngredient);
         anotherMealIngredient.setIngredient(anotherIngredient);
         entityManager.persist(anotherMealIngredient);
@@ -58,14 +61,14 @@ public class MealIngredientDaoTest {
     @Test
     public void shouldFindOneMealIngredientByMealId() {
         // given
-        MealIngredient mealIngredient = getSampleMealIngredient();
-        Meal meal = getSampleMeal();
+        MealIngredient mealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
+        Meal meal = MealGenerator.getSampleMealEntity();
         entityManager.persist(meal);
         mealIngredient.setMeal(meal);
         entityManager.persist(mealIngredient);
 
-        MealIngredient anotherMealIngredient = getSampleMealIngredient();
-        Meal anotherMeal = getSampleMeal();
+        MealIngredient anotherMealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
+        Meal anotherMeal = MealGenerator.getSampleMealEntity();
         entityManager.persist(anotherMeal);
         anotherMealIngredient.setMeal(anotherMeal);
         entityManager.persist(anotherMealIngredient);
@@ -76,29 +79,5 @@ public class MealIngredientDaoTest {
 
         // then
         assertEquals(1, searchResult.size());
-    }
-
-    private MealIngredient getSampleMealIngredient() {
-        return MealIngredient.builder()
-                .amount(0.25D)
-                .build();
-    }
-
-    private Ingredient getSampleIngredient() {
-        return Ingredient.builder()
-                .name("carrot")
-                .ingredientUnit(IngredientUnit.PCS)
-                .category("sery")
-                .build();
-    }
-
-    private Meal getSampleMeal() {
-        return Meal.builder()
-                .name("test meal")
-                .typeOfMeal(MealType.SUPPER)
-                .typeOfPreparing(PreparingType.BOILED)
-                .recipe("recipe")
-                .minutesToPrepare(66)
-                .build();
     }
 }

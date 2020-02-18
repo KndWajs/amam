@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.persistence.repositories;
 
 import com.aws.codestar.projecttemplates.Application;
+import com.aws.codestar.projecttemplates.base.IngredientGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.enums.IngredientUnit;
 import com.aws.codestar.projecttemplates.enums.MealType;
@@ -35,7 +36,7 @@ public class IngredientDaoTest {
     @Test
     public void shouldFindOneIngredientContainingSpecificStringInName() {
         // given
-        Ingredient ingredient = getSampleIngredient();
+        Ingredient ingredient = IngredientGenerator.getSampleIngredientEntity();
         entityManager.persist(ingredient);
 
         // when
@@ -48,26 +49,18 @@ public class IngredientDaoTest {
     @Test
     public void shouldFindIngredientWithSpecificNameAndUnit() {
         // given
-        Ingredient ingredient = getSampleIngredient();
+        Ingredient ingredient = IngredientGenerator.getSampleIngredientEntity();
         entityManager.persist(ingredient);
-        Ingredient secondIngredient = getSampleIngredient();
+        Ingredient secondIngredient = IngredientGenerator.getSampleIngredientEntity();
         secondIngredient.setIngredientUnit(IngredientUnit.ML_OR_GRAM);
         entityManager.persist(ingredient);
 
-        Ingredient searchedIngredient = getSampleIngredient();
+        Ingredient searchedIngredient = IngredientGenerator.getSampleIngredientEntity();
 
         // when
         Ingredient searchResult = ingredientDao.getIngredientByNameAndUnit(searchedIngredient);
 
         // then
         assertNotNull(searchResult);
-    }
-
-    private Ingredient getSampleIngredient() {
-        return Ingredient.builder()
-                .name("carrot")
-                .ingredientUnit(IngredientUnit.PCS)
-                .category("sery")
-                .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.aws.codestar.projecttemplates.persistence.repositories;
 
 import com.aws.codestar.projecttemplates.Application;
+import com.aws.codestar.projecttemplates.base.MealGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.enums.MealType;
 import com.aws.codestar.projecttemplates.enums.PreparingType;
@@ -33,7 +34,7 @@ public class MealDaoTest {
     @Test
     public void shouldFindOneMealContainingSpecificStringInName() {
         // given
-        Meal meal = getSampleMeal();
+        Meal meal = MealGenerator.getSampleMealEntity();
         entityManager.persist(meal);
 
         // when
@@ -47,11 +48,11 @@ public class MealDaoTest {
     public void shouldFindOneMealWithTypeDinner() {
         // given
         MealType givenMealType = MealType.DINNER;
-        Meal dinnerMeal = getSampleMeal();
+        Meal dinnerMeal = MealGenerator.getSampleMealEntity();
         dinnerMeal.setTypeOfMeal(givenMealType);
         entityManager.persist(dinnerMeal);
 
-        Meal otherMeal = getSampleMeal();
+        Meal otherMeal = MealGenerator.getSampleMealEntity();
         otherMeal.setName("otherMeal");
         entityManager.persist(otherMeal);
 
@@ -66,11 +67,11 @@ public class MealDaoTest {
     public void shouldFindOneMealTypeDinner() {
         // given
         MealType givenMealType = MealType.DINNER;
-        Meal dinnerMeal = getSampleMeal();
+        Meal dinnerMeal = MealGenerator.getSampleMealEntity();
         dinnerMeal.setTypeOfMeal(givenMealType);
         entityManager.persist(dinnerMeal);
 
-        Meal dinnerMealToExclude = getSampleMeal();
+        Meal dinnerMealToExclude = MealGenerator.getSampleMealEntity();
         dinnerMealToExclude.setTypeOfMeal(givenMealType);
         dinnerMealToExclude.setName("otherMeal");
         entityManager.persist(dinnerMealToExclude);
@@ -81,15 +82,5 @@ public class MealDaoTest {
 
         // then
         assertEquals(1, searchResult.size());
-    }
-
-    private Meal getSampleMeal() {
-        return Meal.builder()
-                .name("test meal")
-                .typeOfMeal(MealType.SUPPER)
-                .typeOfPreparing(PreparingType.BOILED)
-                .recipe("recipe")
-                .minutesToPrepare(66)
-                .build();
     }
 }
