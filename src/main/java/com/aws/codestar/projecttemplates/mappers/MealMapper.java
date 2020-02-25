@@ -13,46 +13,62 @@ import java.util.stream.Collectors;
 public class MealMapper implements Mapper<MealDTO, Meal> {
 
     private MealIngredientMapper mealIngredientMapper;
-    private MealIngredientDao mealIngredientDao;
 
     @Autowired
-    public MealMapper(MealIngredientMapper mealIngredientMapper, MealIngredientDao mealIngredientDao) {
+    public MealMapper(MealIngredientMapper mealIngredientMapper) {
         this.mealIngredientMapper = mealIngredientMapper;
-        this.mealIngredientDao = mealIngredientDao;
     }
 
     @Override
-    public MealDTO toDTO(Meal Meal) {
+    public MealDTO toDTO(Meal meal) {
+        if (meal == null) {
+            return null;
+        }
+
         return MealDTO.builder()
-                .id(Meal.getId())
-                .name(Meal.getName())
-                .typeOfMeal(Meal.getTypeOfMeal())
-                .typeOfPreparing(Meal.getTypeOfPreparing())
-                .recipe(Meal.getRecipe())
-                .minutesToPrepare(Meal.getMinutesToPrepare())
-                .ingredients(mealIngredientMapper.toDTOs(Meal.getMealIngredients()))
+                .id(meal.getId())
+                .name(meal.getName())
+                .typeOfMeal(meal.getTypeOfMeal())
+                .typeOfPreparing(meal.getTypeOfPreparing())
+                .recipe(meal.getRecipe())
+                .minutesToPrepare(meal.getMinutesToPrepare())
+                .ingredients(meal.getMealIngredients() == null ?
+                        null : mealIngredientMapper.toDTOs(meal.getMealIngredients()))
                 .build();
     }
 
     @Override
-    public Meal toEntity(MealDTO mealDto) {
+    public Meal toEntity(MealDTO meal) {
+        if (meal == null) {
+            return null;
+        }
+
         return Meal.builder()
-                .id(mealDto.getId())
-                .name(mealDto.getName().toLowerCase())
-                .typeOfMeal(mealDto.getTypeOfMeal())
-                .typeOfPreparing(mealDto.getTypeOfPreparing())
-                .recipe(mealDto.getRecipe())
-                .minutesToPrepare(mealDto.getMinutesToPrepare())
-                .mealIngredients(mealIngredientMapper.toEntities(mealDto.getIngredients(), mealDto.getId()))
+                .id(meal.getId())
+                .name(meal.getName() == null? null : meal.getName().toLowerCase())
+                .typeOfMeal(meal.getTypeOfMeal())
+                .typeOfPreparing(meal.getTypeOfPreparing())
+                .recipe(meal.getRecipe())
+                .minutesToPrepare(meal.getMinutesToPrepare())
+                .mealIngredients(meal.getIngredients() == null ?
+                        null : mealIngredientMapper.toEntities(meal.getIngredients(), meal.getId()))
                 .build();
     }
 
     public List<MealDTO> toDTOs(List<Meal> meals) {
+        if (meals == null) {
+            return null;
+        }
+
         return meals.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
     }
 
-    public List<Meal> toEntities(List<MealDTO> mealsDto) {
-        return mealsDto.stream().map(dto -> toEntity(dto)).collect(Collectors.toList());
+    public List<Meal> toEntities(List<MealDTO> meals) {
+        if (meals == null) {
+            return null;
+        }
+
+        return meals.stream().map(dto -> toEntity(dto)).collect(Collectors.toList());
     }
 
 }

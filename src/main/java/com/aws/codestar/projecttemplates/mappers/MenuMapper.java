@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MenuMapper implements Mapper<MenuDTO, Menu>{
+public class MenuMapper implements Mapper<MenuDTO, Menu> {
     private MenuMealMapper menuMealMapper;
 
     @Autowired
@@ -17,6 +17,9 @@ public class MenuMapper implements Mapper<MenuDTO, Menu>{
 
     @Override
     public MenuDTO toDTO(Menu menu) {
+        if(menu == null){
+            return null;
+        }
         return MenuDTO.builder()
                 .id(menu.getId())
                 .numberOfPeople(menu.getNumberOfPeople())
@@ -27,13 +30,17 @@ public class MenuMapper implements Mapper<MenuDTO, Menu>{
     }
 
     @Override
-    public Menu toEntity(MenuDTO menuDTO) {
+    public Menu toEntity(MenuDTO menu) {
+        if(menu == null){
+            return null;
+        }
+
         return Menu.builder()
-                .id(menuDTO.getId())
-                .numberOfPeople(menuDTO.getNumberOfPeople())
-                .name(menuDTO.getName().toLowerCase())
-                .menuMeals(menuMealMapper.toEntities(menuDTO.getMeals(), menuDTO.getId()))
-                .archival(menuDTO.isArchival())
+                .id(menu.getId())
+                .numberOfPeople(menu.getNumberOfPeople())
+                .name(menu.getName() == null ? null : menu.getName().toLowerCase())
+                .menuMeals(menu.getMeals() == null ? null : menuMealMapper.toEntities(menu.getMeals(), menu.getId()))
+                .archival(menu.isArchival())
                 .build();
     }
 }
