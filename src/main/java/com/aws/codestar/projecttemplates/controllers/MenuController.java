@@ -4,6 +4,7 @@ package com.aws.codestar.projecttemplates.controllers;
 import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
+import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
 import com.aws.codestar.projecttemplates.services.MenuService;
@@ -58,8 +59,8 @@ public class MenuController {
 
     @PutMapping(path = "/menu/{id}")
     public @ResponseBody
-    MenuDTO updateMenu(@RequestBody MenuDTO menudto, @PathVariable Long id) {
-        return null; //TODO implement
+    MenuDTO updateMenu(@RequestBody MenuDTO menudDTO) {
+        return menuService.update(menudDTO);
     }
 
     @DeleteMapping(path = "/menu/{id}")

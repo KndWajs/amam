@@ -61,10 +61,13 @@ public class MenuService {
         return menus;
     }
 
-//    public MenuDTO update(MenuDTO menu) throws ObjectIsNullException {
-//        validateMenuObject(menu);
-//        return menuMapper.toDTO(menuRepository.saveAndFlush(menuMapper.toEntity(menu)));
-//    }
+    public MenuDTO update(MenuDTO menu) throws ObjectIsNullException {
+        validateMenuObject(menu);
+        validateMenuId(menu.getId());
+
+        MenuDTO savedMenu = menuMapper.toDTO(menuRepository.save(menuMapper.toEntity(menu)));
+        return savedMenu;
+    }
 
     public void delete(Long id) {
         validateMenuId(id);

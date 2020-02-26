@@ -34,11 +34,6 @@ public class ShoppingElementService {
         return shoppingElementMapper.toDTO(shoppingElementRepository.findById(id).get());
     }
 
-//    public ShoppingElementDTO update(ShoppingElementDTO shoppingElement) throws ObjectIsNullException {
-//        validateShoppingElementObject(shoppingElement);
-//        return shoppingElementMapper.toDTO(shoppingElementRepository.saveAndFlush(shoppingElementMapper.toEntity(shoppingElement)));
-//    }
-
     public void delete(Long id) {
         validateShoppingElementId(id);
         shoppingElementRepository.deleteById(id);
