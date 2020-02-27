@@ -72,13 +72,15 @@ public class ShoppingListService {
 
     public ShoppingListDTO create(ShoppingListDTO shoppingListDTO) throws ObjectIsNullException {
         validateShoppingListObject(shoppingListDTO);
+        List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
+        shoppingListDTO.setShoppingElements(new ArrayList<>());
         ShoppingListDTO savedShoppingList = shoppingListMapper.toDTO(shoppingListRepository.save(shoppingListMapper.toEntity(shoppingListDTO)));
 
-        for (ShoppingElementDTO shoppingElementDTO : shoppingListDTO.getShoppingElements()) {
-            savedShoppingList.getShoppingElements().add(shoppingElementService.create(shoppingElementDTO, savedShoppingList.getId()));
+        for (ShoppingElementDTO shoppingElementDTO : shoppingElements) {
+            savedShoppingList.getShoppingElements().add(shoppingElementDTO);
         }
 
-        return savedShoppingList;
+        return update(savedShoppingList);
     }
 
 

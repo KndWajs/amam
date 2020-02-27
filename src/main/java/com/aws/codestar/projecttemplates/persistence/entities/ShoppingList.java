@@ -32,7 +32,7 @@ public class ShoppingList implements EntityInterface {
     private boolean archival;
 
     @OneToMany(
-            cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH}
+            cascade = {CascadeType.ALL}
             ,mappedBy = "shoppingList"
             ,orphanRemoval = true
     )

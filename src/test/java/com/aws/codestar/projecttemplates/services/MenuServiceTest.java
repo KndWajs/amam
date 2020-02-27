@@ -5,6 +5,7 @@ import com.aws.codestar.projecttemplates.base.*;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
+import com.aws.codestar.projecttemplates.mappers.MenuMealMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.entities.MenuMeal;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingElement;
@@ -39,7 +40,11 @@ public class MenuServiceTest {
     @Autowired
     private MenuMapper menuMapper;
 
+    @Autowired
+    private MenuMealMapper menuMealMapper;
+
     @Test
+    @Transactional
     public void test() {
         // given
         Menu menu = MenuGenerator.getSampleMenuEntity();
@@ -47,28 +52,46 @@ public class MenuServiceTest {
         MenuMeal menuMeal = MenuMealGenerator.getSampleMenuMealEntity();
         Meal meal = MealGenerator.getSampleMealEntity();
         entityManager.persist(meal);
-
         menuMeal.setMeal(meal);
 
-        menu.setMenuMeals(new ArrayList<>());
-        menu.getMenuMeals().add(menuMeal);
+        MenuMeal menuMeal2 = MenuMealGenerator.getSampleMenuMealEntity();
+        menuMeal2.setDayNumber(2);
+        menuMeal2.setMeal(meal);
+
+//        menu.setMenuMeals(new ArrayList<>());
+//        menu.getMenuMeals().add(menuMeal);
+//        menu.getMenuMeals().add(menuMeal2);
 
         entityManager.persist(menu);
+        entityManager.flush();
 
         // when
-        Menu searchResult = menuRepository.findById(menu.getId()).get();
+        MenuDTO menuDTOTemp = menuService.get(menu.getId());
+
+        MenuDTO menuDTO = MenuDTO.builder()
+                .id(menuDTOTemp.getId())
+                .numberOfPeople(menuDTOTemp.getNumberOfPeople())
+                .name(menuDTOTemp.getName())
+                .archival(menuDTOTemp.isArchival())
+                .meals(new ArrayList<>())
+                .build();
+
         MenuMeal secondMenuMeal = MenuMealGenerator.getSampleMenuMealEntity();
-        secondMenuMeal.setDayNumber(2);
+        secondMenuMeal.setDayNumber(3);
         secondMenuMeal.setMeal(meal);
-        searchResult.getMenuMeals().add(secondMenuMeal);
-        searchResult.setName("new name");
 
-        menuService.update(menuMapper.toDTO(searchResult));
+        menuDTO.setName("new name");
+        menuDTO.getMeals().add(menuMealMapper.toDTO(secondMenuMeal));
 
-        Menu secondSearchresult = menuRepository.findById(menu.getId()).get();
+        menuService.update(menuDTO);
+        entityManager.flush();
+
+        Menu secondSearchresult = menuRepository.findById(menuDTO.getId()).get();
+        entityManager.flush();
 
         // then
         assertEquals("new name", secondSearchresult.getName());
-        assertEquals(2, secondSearchresult.getMenuMeals().size());
+//        assertEquals(1, menu.getMenuMeals().size());
+//        assertEquals(3, secondSearchresult.getMenuMeals().size());
     }
 }

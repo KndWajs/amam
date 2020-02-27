@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 public class MenuMealDTO {
 
+    private Long id;
+
     private MealDTO meal;
 
     private Integer dayNumber;

@@ -37,13 +37,16 @@ public class MenuService {
 
     public MenuDTO create(MenuDTO menu) throws ObjectIsNullException {
         validateMenuObject(menu);
+        List<MenuMealDTO> menuMeals = menu.getMeals();
+        menu.setMeals(new ArrayList<>());
+
         MenuDTO savedMenu = menuMapper.toDTO(menuRepository.save(menuMapper.toEntity(menu)));
 
-        for (MenuMealDTO menuMeal : menu.getMeals()) {
-            savedMenu.getMeals().add(menuMealService.create(menuMeal, savedMenu.getId()));
+        for (MenuMealDTO menuMeal : menuMeals) {
+            savedMenu.getMeals().add(menuMeal);
         }
 
-        return savedMenu;
+        return update(savedMenu);
     }
 
     @Transactional(readOnly = true)

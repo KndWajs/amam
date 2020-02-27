@@ -22,6 +22,7 @@ public class MenuMealMapper  {
 
     public MenuMealDTO toDTO(MenuMeal menuMeal) {
         return MenuMealDTO.builder()
+                .id(menuMeal.getId())
                 .meal(mealMapper.toDTO(menuMeal.getMeal()))
                 .dayNumber(menuMeal.getDayNumber())
                 .build();
@@ -29,6 +30,7 @@ public class MenuMealMapper  {
 
     public MenuMeal toEntity(MenuMealDTO menuMealDto, Long menuId) {
         return MenuMeal.builder()
+                .id(menuMealDto.getId())
                 .menu(menuId == null ? null : menuRepository.findById(menuId).get())
                 .meal(mealMapper.toEntity(menuMealDto.getMeal()))
                 .dayNumber(menuMealDto.getDayNumber())

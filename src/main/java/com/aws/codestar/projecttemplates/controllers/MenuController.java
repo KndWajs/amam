@@ -53,14 +53,14 @@ public class MenuController {
 
     @PostMapping(path = "/menu")
     public @ResponseBody
-    MenuDTO addNewMenu(@RequestBody MenuDTO menudto) {
-        return menuService.create(menudto);
+    MenuDTO addNewMenu(@RequestBody MenuDTO menuDTO) {
+        return menuService.create(menuDTO);
     }
 
-    @PutMapping(path = "/menu/{id}")
+    @PutMapping(path = "/menu")
     public @ResponseBody
-    MenuDTO updateMenu(@RequestBody MenuDTO menudDTO) {
-        return menuService.update(menudDTO);
+    MenuDTO updateMenu(@RequestBody MenuDTO menuDTO) {
+        return menuService.update(menuDTO);
     }
 
     @DeleteMapping(path = "/menu/{id}")

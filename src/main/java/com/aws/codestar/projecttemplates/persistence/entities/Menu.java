@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Menu implements EntityInterface {
     @Column(name = "archival")
     private boolean archival;
 
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.DETACH},
+    @OneToMany(cascade = {CascadeType.ALL},
             mappedBy = "menu", orphanRemoval = true)
     private List<MenuMeal> menuMeals;
 }
