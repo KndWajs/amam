@@ -6,9 +6,7 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsExcepti
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
-import com.aws.codestar.projecttemplates.persistence.entities.Menu;
-import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
-import com.aws.codestar.projecttemplates.persistence.entities.ShoppingListProposalElement;
+import com.aws.codestar.projecttemplates.persistence.entities.*;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListProposalElementRepository;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +79,39 @@ public class ShoppingListService {
         }
 
         return update(savedShoppingList);
+    }
+
+    public ShoppingListDTO create(MenuDTO menuDTO) throws ObjectIsNullException {
+        //TODO refactor this method
+        ShoppingListDTO shoppingList = ShoppingListDTO.builder()
+                .name(menuDTO.getName())
+                .archival(false)
+                .numberOfPeople(menuDTO.getNumberOfPeople())
+                .shoppingElements(new ArrayList<>())
+                .build();
+
+        for (MenuMealDTO menuMeal : menuDTO.getMeals()) {
+            for (MealIngredientDTO mealIngredient : menuMeal.getMeal().getIngredients()) {
+                int shoppingElementIndex = shoppingList.getShoppingElements().stream()
+                        .map(s -> s.getIngredient())
+                        .collect(Collectors.toList()).indexOf(mealIngredient.getIngredient());
+
+                if (shoppingElementIndex < 0) {
+                    shoppingList.getShoppingElements().add(
+                            ShoppingElementDTO.builder()
+                                    .amount(mealIngredient.getAmount() * menuDTO.getNumberOfPeople())
+                                    .alreadyBought(false)
+                                    .ingredient(mealIngredient.getIngredient())
+                                    .build());
+                } else {
+                    shoppingList.getShoppingElements().get(shoppingElementIndex).setAmount(
+                            shoppingList.getShoppingElements().get(shoppingElementIndex).getAmount()
+                                    + mealIngredient.getAmount() * menuDTO.getNumberOfPeople());
+                }
+            }
+        }
+
+        return create(shoppingList);
     }
 
 

@@ -2,8 +2,10 @@ package com.aws.codestar.projecttemplates.controllers;
 
 
 import com.aws.codestar.projecttemplates.Globals;
+import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
 import com.aws.codestar.projecttemplates.dto.ShoppingListProposalElementDTO;
+import com.aws.codestar.projecttemplates.persistence.entities.Menu;
 import com.aws.codestar.projecttemplates.services.ShoppingListService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +31,18 @@ public class ShoppingListController {
     List<List<ShoppingListProposalElementDTO>> getAllShoppingListsProposals() {
 
         return shoppingListService.getAllShoppingListsProposals();
-        //todo find by user id
+        //TODO find by user id
     }
 
-    @GetMapping(path = "/shopping-lists")
+    @GetMapping(path = "/shopping-list")
     public @ResponseBody
     List<ShoppingListDTO> getShoppingLists() {
 
         return shoppingListService.getShoppingLists();
-        //todo find by user id
+        //TODO find by user id
     }
 
-    @PostMapping(path = "/shopping-list")
+    @PostMapping(path = "/shopping-list", params = "shoppingListDTO")
     public @ResponseBody
     ShoppingListDTO addNewShoppingList(@RequestBody ShoppingListDTO shoppingListDTO) {
         return shoppingListService.create(shoppingListDTO);
@@ -52,6 +54,13 @@ public class ShoppingListController {
         return shoppingListService.update(shoppingListDTO);
     }
 
+    @PostMapping(path = "/shopping-list/create-from-menu")
+    public @ResponseBody
+    ShoppingListDTO createShoppingList(@RequestBody MenuDTO menu)
+    {
+        return shoppingListService.create(menu);
+    }
+
     @DeleteMapping(path = "/shopping-list/{id}")
     public @ResponseBody
     ShoppingListDTO deleteShoppingList(@PathVariable Long id) {
@@ -59,5 +68,4 @@ public class ShoppingListController {
         shoppingListService.delete(id);
         return deletedShoppingList; //TODO check if it is deleted?
     }
-
 }
