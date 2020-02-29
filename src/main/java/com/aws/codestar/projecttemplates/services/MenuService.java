@@ -10,6 +10,7 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsExcepti
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
+import com.aws.codestar.projecttemplates.persistence.repositories.MenuDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,16 @@ public class MenuService {
     private MenuMapper menuMapper;
     private MenuMealService menuMealService;
     private MealService mealService;
+    private MenuDao menuDao;
 
     @Autowired
-    public MenuService(MenuRepository menuRepository, MenuMapper menuMapper, MenuMealService menuMealService, MealService mealService) {
+    public MenuService(MenuRepository menuRepository, MenuMapper menuMapper, MenuMealService menuMealService,
+                       MealService mealService, MenuDao menuDao) {
         this.menuRepository = menuRepository;
         this.menuMapper = menuMapper;
         this.menuMealService = menuMealService;
         this.mealService = mealService;
+        this.menuDao = menuDao;
     }
 
     public MenuDTO create(MenuDTO menu) throws ObjectIsNullException {
@@ -59,6 +63,15 @@ public class MenuService {
     public List<MenuDTO> getAll() {
         List<MenuDTO> menus = new ArrayList<>();
         for (Menu menu : menuRepository.findAll()) {
+            menus.add(menuMapper.toDTO(menu));
+        }
+        return menus;
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuDTO> getAll(boolean archival) {
+        List<MenuDTO> menus = new ArrayList<>();
+        for (Menu menu : menuDao.getMenusByArchivalStatus(archival)) {
             menus.add(menuMapper.toDTO(menu));
         }
         return menus;

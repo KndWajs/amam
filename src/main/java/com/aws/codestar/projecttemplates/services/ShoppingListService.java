@@ -5,9 +5,8 @@ import com.aws.codestar.projecttemplates.dto.*;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
-import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.*;
-import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListProposalElementRepository;
+import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,49 +19,26 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ShoppingListService {
-    private ShoppingListProposalElementRepository shoppingListProposalElementRepository;
     private ShoppingListRepository shoppingListRepository;
-    private ShoppingListProposalElementMapper shoppingListProposalElementMapper;
+    private ShoppingListDao shoppingListDao;
     private ShoppingListMapper shoppingListMapper;
     private ShoppingElementService shoppingElementService;
 
     @Autowired
-    public ShoppingListService(ShoppingListProposalElementRepository shoppingListProposalElementRepository,
-                               ShoppingListRepository shoppingListRepository,
-                               ShoppingListProposalElementMapper shoppingListProposalElementMapper,
-                               ShoppingListMapper shoppingListMapper, ShoppingElementService shoppingElementService) {
-        this.shoppingListProposalElementRepository = shoppingListProposalElementRepository;
+    public ShoppingListService(ShoppingListRepository shoppingListRepository,
+                               ShoppingListMapper shoppingListMapper, ShoppingElementService shoppingElementService,
+                               ShoppingListDao shoppingListDao) {
         this.shoppingListRepository = shoppingListRepository;
-        this.shoppingListProposalElementMapper = shoppingListProposalElementMapper;
         this.shoppingListMapper = shoppingListMapper;
         this.shoppingElementService = shoppingElementService;
+        this.shoppingListDao = shoppingListDao;
     }
 
-    public List<List<ShoppingListProposalElementDTO>> getAllShoppingListsProposals() {
-        List<ShoppingListProposalElement> shoppingListProposalElements = new ArrayList<>();
-        for (ShoppingListProposalElement sl : shoppingListProposalElementRepository.findAll()) {
-            shoppingListProposalElements.add(sl);
-        }
-
-        List<Menu> menus = shoppingListProposalElements.stream().map(item -> item.getMenu()).distinct().collect(Collectors.toList());
-
-        List<List<ShoppingListProposalElementDTO>> shoppingLists = new ArrayList();
-
-        for (Menu menu : menus) {
-            shoppingLists.add(shoppingListProposalElements
-                    .stream()
-                    .filter(item -> item.getMenu() == menu)
-                    .map(item -> shoppingListProposalElementMapper.toDTO(item))
-                    .collect(Collectors.toList()));
-        }
-
-        return shoppingLists;
-    }
 
     @Transactional(readOnly = true)
-    public List<ShoppingListDTO> getShoppingLists() {
+    public List<ShoppingListDTO> getShoppingLists(boolean archival) {
         List<ShoppingListDTO> shoppingListDTOS = new ArrayList<>();
-        for (ShoppingList shoppingList : shoppingListRepository.findAll()) {
+        for (ShoppingList shoppingList : shoppingListDao.getShoppingListsByArchivalStatus(archival)) {
             shoppingListDTOS.add(shoppingListMapper.toDTO(shoppingList));
         }
         return shoppingListDTOS;

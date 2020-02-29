@@ -4,13 +4,12 @@ package com.aws.codestar.projecttemplates.controllers;
 import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
-import com.aws.codestar.projecttemplates.dto.ShoppingListProposalElementDTO;
-import com.aws.codestar.projecttemplates.persistence.entities.Menu;
 import com.aws.codestar.projecttemplates.services.ShoppingListService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -26,20 +25,10 @@ public class ShoppingListController {
         this.shoppingListService = shoppingListService;
     }
 
-    @GetMapping(path = "/shopping-lists-proposals")
-    public @ResponseBody
-    List<List<ShoppingListProposalElementDTO>> getAllShoppingListsProposals() {
-
-        return shoppingListService.getAllShoppingListsProposals();
-        //TODO find by user id
-    }
-
     @GetMapping(path = "/shopping-list")
     public @ResponseBody
-    List<ShoppingListDTO> getShoppingLists() {
-
-        return shoppingListService.getShoppingLists();
-        //TODO find by user id
+    List<ShoppingListDTO> getMenus(@PathParam("archival") boolean archival) {
+        return shoppingListService.getShoppingLists(archival);
     }
 
     @PostMapping(path = "/shopping-list", params = "shoppingListDTO")

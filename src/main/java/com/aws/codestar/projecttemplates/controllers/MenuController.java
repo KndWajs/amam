@@ -4,8 +4,6 @@ package com.aws.codestar.projecttemplates.controllers;
 import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
-import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
-import com.aws.codestar.projecttemplates.mappers.ShoppingListProposalElementMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
 import com.aws.codestar.projecttemplates.services.MenuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,19 +22,23 @@ public class MenuController {
     private MenuService menuService;
 
     private ShoppingElementRepository shoppingElementRepository;
-    private ShoppingListProposalElementMapper shoppingListProposalElementMapper;
 
     @Autowired
-    public MenuController(MenuService menuService, ShoppingElementRepository shoppingElementRepository, ShoppingListProposalElementMapper shoppingListProposalElementMapper) {
+    public MenuController(MenuService menuService, ShoppingElementRepository shoppingElementRepository) {
         this.menuService = menuService;
         this.shoppingElementRepository = shoppingElementRepository;
-        this.shoppingListProposalElementMapper = shoppingListProposalElementMapper;
     }
 
-    @GetMapping(path = "/menus/")
+//    @GetMapping(path = "/menu")
+//    public @ResponseBody
+//    List<MenuDTO> getAllMenus() {
+//        return menuService.getAll();
+//    }
+
+    @GetMapping(path = "/menus")
     public @ResponseBody
-    List<MenuDTO> getAllMenus() {
-        return menuService.getAll();
+    List<MenuDTO> getMenus(@PathParam("archival") boolean archival) {
+        return menuService.getAll(archival);
     }
 
 //    @GetMapping(path = "/menu")
