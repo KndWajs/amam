@@ -30,12 +30,6 @@ public class MealsController {
         return mealService.getAll();
     }
 
-//    @GetMapping(path = "/meal")
-//    public @ResponseBody
-//    MealDto getMealByName(@PathParam("name") String name) {
-//        return null;
-//    }
-
     @GetMapping(path = "/meal")
     public @ResponseBody
     MealDTO getMealById(@PathParam("id") Long id) {
