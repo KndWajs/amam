@@ -31,7 +31,7 @@ public class ShoppingListController {
         return shoppingListService.getShoppingLists(archival);
     }
 
-    @PostMapping(path = "/shopping-list", params = "shoppingListDTO")
+    @PostMapping(path = "/shopping-list")
     public @ResponseBody
     ShoppingListDTO addNewShoppingList(@RequestBody ShoppingListDTO shoppingListDTO) {
         return shoppingListService.create(shoppingListDTO);
