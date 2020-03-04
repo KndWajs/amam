@@ -14,7 +14,7 @@ public class IngredientGenerator {
                 .build();
     }
 
-    public static IngredientDTO getSampleIngredientDto() {
+    public static IngredientDTO getSampleIngredientDTO() {
         return IngredientDTO.builder()
                 .name("carrot")
                 .ingredientUnit(IngredientUnit.PCS)

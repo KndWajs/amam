@@ -8,22 +8,23 @@ import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 public class MealGenerator {
 
     public static Meal getSampleMealEntity() {
-        return Meal.builder()
-                .name("test meal")
-                .typeOfMeal(MealType.SUPPER)
-                .typeOfPreparing(PreparingType.BOILED)
-                .recipe("recipe")
-                .minutesToPrepare(66)
-                .build();
+        return new Meal(5L,
+                "test meal",
+                MealType.SUPPER,
+                PreparingType.BOILED,
+                "test recipe",
+                66,
+                null);
+
     }
 
     public static MealDTO getSampleMealDTO() {
-        return MealDTO.builder()
-                .name("test meal")
-                .typeOfMeal(MealType.SUPPER)
-                .typeOfPreparing(PreparingType.BOILED)
-                .recipe("recipe")
-                .minutesToPrepare(66)
-                .build();
+        return new MealDTO(5L,
+                "test meal",
+                MealType.SUPPER,
+                PreparingType.BOILED,
+                "test recipe",
+                66,
+                null);
     }
 }

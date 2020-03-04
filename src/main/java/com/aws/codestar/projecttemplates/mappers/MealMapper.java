@@ -1,6 +1,5 @@
 package com.aws.codestar.projecttemplates.mappers;
 
-import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,7 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .typeOfPreparing(meal.getTypeOfPreparing())
                 .recipe(meal.getRecipe())
                 .minutesToPrepare(meal.getMinutesToPrepare())
-                .ingredients(meal.getMealIngredients() == null ?
-                        null : mealIngredientMapper.toDTOs(meal.getMealIngredients()))
+                .ingredients(mealIngredientMapper.toDTOs(meal.getMealIngredients()))
                 .build();
     }
 
@@ -50,8 +48,7 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .typeOfPreparing(meal.getTypeOfPreparing())
                 .recipe(meal.getRecipe())
                 .minutesToPrepare(meal.getMinutesToPrepare())
-                .mealIngredients(meal.getIngredients() == null ?
-                        null : mealIngredientMapper.toEntities(meal.getIngredients(), meal.getId()))
+                .mealIngredients(mealIngredientMapper.toEntities(meal.getIngredients(), meal.getId()))
                 .build();
     }
 

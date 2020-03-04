@@ -13,41 +13,54 @@ import java.util.stream.Collectors;
 public class ShoppingElementMapper {
 
     private IngredientMapper ingredientMapper;
-    private MenuMapper menuMapper;
     private ShoppingListRepository shoppingListRepository;
 
     @Autowired
-    public ShoppingElementMapper(IngredientMapper ingredientMapper, MenuMapper menuMapper, ShoppingListRepository shoppingListRepository) {
+    public ShoppingElementMapper(IngredientMapper ingredientMapper, ShoppingListRepository shoppingListRepository) {
         this.ingredientMapper = ingredientMapper;
-        this.menuMapper = menuMapper;
         this.shoppingListRepository = shoppingListRepository;
     }
 
     public ShoppingElementDTO toDTO(ShoppingElement shoppingElement) {
+        if (shoppingElement == null) {
+            return null;
+        }
+
         return ShoppingElementDTO.builder()
                 .id(shoppingElement.getId())
-//                .shoppingList()
                 .ingredient(ingredientMapper.toDTO(shoppingElement.getIngredient()))
                 .amount(shoppingElement.getAmount())
                 .alreadyBought(shoppingElement.isAlreadyBought())
                 .build();
     }
 
-    public ShoppingElement toEntity(ShoppingElementDTO shoppingElementDTO, Long shoppingListId) {
+    public ShoppingElement toEntity(ShoppingElementDTO shoppingElement, Long shoppingListId) {
+        if (shoppingElement == null) {
+            return null;
+        }
+
         return ShoppingElement.builder()
-                .id(shoppingElementDTO.getId())
+                .id(shoppingElement.getId())
                 .shoppingList(shoppingListId == null ? null : shoppingListRepository.findById(shoppingListId).get())
-                .ingredient(ingredientMapper.toEntity(shoppingElementDTO.getIngredient()))
-                .amount(shoppingElementDTO.getAmount())
-                .alreadyBought(shoppingElementDTO.isAlreadyBought())
+                .ingredient(ingredientMapper.toEntity(shoppingElement.getIngredient()))
+                .amount(shoppingElement.getAmount())
+                .alreadyBought(shoppingElement.isAlreadyBought())
                 .build();
     }
 
     public List<ShoppingElementDTO> toDTOs(List<ShoppingElement> shoppingElements) {
+        if (shoppingElements == null) {
+            return null;
+        }
+
         return shoppingElements.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
     }
 
-    public List<ShoppingElement> toEntities(List<ShoppingElementDTO> shoppingElementDTOS, Long shoppingListId) {
-        return shoppingElementDTOS.stream().map(dto -> toEntity(dto, shoppingListId)).collect(Collectors.toList());
+    public List<ShoppingElement> toEntities(List<ShoppingElementDTO> shoppingElements, Long shoppingListId) {
+        if (shoppingElements == null) {
+            return null;
+        }
+
+        return shoppingElements.stream().map(dto -> toEntity(dto, shoppingListId)).collect(Collectors.toList());
     }
 }

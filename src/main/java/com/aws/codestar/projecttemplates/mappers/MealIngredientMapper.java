@@ -22,25 +22,41 @@ public class MealIngredientMapper {
     }
 
     public MealIngredientDTO toDTO(MealIngredient mealIngredient) {
+        if (mealIngredient == null) {
+            return null;
+        }
+
         return MealIngredientDTO.builder()
                 .ingredient(ingredientMapper.toDTO(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())
                 .build();
     }
 
-    public MealIngredient toEntity(MealIngredientDTO mealIngredientDto, Long mealId) {
+    public MealIngredient toEntity(MealIngredientDTO mealIngredient, Long mealId) {
+        if (mealIngredient == null) {
+            return null;
+        }
+
         return MealIngredient.builder()
                 .meal(mealId == null ? null : mealRepository.findById(mealId).get())
-                .ingredient(ingredientMapper.toEntity(mealIngredientDto.getIngredient()))
-                .amount(mealIngredientDto.getAmount())
+                .ingredient(ingredientMapper.toEntity(mealIngredient.getIngredient()))
+                .amount(mealIngredient.getAmount())
                 .build();
     }
 
     public List<MealIngredientDTO> toDTOs(List<MealIngredient> mealIngredients) {
+        if (mealIngredients == null) {
+            return null;
+        }
+
         return mealIngredients.stream().map(entity -> toDTO(entity)).collect(Collectors.toList());
     }
 
-    public List<MealIngredient> toEntities(List<MealIngredientDTO> mealIngredientsDto, Long mealId) {
-        return mealIngredientsDto.stream().map(dto -> toEntity(dto, mealId)).collect(Collectors.toList());
+    public List<MealIngredient> toEntities(List<MealIngredientDTO> mealIngredients, Long mealId) {
+        if (mealIngredients == null) {
+            return null;
+        }
+
+        return mealIngredients.stream().map(dto -> toEntity(dto, mealId)).collect(Collectors.toList());
     }
 }

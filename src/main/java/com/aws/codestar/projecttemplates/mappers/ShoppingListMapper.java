@@ -8,34 +8,39 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShoppingListMapper {
 
-    private IngredientMapper ingredientMapper;
-    private MenuMapper menuMapper;
     private ShoppingElementMapper shoppingElementMapper;
 
     @Autowired
-    public ShoppingListMapper(IngredientMapper ingredientMapper, MenuMapper menuMapper, ShoppingElementMapper shoppingElementMapper) {
-        this.ingredientMapper = ingredientMapper;
-        this.menuMapper = menuMapper;
+    public ShoppingListMapper(ShoppingElementMapper shoppingElementMapper) {
         this.shoppingElementMapper = shoppingElementMapper;
     }
 
-    public ShoppingListDTO toDTO(ShoppingList shoppingElement) {
+    public ShoppingListDTO toDTO(ShoppingList shoppingList) {
+        if (shoppingList == null) {
+            return null;
+        }
+
         return ShoppingListDTO.builder()
-                .id(shoppingElement.getId())
-                .name(shoppingElement.getName())
-                .numberOfPeople(shoppingElement.getNumberOfPeople())
-                .archival(shoppingElement.isArchival())
-                .shoppingElements(shoppingElementMapper.toDTOs(shoppingElement.getShoppingElements()))
+                .id(shoppingList.getId())
+                .name(shoppingList.getName())
+                .numberOfPeople(shoppingList.getNumberOfPeople())
+                .archival(shoppingList.isArchival())
+                .shoppingElements(shoppingElementMapper.toDTOs(shoppingList.getShoppingElements()))
                 .build();
     }
 
-    public ShoppingList toEntity(ShoppingListDTO shoppingElementDTO) {
+    public ShoppingList toEntity(ShoppingListDTO shoppingList) {
+        if (shoppingList == null) {
+            return null;
+        }
+
         return ShoppingList.builder()
-                .id(shoppingElementDTO.getId())
-                .name(shoppingElementDTO.getName())
-                .numberOfPeople(shoppingElementDTO.getNumberOfPeople())
-                .archival(shoppingElementDTO.isArchival())
-                .shoppingElements(shoppingElementMapper.toEntities(shoppingElementDTO.getShoppingElements(), shoppingElementDTO.getId()))
+                .id(shoppingList.getId())
+                .name(shoppingList.getName())
+                .numberOfPeople(shoppingList.getNumberOfPeople())
+                .archival(shoppingList.isArchival())
+                .shoppingElements(
+                        shoppingElementMapper.toEntities(shoppingList.getShoppingElements(), shoppingList.getId()))
                 .build();
     }
 

@@ -1,26 +1,27 @@
 package com.aws.codestar.projecttemplates.mappers;
 
-import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientRepository;
 import com.aws.codestar.projecttemplates.dto.IngredientDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
 
-    private MealIngredientRepository mealIngredientRepository;
     private MealIngredientDao mealIngredientDao;
 
     @Autowired
-    public IngredientMapper(MealIngredientRepository mealIngredientRepository, MealIngredientDao mealIngredientDao) {
-        this.mealIngredientRepository = mealIngredientRepository;
+    public IngredientMapper(MealIngredientDao mealIngredientDao) {
         this.mealIngredientDao = mealIngredientDao;
     }
 
     @Override
     public IngredientDTO toDTO(Ingredient ingredient) {
+        if (ingredient == null) {
+            return null;
+        }
+
         return IngredientDTO.builder()
                 .id(ingredient.getId())
                 .name(ingredient.getName())
@@ -30,13 +31,17 @@ public class IngredientMapper implements Mapper<IngredientDTO, Ingredient> {
     }
 
     @Override
-    public Ingredient toEntity(IngredientDTO ingredientDto) {
+    public Ingredient toEntity(IngredientDTO ingredient) {
+        if (ingredient == null) {
+            return null;
+        }
+
         return Ingredient.builder()
-                .id(ingredientDto.getId())
-                .name(ingredientDto.getName().toLowerCase())
-                .ingredientUnit(ingredientDto.getIngredientUnit())
-                .mealIngredients(ingredientDto.getId() == null ? null : mealIngredientDao.getMealIngredientsByIngredientId(ingredientDto.getId()))
-                .category(ingredientDto.getCategory())
+                .id(ingredient.getId())
+                .name(ingredient.getName() == null ? null : ingredient.getName().toLowerCase())
+                .ingredientUnit(ingredient.getIngredientUnit())
+                .mealIngredients(ingredient.getId() == null ? null : mealIngredientDao.getMealIngredientsByIngredientId(ingredient.getId()))
+                .category(ingredient.getCategory())
                 .build();
     }
 }

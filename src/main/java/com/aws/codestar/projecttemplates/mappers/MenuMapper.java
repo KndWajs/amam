@@ -39,7 +39,7 @@ public class MenuMapper implements Mapper<MenuDTO, Menu> {
                 .id(menu.getId())
                 .numberOfPeople(menu.getNumberOfPeople())
                 .name(menu.getName() == null ? null : menu.getName().toLowerCase())
-                .menuMeals(menu.getMeals() == null ? null : menuMealMapper.toEntities(menu.getMeals(), menu.getId()))
+                .menuMeals(menuMealMapper.toEntities(menu.getMeals(), menu.getId()))
                 .archival(menu.isArchival())
                 .build();
     }

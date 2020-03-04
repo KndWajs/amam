@@ -1,7 +1,6 @@
 package com.aws.codestar.projecttemplates.mappers;
 
 import com.aws.codestar.projecttemplates.base.MealGenerator;
-import com.aws.codestar.projecttemplates.base.MealIngredientGenerator;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import org.junit.Before;
@@ -14,9 +13,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealMapperTest {
@@ -28,17 +28,15 @@ public class MealMapperTest {
 
     @Before
     public void setUp() {
+        when(mealIngredientMapper.toDTOs(any())).thenReturn(null);
+        when(mealIngredientMapper.toEntities(any(), any())).thenReturn(null);
     }
 
     @Test
     public void shouldReturnMealDTOWhenMapMealEntity() {
         // given
         Meal mealEntity = MealGenerator.getSampleMealEntity();
-        mealEntity.setMealIngredients(MealIngredientGenerator.getSampleMealIngredientEntities());
         MealDTO mealDTO = MealGenerator.getSampleMealDTO();
-        mealDTO.setIngredients(MealIngredientGenerator.getSampleMealIngredientDTOs());
-
-        when(mealIngredientMapper.toDTOs(any())).thenReturn(MealIngredientGenerator.getSampleMealIngredientDTOs());
 
         // when
         MealDTO returnedMealDTO = mealMapper.toDTO(mealEntity);
@@ -51,11 +49,7 @@ public class MealMapperTest {
     public void shouldReturnMealEntityWhenMapMealDTO() {
         // given
         Meal mealEntity = MealGenerator.getSampleMealEntity();
-        mealEntity.setMealIngredients(MealIngredientGenerator.getSampleMealIngredientEntities());
         MealDTO mealDTO = MealGenerator.getSampleMealDTO();
-        mealDTO.setIngredients(MealIngredientGenerator.getSampleMealIngredientDTOs());
-
-        when(mealIngredientMapper.toEntities(any(), any())).thenReturn(MealIngredientGenerator.getSampleMealIngredientEntities());
 
         // when
         Meal returnedMealEntity = mealMapper.toEntity(mealDTO);
@@ -93,27 +87,21 @@ public class MealMapperTest {
     @Test
     public void shouldReturnNullWhenMapEntityWhichIsNull() {
         // given
-        Meal mealEntity = null;
-        MealDTO mealDTO = null;
-
         // when
-        Meal returnedMealEntity = mealMapper.toEntity(mealDTO);
+        Meal returnedMealEntity = mealMapper.toEntity(null);
 
         // then
-        assertEquals(mealEntity, returnedMealEntity);
+        assertNull(returnedMealEntity);
     }
 
     @Test
     public void shouldReturnNullWhenMapDtoWhichIsNull() {
         // given
-        Meal mealEntity = null;
-        MealDTO mealDTO = null;
-
         // when
-        MealDTO returnedMealDto = mealMapper.toDTO(mealEntity);
+        MealDTO returnedMealDto = mealMapper.toDTO(null);
 
         // then
-        assertEquals(mealDTO, returnedMealDto);
+        assertNull(returnedMealDto);
     }
 
     @Test
@@ -143,7 +131,7 @@ public class MealMapperTest {
         List<Meal> returnedMealEntityList = mealMapper.toEntities(null);
 
         // then
-        assertEquals(null, returnedMealEntityList);
+        assertNull(returnedMealEntityList);
     }
 
     @Test
@@ -153,6 +141,6 @@ public class MealMapperTest {
         List<MealDTO> returnedMealDtoList = mealMapper.toDTOs(null);
 
         // then
-        assertEquals(null, returnedMealDtoList);
+        assertNull(returnedMealDtoList);
     }
 }
