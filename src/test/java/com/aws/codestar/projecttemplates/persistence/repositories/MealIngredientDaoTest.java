@@ -5,9 +5,6 @@ import com.aws.codestar.projecttemplates.base.IngredientGenerator;
 import com.aws.codestar.projecttemplates.base.MealGenerator;
 import com.aws.codestar.projecttemplates.base.MealIngredientGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
-import com.aws.codestar.projecttemplates.enums.IngredientUnit;
-import com.aws.codestar.projecttemplates.enums.MealType;
-import com.aws.codestar.projecttemplates.enums.PreparingType;
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.entities.MealIngredient;
@@ -20,10 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
@@ -63,12 +59,14 @@ public class MealIngredientDaoTest {
         // given
         MealIngredient mealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
         Meal meal = MealGenerator.getSampleMealEntity();
+        meal.setId(null);
         entityManager.persist(meal);
         mealIngredient.setMeal(meal);
         entityManager.persist(mealIngredient);
 
         MealIngredient anotherMealIngredient = MealIngredientGenerator.getSampleMealIngredientEntity();
         Meal anotherMeal = MealGenerator.getSampleMealEntity();
+        anotherMeal.setId(null);
         entityManager.persist(anotherMeal);
         anotherMealIngredient.setMeal(anotherMeal);
         entityManager.persist(anotherMealIngredient);

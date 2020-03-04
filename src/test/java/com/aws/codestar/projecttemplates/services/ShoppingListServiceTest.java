@@ -2,16 +2,13 @@ package com.aws.codestar.projecttemplates.services;
 
 import com.aws.codestar.projecttemplates.Application;
 import com.aws.codestar.projecttemplates.base.IngredientGenerator;
-import com.aws.codestar.projecttemplates.base.MealGenerator;
 import com.aws.codestar.projecttemplates.base.ShoppingElementGenerator;
 import com.aws.codestar.projecttemplates.base.ShoppingListGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
-import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
-import com.aws.codestar.projecttemplates.persistence.entities.Meal;
+import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingElement;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
-import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
@@ -48,7 +44,9 @@ public class ShoppingListServiceTest {
         // given
         ShoppingList shoppingList = ShoppingListGenerator.getSampleShoppingListEntity();
         ShoppingElement shoppingElement = ShoppingElementGenerator.getSampleShoppingElementEntity();
-        shoppingElement.setIngredient(IngredientGenerator.getSampleIngredientEntity());
+        Ingredient ingredient = IngredientGenerator.getSampleIngredientEntity();
+        entityManager.persist(ingredient);
+        shoppingElement.setIngredient(ingredient);
         shoppingList.setShoppingElements(new ArrayList<>());
         shoppingList.getShoppingElements().add(shoppingElement);
         entityManager.persist(shoppingList);

@@ -4,7 +4,6 @@ import com.aws.codestar.projecttemplates.Application;
 import com.aws.codestar.projecttemplates.base.MealGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.enums.MealType;
-import com.aws.codestar.projecttemplates.enums.PreparingType;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
@@ -35,6 +33,7 @@ public class MealDaoTest {
     public void shouldFindOneMealContainingSpecificStringInName() {
         // given
         Meal meal = MealGenerator.getSampleMealEntity();
+        meal.setId(null);
         entityManager.persist(meal);
 
         // when
@@ -49,11 +48,13 @@ public class MealDaoTest {
         // given
         MealType givenMealType = MealType.DINNER;
         Meal dinnerMeal = MealGenerator.getSampleMealEntity();
+        dinnerMeal.setId(null);
         dinnerMeal.setTypeOfMeal(givenMealType);
         entityManager.persist(dinnerMeal);
 
         Meal otherMeal = MealGenerator.getSampleMealEntity();
         otherMeal.setName("otherMeal");
+        otherMeal.setId(null);
         entityManager.persist(otherMeal);
 
         // when
@@ -68,10 +69,12 @@ public class MealDaoTest {
         // given
         MealType givenMealType = MealType.DINNER;
         Meal dinnerMeal = MealGenerator.getSampleMealEntity();
+        dinnerMeal.setId(null);
         dinnerMeal.setTypeOfMeal(givenMealType);
         entityManager.persist(dinnerMeal);
 
         Meal dinnerMealToExclude = MealGenerator.getSampleMealEntity();
+        dinnerMealToExclude.setId(null);
         dinnerMealToExclude.setTypeOfMeal(givenMealType);
         dinnerMealToExclude.setName("otherMeal");
         entityManager.persist(dinnerMealToExclude);

@@ -1,15 +1,16 @@
 package com.aws.codestar.projecttemplates.services;
 
 import com.aws.codestar.projecttemplates.Application;
-import com.aws.codestar.projecttemplates.base.*;
+import com.aws.codestar.projecttemplates.base.MealGenerator;
+import com.aws.codestar.projecttemplates.base.MenuGenerator;
+import com.aws.codestar.projecttemplates.base.MenuMealGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
 import com.aws.codestar.projecttemplates.mappers.MenuMealMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
-import com.aws.codestar.projecttemplates.persistence.entities.MenuMeal;
-import com.aws.codestar.projecttemplates.persistence.entities.ShoppingElement;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
+import com.aws.codestar.projecttemplates.persistence.entities.MenuMeal;
 import com.aws.codestar.projecttemplates.persistence.repositories.MenuRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,7 @@ public class MenuServiceTest {
 
         MenuMeal menuMeal = MenuMealGenerator.getSampleMenuMealEntity();
         Meal meal = MealGenerator.getSampleMealEntity();
+        meal.setId(null);
         entityManager.persist(meal);
         menuMeal.setMeal(meal);
 
