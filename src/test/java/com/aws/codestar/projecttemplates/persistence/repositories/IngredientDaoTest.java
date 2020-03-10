@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 @Transactional
 public class IngredientDaoTest {
     @PersistenceContext
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Autowired
     private IngredientDao ingredientDao;

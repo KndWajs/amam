@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 public class MealIngredientDaoTest {
     @PersistenceContext
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Autowired
     private MealIngredientDao mealIngredientDao;
