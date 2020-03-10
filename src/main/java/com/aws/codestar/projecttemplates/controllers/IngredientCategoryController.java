@@ -2,8 +2,10 @@ package com.aws.codestar.projecttemplates.controllers;
 
 
 import com.aws.codestar.projecttemplates.Globals;
+import com.aws.codestar.projecttemplates.dto.IngredientCategoryDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.IngredientCategory;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientCategoryRepository;
+import com.aws.codestar.projecttemplates.services.IngredientCategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +20,23 @@ import java.util.stream.StreamSupport;
 @Tag(name = "IngredientCategoryController", description = "desc class")
 public class IngredientCategoryController {
 
-    private IngredientCategoryRepository ingredientCategoryRepository;
+    private IngredientCategoryService ingredientCategoryService;
 
     @Autowired
-    public IngredientCategoryController(IngredientCategoryRepository ingredientCategoryRepository) {
-        this.ingredientCategoryRepository = ingredientCategoryRepository;
+    public IngredientCategoryController(IngredientCategoryService ingredientCategoryService) {
+        this.ingredientCategoryService = ingredientCategoryService;
     }
 
     @GetMapping(path = "/ingredients/categories/")
     public @ResponseBody
-    List<IngredientCategory> getAllIngredientCategories() {
-        return StreamSupport
-                .stream(ingredientCategoryRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+    List<IngredientCategoryDTO> getAllIngredientCategories() {
+        return ingredientCategoryService.getAllIngredientCategories();
     }
 
     @PostMapping(path = "/ingredients/categories/")
     public @ResponseBody
-    IngredientCategory addNewIngredient(@RequestBody IngredientCategory ingredientCategory) {
-        IngredientCategory newIngredientCategory = ingredientCategory;
-        ingredientCategory.setCategory(ingredientCategory.getCategory().toLowerCase());
-        return ingredientCategoryRepository.save(newIngredientCategory);
+    IngredientCategoryDTO addNewIngredient(@RequestBody IngredientCategoryDTO ingredientCategoryDTO) {
+        return ingredientCategoryService.addNewIngredient(ingredientCategoryDTO);
     }
 
 }
