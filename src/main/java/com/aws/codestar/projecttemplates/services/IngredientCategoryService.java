@@ -33,7 +33,7 @@ public class IngredientCategoryService {
                 .collect(Collectors.toList());
     }
 
-    public IngredientCategoryDTO addNewIngredient(IngredientCategoryDTO ingredientCategoryDTO) {
+    public IngredientCategoryDTO addNewIngredientCategory(IngredientCategoryDTO ingredientCategoryDTO) {
         IngredientCategory newIngredientCategory = new IngredientCategory();
         newIngredientCategory.setCategory(ingredientCategoryDTO.getCategory().toLowerCase());
         return ingredientCategoryMapper.toDTO(ingredientCategoryRepository.save(newIngredientCategory));

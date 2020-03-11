@@ -3,16 +3,12 @@ package com.aws.codestar.projecttemplates.controllers;
 
 import com.aws.codestar.projecttemplates.Globals;
 import com.aws.codestar.projecttemplates.dto.IngredientCategoryDTO;
-import com.aws.codestar.projecttemplates.persistence.entities.IngredientCategory;
-import com.aws.codestar.projecttemplates.persistence.repositories.IngredientCategoryRepository;
 import com.aws.codestar.projecttemplates.services.IngredientCategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/" + Globals.API_VERSION + "/")
@@ -36,7 +32,7 @@ public class IngredientCategoryController {
     @PostMapping(path = "/ingredients/categories/")
     public @ResponseBody
     IngredientCategoryDTO addNewIngredient(@RequestBody IngredientCategoryDTO ingredientCategoryDTO) {
-        return ingredientCategoryService.addNewIngredient(ingredientCategoryDTO);
+        return ingredientCategoryService.addNewIngredientCategory(ingredientCategoryDTO);
     }
 
 }
