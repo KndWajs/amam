@@ -24,6 +24,12 @@ public class MealsController {
         this.mealService = mealService;
     }
 
+    @PostMapping(path = "/meal")
+    public @ResponseBody
+    MealDTO addNewMeal(@RequestBody MealDTO mealdto) {
+        return mealService.create(mealdto);
+    }
+
     @GetMapping(path = "/meals/")
     public @ResponseBody
     List<MealDTO> getAllMeals() {
@@ -42,16 +48,10 @@ public class MealsController {
         return mealService.getMealsByPartialName(name, numberOfResults);
     }
 
-    @PostMapping(path = "/meal")
-    public @ResponseBody
-    MealDTO addNewMeal(@RequestBody MealDTO mealdto) {
-        return mealService.create(mealdto);
-    }
-
     @PutMapping(path = "/meal/{id}")
     public @ResponseBody
-    MealDTO updateMeal(@RequestBody MealDTO mealdto, @PathVariable Long id) {
-        return null; //TODO implement
+    MealDTO updateMeal(@RequestBody MealDTO mealDto) {
+        return mealService.update(mealDto);
     }
 
     @DeleteMapping(path = "/meal/{id}")
@@ -59,7 +59,7 @@ public class MealsController {
     MealDTO deleteMeal(@PathVariable Long id) {
         MealDTO deletedMeal = mealService.get(id);
         mealService.delete(id);
-        return deletedMeal; //TODO check if it is deleted?
+        return deletedMeal;
     }
 
 }

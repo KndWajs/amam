@@ -21,14 +21,8 @@ public class ShoppingListController {
     private ShoppingListService shoppingListService;
 
     @Autowired
-    public ShoppingListController(ShoppingListService shoppingListService){
+    public ShoppingListController(ShoppingListService shoppingListService) {
         this.shoppingListService = shoppingListService;
-    }
-
-    @GetMapping(path = "/shopping-list")
-    public @ResponseBody
-    List<ShoppingListDTO> getMenus(@PathParam("archival") boolean archival) {
-        return shoppingListService.getAll(archival);
     }
 
     @PostMapping(path = "/shopping-list")
@@ -37,17 +31,22 @@ public class ShoppingListController {
         return shoppingListService.create(shoppingListDTO);
     }
 
+    @PostMapping(path = "/shopping-list/create-from-menu")
+    public @ResponseBody
+    ShoppingListDTO createShoppingList(@RequestBody MenuDTO menu) {
+        return shoppingListService.create(menu);
+    }
+
+    @GetMapping(path = "/shopping-list")
+    public @ResponseBody
+    List<ShoppingListDTO> getMenus(@PathParam("archival") boolean archival) {
+        return shoppingListService.getAll(archival);
+    }
+
     @PutMapping(path = "/shopping-list")
     public @ResponseBody
     ShoppingListDTO updateShoppingList(@RequestBody ShoppingListDTO shoppingListDTO) {
         return shoppingListService.update(shoppingListDTO);
-    }
-
-    @PostMapping(path = "/shopping-list/create-from-menu")
-    public @ResponseBody
-    ShoppingListDTO createShoppingList(@RequestBody MenuDTO menu)
-    {
-        return shoppingListService.create(menu);
     }
 
     @DeleteMapping(path = "/shopping-list/{id}")
@@ -55,6 +54,6 @@ public class ShoppingListController {
     ShoppingListDTO deleteShoppingList(@PathVariable Long id) {
         ShoppingListDTO deletedShoppingList = shoppingListService.get(id);
         shoppingListService.delete(id);
-        return deletedShoppingList; //TODO check if it is deleted?
+        return deletedShoppingList;
     }
 }

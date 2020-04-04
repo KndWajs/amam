@@ -23,16 +23,15 @@ public class IngredientCategoryController {
         this.ingredientCategoryService = ingredientCategoryService;
     }
 
-    @GetMapping(path = "/ingredients/categories/")
-    public @ResponseBody
-    List<IngredientCategoryDTO> getAllIngredientCategories() {
-        return ingredientCategoryService.getAll();
-    }
-
     @PostMapping(path = "/ingredients/categories/")
     public @ResponseBody
     IngredientCategoryDTO addNewIngredient(@RequestBody IngredientCategoryDTO ingredientCategoryDTO) {
         return ingredientCategoryService.create(ingredientCategoryDTO);
     }
 
+    @GetMapping(path = "/ingredients/categories/")
+    public @ResponseBody
+    List<IngredientCategoryDTO> getAllIngredientCategories() {
+        return ingredientCategoryService.getAll();
+    }
 }

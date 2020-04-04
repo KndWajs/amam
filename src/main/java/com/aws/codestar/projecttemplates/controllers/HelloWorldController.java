@@ -25,15 +25,13 @@ public class HelloWorldController {
         this.mealIngredientDao = mealIngredientDao;
     }
 
-    private static final String MESSAGE_FORMAT = "Hello %s!";
-
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity helloWorldGet(@RequestParam(value = "name", defaultValue = "World") String name) throws JSONException {
-        return ResponseEntity.ok(createResponse(name));
+    public ResponseEntity helloWorldGet() throws JSONException {
+        return ResponseEntity.ok(createResponse("This API version: " + Globals.API_VERSION));
     }
 
-    private String createResponse(String name) throws JSONException {
-        return new JSONObject().put("Output", String.format(MESSAGE_FORMAT, name)).toString();
+    private String createResponse(String text) throws JSONException {
+        return new JSONObject().put("Output", text).toString();
     }
 
 }
