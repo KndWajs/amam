@@ -17,14 +17,16 @@ public class MealIngredientService {
     private MealIngredientMapper mealIngredientMapper;
 
     @Autowired
-    public MealIngredientService(MealIngredientRepository mealIngredientRepository, MealIngredientMapper mealIngredientMapper) {
+    public MealIngredientService(MealIngredientRepository mealIngredientRepository,
+                                 MealIngredientMapper mealIngredientMapper) {
         this.mealIngredientRepository = mealIngredientRepository;
         this.mealIngredientMapper = mealIngredientMapper;
     }
 
     public MealIngredientDTO create(MealIngredientDTO mealIngredient, Long mealId) throws ObjectIsNullException {
         validateMealIngredientObject(mealIngredient);
-        return mealIngredientMapper.toDTO(mealIngredientRepository.save(mealIngredientMapper.toEntity(mealIngredient, mealId)));
+        return mealIngredientMapper
+                .toDTO(mealIngredientRepository.save(mealIngredientMapper.toEntity(mealIngredient, mealId)));
     }
 
     @Transactional(readOnly = true)
@@ -32,11 +34,6 @@ public class MealIngredientService {
         validateMealIngredientId(id);
         return mealIngredientMapper.toDTO(mealIngredientRepository.findById(id).get());
     }
-
-//    public MealIngredientDTO update(MealIngredientDTO mealIngredient) throws ObjectIsNullException {
-//        validateMealIngredientObject(mealIngredient);
-//        return mealIngredientMapper.toDTO(mealIngredientRepository.saveAndFlush(mealIngredientMapper.toEntity(mealIngredient)));
-//    }
 
     public void delete(Long id) {
         validateMealIngredientId(id);

@@ -6,7 +6,7 @@ import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
-import com.aws.codestar.projecttemplates.persistence.entities.*;
+import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +30,6 @@ public class ShoppingListService {
         this.shoppingListMapper = shoppingListMapper;
         this.shoppingElementService = shoppingElementService;
         this.shoppingListDao = shoppingListDao;
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<ShoppingListDTO> getShoppingLists(boolean archival) {
-        List<ShoppingListDTO> shoppingListDTOS = new ArrayList<>();
-        for (ShoppingList shoppingList : shoppingListDao.getShoppingListsByArchivalStatus(archival)) {
-            shoppingListDTOS.add(shoppingListMapper.toDTO(shoppingList));
-        }
-        return shoppingListDTOS;
     }
 
     public ShoppingListDTO create(ShoppingListDTO shoppingListDTO) throws ObjectIsNullException {
@@ -89,6 +79,20 @@ public class ShoppingListService {
         return create(shoppingList);
     }
 
+    @Transactional(readOnly = true)
+    public List<ShoppingListDTO> getShoppingLists(boolean archival) {
+        List<ShoppingListDTO> shoppingListDTOS = new ArrayList<>();
+        for (ShoppingList shoppingList : shoppingListDao.getShoppingListsByArchivalStatus(archival)) {
+            shoppingListDTOS.add(shoppingListMapper.toDTO(shoppingList));
+        }
+        return shoppingListDTOS;
+    }
+
+    @Transactional(readOnly = true)
+    public ShoppingListDTO get(Long id) {
+        validateShoppingListId(id);
+        return shoppingListMapper.toDTO(shoppingListDao.getRepository().findById(id).get());
+    }
 
     public ShoppingListDTO update(ShoppingListDTO shoppingListDTO) {
         validateShoppingListObject(shoppingListDTO);
@@ -98,12 +102,6 @@ public class ShoppingListService {
                 .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
 
         return savedShoppingList;
-    }
-
-    @Transactional(readOnly = true)
-    public ShoppingListDTO get(Long id) {
-        validateShoppingListId(id);
-        return shoppingListMapper.toDTO(shoppingListDao.getRepository().findById(id).get());
     }
 
     public void delete(Long id) {

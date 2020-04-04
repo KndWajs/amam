@@ -26,7 +26,8 @@ public class MealService {
     private MealDao mealDao;
 
     @Autowired
-    public MealService(MealRepository mealRepository, MealMapper mealMapper, MealIngredientService mealIngredientService, MealDao mealDao) {
+    public MealService(MealRepository mealRepository, MealMapper mealMapper,
+                       MealIngredientService mealIngredientService, MealDao mealDao) {
         this.mealRepository = mealRepository;
         this.mealMapper = mealMapper;
         this.mealIngredientService = mealIngredientService;

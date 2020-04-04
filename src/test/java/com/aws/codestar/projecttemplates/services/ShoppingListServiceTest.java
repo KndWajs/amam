@@ -13,8 +13,6 @@ import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingElement;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
-import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,7 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
@@ -35,9 +33,6 @@ import static org.junit.Assert.*;
 public class ShoppingListServiceTest {
     @PersistenceContext
     protected EntityManager entityManager;
-
-    @Autowired
-    private ShoppingListRepository shoppingListRepository;
 
     @Autowired
     private ShoppingListService shoppingListService;

@@ -33,11 +33,6 @@ public class MenuMealService {
         return menuMealMapper.toDTO(menuMealRepository.findById(id).get());
     }
 
-//    public MenuMealDTO update(MenuMealDTO menuMeal) throws ObjectIsNullException {
-//        validateMenuMealObject(menuMeal);
-//        return menuMealMapper.toDTO(menuMealRepository.saveAndFlush(menuMealMapper.toEntity(menuMeal)));
-//    }
-
     public void delete(Long id) {
         validateMenuMealId(id);
         menuMealRepository.deleteById(id);

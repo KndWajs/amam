@@ -17,15 +17,18 @@ public class ShoppingElementService {
     private ShoppingElementMapper shoppingElementMapper;
 
     @Autowired
-    public ShoppingElementService(ShoppingElementRepository shoppingElementRepository, ShoppingElementMapper shoppingElementMapper) {
+    public ShoppingElementService(ShoppingElementRepository shoppingElementRepository,
+                                  ShoppingElementMapper shoppingElementMapper) {
         this.shoppingElementRepository = shoppingElementRepository;
         this.shoppingElementMapper = shoppingElementMapper;
     }
 
-    public ShoppingElementDTO create(ShoppingElementDTO shoppingElement, Long shoppingListId) throws ObjectIsNullException {
+    public ShoppingElementDTO create(ShoppingElementDTO shoppingElement, Long shoppingListId)
+            throws ObjectIsNullException {
         validateShoppingElementObject(shoppingElement);
 
-        return shoppingElementMapper.toDTO(shoppingElementRepository.save(shoppingElementMapper.toEntity(shoppingElement, shoppingListId)));
+        return shoppingElementMapper
+                .toDTO(shoppingElementRepository.save(shoppingElementMapper.toEntity(shoppingElement, shoppingListId)));
     }
 
     @Transactional(readOnly = true)
@@ -34,15 +37,16 @@ public class ShoppingElementService {
         return shoppingElementMapper.toDTO(shoppingElementRepository.findById(id).get());
     }
 
-    public void delete(Long id) {
-        validateShoppingElementId(id);
-        shoppingElementRepository.deleteById(id);
-    }
-
     public ShoppingElementDTO update(ShoppingElementDTO shoppingElementDTO, Long shoppingListId) {
         validateShoppingElementObject(shoppingElementDTO);
         validateShoppingElementId(shoppingElementDTO.getId());
-        return shoppingElementMapper.toDTO(shoppingElementRepository.save(shoppingElementMapper.toEntity(shoppingElementDTO, shoppingListId)));
+        return shoppingElementMapper.toDTO(shoppingElementRepository
+                .save(shoppingElementMapper.toEntity(shoppingElementDTO, shoppingListId)));
+    }
+
+    public void delete(Long id) {
+        validateShoppingElementId(id);
+        shoppingElementRepository.deleteById(id);
     }
 
     private void validateShoppingElementId(Long shoppingElementId) {

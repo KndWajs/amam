@@ -29,18 +29,18 @@ public class IngredientCategoryService {
         this.ingredientCategoryMapper = ingredientCategoryMapper;
     }
 
+    public IngredientCategoryDTO createIngredientCategory(IngredientCategoryDTO ingredientCategoryDTO) {
+        validateIngredientCategoryObject(ingredientCategoryDTO);
+        IngredientCategory newIngredientCategory = new IngredientCategory();
+        newIngredientCategory.setCategory(ingredientCategoryDTO.getCategory().toLowerCase());
+        return ingredientCategoryMapper.toDTO(ingredientCategoryRepository.save(newIngredientCategory));
+    }
+
     public List<IngredientCategoryDTO> getAllIngredientCategories() {
         return StreamSupport
                 .stream(ingredientCategoryRepository.findAll().spliterator(), false)
                 .map(category -> ingredientCategoryMapper.toDTO(category))
                 .collect(Collectors.toList());
-    }
-
-    public IngredientCategoryDTO addNewIngredientCategory(IngredientCategoryDTO ingredientCategoryDTO) {
-        validateIngredientCategoryObject(ingredientCategoryDTO);
-        IngredientCategory newIngredientCategory = new IngredientCategory();
-        newIngredientCategory.setCategory(ingredientCategoryDTO.getCategory().toLowerCase());
-        return ingredientCategoryMapper.toDTO(ingredientCategoryRepository.save(newIngredientCategory));
     }
 
     private void validateIngredientCategoryObject(IngredientCategoryDTO ingredientCategory) {

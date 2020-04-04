@@ -32,7 +32,7 @@ public class IngredientCategoryController {
     @PostMapping(path = "/ingredients/categories/")
     public @ResponseBody
     IngredientCategoryDTO addNewIngredient(@RequestBody IngredientCategoryDTO ingredientCategoryDTO) {
-        return ingredientCategoryService.addNewIngredientCategory(ingredientCategoryDTO);
+        return ingredientCategoryService.createIngredientCategory(ingredientCategoryDTO);
     }
 
 }

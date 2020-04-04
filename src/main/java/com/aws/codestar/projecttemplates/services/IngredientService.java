@@ -23,7 +23,8 @@ public class IngredientService {
     private IngredientMapper ingredientMapper;
 
     @Autowired
-    public IngredientService(IngredientRepository ingredientRepository, IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
+    public IngredientService(IngredientRepository ingredientRepository, IngredientDao ingredientDao,
+                             IngredientMapper ingredientMapper) {
         this.ingredientRepository = ingredientRepository;
         this.ingredientDao = ingredientDao;
         this.ingredientMapper = ingredientMapper;
@@ -31,7 +32,8 @@ public class IngredientService {
 
     public IngredientDTO create(IngredientDTO ingredientDTO) throws ObjectIsNullException {
         validateIngredientObject(ingredientDTO);
-        Ingredient outcomeIngredient = ingredientDao.getIngredientByNameAndUnit(ingredientMapper.toEntity(ingredientDTO));
+        Ingredient outcomeIngredient =
+                ingredientDao.getIngredientByNameAndUnit(ingredientMapper.toEntity(ingredientDTO));
         if (outcomeIngredient == null) {
             return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredientDTO)));
         }
