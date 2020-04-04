@@ -14,11 +14,18 @@ import java.util.List;
 public class ShoppingListDao {
     private QShoppingList qShoppingList;
 
+    private ShoppingListRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public ShoppingListDao() {
+    public ShoppingListDao(ShoppingListRepository repository) {
+        this.repository = repository;
         this.qShoppingList = QShoppingList.shoppingList;
+    }
+
+    public ShoppingListRepository getRepository() {
+        return repository;
     }
 
     public List<ShoppingList> getShoppingListsByArchivalStatus(boolean archival) {

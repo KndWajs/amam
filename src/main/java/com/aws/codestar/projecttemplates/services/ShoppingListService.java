@@ -8,7 +8,6 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.*;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +20,13 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ShoppingListService {
-    private ShoppingListRepository shoppingListRepository;
     private ShoppingListDao shoppingListDao;
     private ShoppingListMapper shoppingListMapper;
     private ShoppingElementService shoppingElementService;
 
     @Autowired
-    public ShoppingListService(ShoppingListRepository shoppingListRepository,
-                               ShoppingListMapper shoppingListMapper, ShoppingElementService shoppingElementService,
+    public ShoppingListService(ShoppingListMapper shoppingListMapper, ShoppingElementService shoppingElementService,
                                ShoppingListDao shoppingListDao) {
-        this.shoppingListRepository = shoppingListRepository;
         this.shoppingListMapper = shoppingListMapper;
         this.shoppingElementService = shoppingElementService;
         this.shoppingListDao = shoppingListDao;
@@ -50,7 +46,8 @@ public class ShoppingListService {
         validateShoppingListObject(shoppingListDTO);
         List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
         shoppingListDTO.setShoppingElements(new ArrayList<>());
-        ShoppingListDTO savedShoppingList = shoppingListMapper.toDTO(shoppingListRepository.save(shoppingListMapper.toEntity(shoppingListDTO)));
+        ShoppingListDTO savedShoppingList = shoppingListMapper
+                .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
 
         for (ShoppingElementDTO shoppingElementDTO : shoppingElements) {
             savedShoppingList.getShoppingElements().add(shoppingElementDTO);
@@ -97,7 +94,8 @@ public class ShoppingListService {
         validateShoppingListObject(shoppingListDTO);
         validateShoppingListId(shoppingListDTO.getId());
 
-        ShoppingListDTO savedShoppingList = shoppingListMapper.toDTO(shoppingListRepository.save(shoppingListMapper.toEntity(shoppingListDTO)));
+        ShoppingListDTO savedShoppingList = shoppingListMapper
+                .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
 
         return savedShoppingList;
     }
@@ -105,16 +103,16 @@ public class ShoppingListService {
     @Transactional(readOnly = true)
     public ShoppingListDTO get(Long id) {
         validateShoppingListId(id);
-        return shoppingListMapper.toDTO(shoppingListRepository.findById(id).get());
+        return shoppingListMapper.toDTO(shoppingListDao.getRepository().findById(id).get());
     }
 
     public void delete(Long id) {
         validateShoppingListId(id);
-        shoppingListRepository.deleteById(id);
+        shoppingListDao.getRepository().deleteById(id);
     }
 
     private void validateShoppingListId(Long shoppingListId) {
-        if (shoppingListId == null || !shoppingListRepository.existsById(shoppingListId)) {
+        if (shoppingListId == null || !shoppingListDao.getRepository().existsById(shoppingListId)) {
             throw new ObjectIdDoesNotExistsException(shoppingListId);
         }
     }
