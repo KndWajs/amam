@@ -4,12 +4,14 @@ package com.aws.codestar.projecttemplates.services;
 import com.aws.codestar.projecttemplates.dto.MealDTO;
 import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
 import com.aws.codestar.projecttemplates.enums.MealType;
+import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,6 +107,19 @@ public class MealService {
     private void validateMealObject(MealDTO meal) throws ObjectIsNullException {
         if (meal == null) {
             throw new ObjectIsNullException(MealDTO.class.getName());
+        }
+
+        if (StringUtils.isEmpty(meal.getName())) {
+            throw new EmptyRequiredFieldException("Name");
+        }
+        if (meal.getTypeOfMeal()==null) {
+            throw new EmptyRequiredFieldException("Type Of Meal");
+        }
+        if (meal.getTypeOfPreparing()==null) {
+            throw new EmptyRequiredFieldException("Type Of Preparing");
+        }
+        if (meal.getMinutesToPrepare()==null) {
+            throw new EmptyRequiredFieldException("Minutes to prepare");
         }
     }
 

@@ -110,6 +110,9 @@ public class MenuService {
         if (menu == null) {
             throw new ObjectIsNullException(MenuDTO.class.getName());
         }
+        if (StringUtils.isEmpty(menu.getName())) {
+            throw new EmptyRequiredFieldException("Name");
+        }
     }
 
     private List<MenuMealDTO> createRandomMenu(int numberOfDays, List<MealType> mealTypes,

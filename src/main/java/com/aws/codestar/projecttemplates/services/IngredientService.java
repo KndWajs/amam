@@ -2,12 +2,14 @@ package com.aws.codestar.projecttemplates.services;
 
 
 import com.aws.codestar.projecttemplates.dto.IngredientDTO;
+import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.IngredientMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +92,12 @@ public class IngredientService {
     private void validateIngredientObject(IngredientDTO ingredient) throws ObjectIsNullException {
         if (ingredient == null) {
             throw new ObjectIsNullException(IngredientDTO.class.getName());
+        }
+        if (StringUtils.isEmpty(ingredient.getName())) {
+            throw new EmptyRequiredFieldException("Name");
+        }
+        if (ingredient.getIngredientUnit() == null) {
+            throw new EmptyRequiredFieldException("Ingredient Unit");
         }
     }
 }
