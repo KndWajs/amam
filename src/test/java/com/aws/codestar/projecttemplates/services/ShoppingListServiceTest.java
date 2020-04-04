@@ -47,7 +47,7 @@ public class ShoppingListServiceTest {
         entityManager.persist(createShoppingList());
 
         // when
-        List<ShoppingListDTO> shoppingLists = this.shoppingListService.getShoppingLists(false);
+        List<ShoppingListDTO> shoppingLists = this.shoppingListService.getAll(false);
 
         // then
         assertEquals(shoppingLists.size(), 2);
@@ -57,7 +57,7 @@ public class ShoppingListServiceTest {
     public void shouldReturnEmptyArrayWhenThereIsNoShoppingListsInDb() {
         // given
         // when
-        List<ShoppingListDTO> shoppingLists = this.shoppingListService.getShoppingLists(false);
+        List<ShoppingListDTO> shoppingLists = this.shoppingListService.getAll(false);
 
         // then
         assertEquals(shoppingLists.size(), 0);
@@ -70,7 +70,7 @@ public class ShoppingListServiceTest {
 
         // when
         ShoppingListDTO shoppingList = this.shoppingListService.create(shoppingListDTO);
-        List<ShoppingListDTO> savedShoppingLists = this.shoppingListService.getShoppingLists(false);
+        List<ShoppingListDTO> savedShoppingLists = this.shoppingListService.getAll(false);
         ShoppingListDTO savedShoppingList = this.shoppingListService.get(shoppingList.getId());
 
         // then
@@ -86,7 +86,7 @@ public class ShoppingListServiceTest {
 
         // when
         ShoppingListDTO shoppingList = this.shoppingListService.create(shoppingListDTO);
-        List<ShoppingListDTO> savedShoppingLists = this.shoppingListService.getShoppingLists(false);
+        List<ShoppingListDTO> savedShoppingLists = this.shoppingListService.getAll(false);
         ShoppingListDTO savedShoppingList = this.shoppingListService.get(shoppingList.getId());
 
         // then

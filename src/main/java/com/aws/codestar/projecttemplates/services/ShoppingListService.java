@@ -80,7 +80,7 @@ public class ShoppingListService {
     }
 
     @Transactional(readOnly = true)
-    public List<ShoppingListDTO> getShoppingLists(boolean archival) {
+    public List<ShoppingListDTO> getAll(boolean archival) {
         List<ShoppingListDTO> shoppingListDTOS = new ArrayList<>();
         for (ShoppingList shoppingList : shoppingListDao.getShoppingListsByArchivalStatus(archival)) {
             shoppingListDTOS.add(shoppingListMapper.toDTO(shoppingList));

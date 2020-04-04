@@ -26,7 +26,7 @@ public class IngredientCategoryController {
     @GetMapping(path = "/ingredients/categories/")
     public @ResponseBody
     List<IngredientCategoryDTO> getAllIngredientCategories() {
-        return ingredientCategoryService.getAllIngredientCategories();
+        return ingredientCategoryService.getAll();
     }
 
     @PostMapping(path = "/ingredients/categories/")

@@ -43,7 +43,7 @@ public class IngredientCategoryServiceTest {
         entityManager.persist(createIngredientCategory());
 
         // when
-        List<IngredientCategoryDTO> ingredientCategories = this.ingredientCategoryService.getAllIngredientCategories();
+        List<IngredientCategoryDTO> ingredientCategories = this.ingredientCategoryService.getAll();
 
         // then
         assertEquals(ingredientCategories.size(), 2);
@@ -53,7 +53,7 @@ public class IngredientCategoryServiceTest {
     public void shouldReturnEmptyArrayWhenThereIsNoIngredientCategoriesInDb() {
         // given
         // when
-        List<IngredientCategoryDTO> ingredientCategories = this.ingredientCategoryService.getAllIngredientCategories();
+        List<IngredientCategoryDTO> ingredientCategories = this.ingredientCategoryService.getAll();
 
         // then
         assertEquals(ingredientCategories.size(), 0);
@@ -67,7 +67,7 @@ public class IngredientCategoryServiceTest {
         // when
         this.ingredientCategoryService.create(ingredientCategoryDTO);
         List<IngredientCategoryDTO> savedIngredientCategories =
-                this.ingredientCategoryService.getAllIngredientCategories();
+                this.ingredientCategoryService.getAll();
         IngredientCategoryDTO savedIngredientCategory = savedIngredientCategories.get(0);
 
         // then
@@ -84,7 +84,7 @@ public class IngredientCategoryServiceTest {
         // when
         this.ingredientCategoryService.create(ingredientCategoryDTO);
         List<IngredientCategoryDTO> savedIngredientCategories =
-                this.ingredientCategoryService.getAllIngredientCategories();
+                this.ingredientCategoryService.getAll();
         IngredientCategoryDTO savedIngredientCategory = savedIngredientCategories.get(0);
 
         // then

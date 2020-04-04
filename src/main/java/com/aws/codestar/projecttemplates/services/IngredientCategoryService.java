@@ -36,7 +36,7 @@ public class IngredientCategoryService {
         return ingredientCategoryMapper.toDTO(ingredientCategoryRepository.save(newIngredientCategory));
     }
 
-    public List<IngredientCategoryDTO> getAllIngredientCategories() {
+    public List<IngredientCategoryDTO> getAll() {
         return StreamSupport
                 .stream(ingredientCategoryRepository.findAll().spliterator(), false)
                 .map(category -> ingredientCategoryMapper.toDTO(category))

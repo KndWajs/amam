@@ -28,7 +28,7 @@ public class ShoppingListController {
     @GetMapping(path = "/shopping-list")
     public @ResponseBody
     List<ShoppingListDTO> getMenus(@PathParam("archival") boolean archival) {
-        return shoppingListService.getShoppingLists(archival);
+        return shoppingListService.getAll(archival);
     }
 
     @PostMapping(path = "/shopping-list")
