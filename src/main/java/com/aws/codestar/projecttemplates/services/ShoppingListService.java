@@ -2,12 +2,14 @@ package com.aws.codestar.projecttemplates.services;
 
 
 import com.aws.codestar.projecttemplates.dto.*;
+import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingListMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.*;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,6 +122,9 @@ public class ShoppingListService {
     private void validateShoppingListObject(ShoppingListDTO shoppingList) throws ObjectIsNullException {
         if (shoppingList == null) {
             throw new ObjectIsNullException(ShoppingListDTO.class.getName());
+        }
+        if (StringUtils.isEmpty(shoppingList.getName())) {
+            throw new EmptyRequiredFieldException("Name");
         }
     }
 
