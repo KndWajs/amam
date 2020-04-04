@@ -6,12 +6,13 @@ import com.aws.codestar.projecttemplates.base.MenuGenerator;
 import com.aws.codestar.projecttemplates.base.MenuMealGenerator;
 import com.aws.codestar.projecttemplates.controllers.config.H2JpaConfig;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
+import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
+import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
+import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
-import com.aws.codestar.projecttemplates.mappers.MenuMealMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
 import com.aws.codestar.projecttemplates.persistence.entities.MenuMeal;
-import com.aws.codestar.projecttemplates.persistence.repositories.MenuRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,21 +35,137 @@ public class MenuServiceTest {
     protected EntityManager entityManager;
 
     @Autowired
-    private MenuRepository menuRepository;
-
-    @Autowired
     private MenuService menuService;
 
     @Autowired
     private MenuMapper menuMapper;
 
-    @Autowired
-    private MenuMealMapper menuMealMapper;
+    @Test
+    public void shouldReturnTwoMenusDTOWhenGetAllNotArchivalMenus() {
+        // given
+        entityManager.persist(createMenu());
+        entityManager.persist(createMenu());
+
+        // when
+        List<MenuDTO> menus = this.menuService.getAll(false);
+
+        // then
+        assertEquals(menus.size(), 2);
+    }
 
     @Test
-    @Transactional
-    public void test() {
+    public void shouldReturnEmptyArrayWhenThereIsNoMenusInDb() {
         // given
+        // when
+        List<MenuDTO> menus = this.menuService.getAll(false);
+
+        // then
+        assertEquals(menus.size(), 0);
+    }
+
+    @Test
+    public void shouldSaveMenu() {
+        // given
+        MenuDTO menuDTO = menuMapper.toDTO(createMenu());
+
+        // when
+        MenuDTO menu = this.menuService.create(menuDTO);
+        List<MenuDTO> savedMenus = this.menuService.getAll(false);
+        MenuDTO savedMenu = this.menuService.get(menu.getId());
+
+        // then
+        assertEquals(savedMenus.size(), 1);
+        assertEquals(menuDTO.getName(), savedMenu.getName());
+    }
+
+    @Test
+    public void shouldSaveMenuWithoutMenuMeals() {
+        // given
+        MenuDTO menuDTO = menuMapper.toDTO(createMenu());
+        menuDTO.setMeals(null);
+
+        // when
+        MenuDTO menu = this.menuService.create(menuDTO);
+        List<MenuDTO> savedMenus = this.menuService.getAll(false);
+        MenuDTO savedMenu = this.menuService.get(menu.getId());
+
+        // then
+        assertEquals(savedMenus.size(), 1);
+        assertEquals(menuDTO.getName(), savedMenu.getName());
+    }
+
+    @Test
+    public void shouldSaveMenuWhenIdIsNotNull() {
+        // given
+        MenuDTO menuDTO = menuMapper.toDTO(createMenu());
+        menuDTO.setId(323L);
+
+        // when
+        MenuDTO menu = this.menuService.create(menuDTO);
+        List<MenuDTO> savedMenus = this.menuService.getAll(false);
+        MenuDTO savedMenu = this.menuService.get(menu.getId());
+
+        // then
+        assertEquals(savedMenus.size(), 1);
+        assertEquals(menuDTO.getName(), savedMenu.getName());
+    }
+
+    @Test
+    public void shouldReturnMenuDTOWhenUpdate() {
+        // given
+        MenuDTO menuDTO = this.menuService.create(menuMapper.toDTO(createMenu()));
+
+        // when
+        MenuDTO updatedMenu = this.menuService.update(menuDTO);
+
+        // then
+        assertEquals(menuDTO, updatedMenu);
+    }
+
+    @Test(expected = ObjectIdDoesNotExistsException.class)
+    public void shouldThrowExceptionWhenUpdateMenuDTOIdIsNotInDb() {
+        // given
+        MenuDTO menuDTO =
+                this.menuService.create(menuMapper.toDTO(createMenu()));
+
+        // when
+        // then
+        menuDTO.setId(menuDTO.getId() + 1);
+        this.menuService.update(menuDTO);
+    }
+
+    @Test(expected = ObjectIsNullException.class)
+    public void shouldThrowExceptionWhenSavedMenuDTOIsNull() {
+        // given
+        MenuDTO menuDTO = null;
+        // when
+        // then
+        this.menuService.create(menuDTO);
+    }
+
+    @Test(expected = EmptyRequiredFieldException.class)
+    public void shouldThrowExceptionWhenSavedMenuDTOHasEmptyNameString() {
+        // given
+        MenuDTO menuDTO = menuMapper.toDTO(createMenu());
+        menuDTO.setName("");
+
+        // when
+        // then
+        this.menuService.create(menuDTO);
+    }
+
+    @Test(expected = EmptyRequiredFieldException.class)
+    public void shouldThrowExceptionWhenSavedMenuDTOHasNullInNameString() {
+        // given
+        MenuDTO menuDTO = menuMapper.toDTO(createMenu());
+        menuDTO.setName(null);
+
+        // when
+        // then
+        this.menuService.create(menuDTO);
+    }
+
+    private Menu createMenu() {
         Menu menu = MenuGenerator.getSampleMenuEntity();
 
         MenuMeal menuMeal = MenuMealGenerator.getSampleMenuMealEntity();
@@ -55,45 +173,9 @@ public class MenuServiceTest {
         meal.setId(null);
         entityManager.persist(meal);
         menuMeal.setMeal(meal);
+        menu.setMenuMeals(new ArrayList<>());
+        menu.getMenuMeals().add(menuMeal);
 
-        MenuMeal menuMeal2 = MenuMealGenerator.getSampleMenuMealEntity();
-        menuMeal2.setDayNumber(2);
-        menuMeal2.setMeal(meal);
-
-//        menu.setMenuMeals(new ArrayList<>());
-//        menu.getMenuMeals().add(menuMeal);
-//        menu.getMenuMeals().add(menuMeal2);
-
-        entityManager.persist(menu);
-        entityManager.flush();
-
-        // when
-        MenuDTO menuDTOTemp = menuService.get(menu.getId());
-
-        MenuDTO menuDTO = MenuDTO.builder()
-                .id(menuDTOTemp.getId())
-                .numberOfPeople(menuDTOTemp.getNumberOfPeople())
-                .name(menuDTOTemp.getName())
-                .archival(menuDTOTemp.isArchival())
-                .meals(new ArrayList<>())
-                .build();
-
-        MenuMeal secondMenuMeal = MenuMealGenerator.getSampleMenuMealEntity();
-        secondMenuMeal.setDayNumber(3);
-        secondMenuMeal.setMeal(meal);
-
-        menuDTO.setName("new name");
-        menuDTO.getMeals().add(menuMealMapper.toDTO(secondMenuMeal));
-
-        menuService.update(menuDTO);
-        entityManager.flush();
-
-        Menu secondSearchresult = menuRepository.findById(menuDTO.getId()).get();
-        entityManager.flush();
-
-        // then
-        assertEquals("new name", secondSearchresult.getName());
-//        assertEquals(1, menu.getMenuMeals().size());
-//        assertEquals(3, secondSearchresult.getMenuMeals().size());
+        return menu;
     }
 }
