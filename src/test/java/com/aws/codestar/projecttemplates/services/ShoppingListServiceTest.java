@@ -79,6 +79,22 @@ public class ShoppingListServiceTest {
     }
 
     @Test
+    public void shouldSaveShoppingListWithoutShoppingElements() {
+        // given
+        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());
+        shoppingListDTO.setShoppingElements(null);
+
+        // when
+        ShoppingListDTO shoppingList = this.shoppingListService.create(shoppingListDTO);
+        List<ShoppingListDTO> savedShoppingLists = this.shoppingListService.getAll(false);
+        ShoppingListDTO savedShoppingList = this.shoppingListService.get(shoppingList.getId());
+
+        // then
+        assertEquals(savedShoppingLists.size(), 1);
+        assertEquals(shoppingListDTO.getName(), savedShoppingList.getName());
+    }
+
+    @Test
     public void shouldSaveShoppingListWhenIdIsNotNull() {
         // given
         ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());

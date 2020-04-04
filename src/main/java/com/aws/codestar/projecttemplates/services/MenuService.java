@@ -40,13 +40,15 @@ public class MenuService {
 
     public MenuDTO create(MenuDTO menu) throws ObjectIsNullException {
         validateMenuObject(menu);
-        List<MenuMealDTO> menuMeals = menu.getMeals();
         menu.setMeals(new ArrayList<>());
 
         MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menuMapper.toEntity(menu)));
 
-        for (MenuMealDTO menuMeal : menuMeals) {
-            savedMenu.getMeals().add(menuMeal);
+        if(!(menu.getMeals() == null || menu.getMeals().isEmpty())){
+            List<MenuMealDTO> menuMeals = menu.getMeals();
+            for (MenuMealDTO menuMeal : menuMeals) {
+                savedMenu.getMeals().add(menuMeal);
+            }
         }
 
         return update(savedMenu);
