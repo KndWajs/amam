@@ -5,6 +5,7 @@ import com.aws.codestar.projecttemplates.dto.MenuMealDTO;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MenuMealMapper;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.MenuMealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class MenuMealService {
     private MenuMealRepository menuMealRepository;
     private MenuMealMapper menuMealMapper;
+    private MealDao mealDao;
 
     @Autowired
-    public MenuMealService(MenuMealRepository menuMealRepository, MenuMealMapper menuMealMapper) {
+    public MenuMealService(MenuMealRepository menuMealRepository,
+                           MenuMealMapper menuMealMapper,
+                           MealDao mealDao) {
         this.menuMealRepository = menuMealRepository;
         this.menuMealMapper = menuMealMapper;
+        this.mealDao = mealDao;
     }
 
     public MenuMealDTO create(MenuMealDTO menuMeal, Long menuId) throws ObjectIsNullException {
         validateMenuMealObject(menuMeal);
+        validateMenuId(menuId);
         return menuMealMapper.toDTO(menuMealRepository.save(menuMealMapper.toEntity(menuMeal, menuId)));
     }
 
@@ -41,6 +47,12 @@ public class MenuMealService {
     private void validateMenuMealId(Long menuMealId) {
         if (menuMealId == null || !menuMealRepository.existsById(menuMealId)) {
             throw new ObjectIdDoesNotExistsException(menuMealId);
+        }
+    }
+
+    private void validateMenuId(Long menuId) {
+        if (menuId == null || !mealDao.getRepository().existsById(menuId)) {
+            throw new ObjectIdDoesNotExistsException(menuId, "menu");
         }
     }
 

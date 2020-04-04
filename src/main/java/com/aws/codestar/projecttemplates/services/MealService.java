@@ -37,8 +37,10 @@ public class MealService {
         validateMealObject(meal);
         MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(mealMapper.toEntity(meal)));
 
-        for (MealIngredientDTO mealIngredient : meal.getIngredients()) {
-            savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
+        if(!(meal.getIngredients() == null || meal.getIngredients().isEmpty())) {
+            for (MealIngredientDTO mealIngredient : meal.getIngredients()) {
+                savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
+            }
         }
 
         return savedMeal;
@@ -85,10 +87,13 @@ public class MealService {
         return meals;
     }
 
-//    public MealDTO update(MealDTO meal) throws ObjectIsNullException {
-//        validateMealObject(meal);
-//        return mealMapper.toDTO(mealDao.getRepository().saveAndFlush(mealMapper.toEntity(meal)));
-//    }
+    public MealDTO update(MealDTO meal) throws ObjectIsNullException {
+        validateMealObject(meal);
+        validateMealId(meal.getId());
+
+        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(mealMapper.toEntity(meal)));
+        return savedMeal;
+    }
 
     public void delete(Long id) {
         validateMealId(id);
@@ -109,13 +114,13 @@ public class MealService {
         if (StringUtils.isEmpty(meal.getName())) {
             throw new EmptyRequiredFieldException("Name");
         }
-        if (meal.getTypeOfMeal()==null) {
+        if (meal.getTypeOfMeal() == null) {
             throw new EmptyRequiredFieldException("Type Of Meal");
         }
-        if (meal.getTypeOfPreparing()==null) {
+        if (meal.getTypeOfPreparing() == null) {
             throw new EmptyRequiredFieldException("Type Of Preparing");
         }
-        if (meal.getMinutesToPrepare()==null) {
+        if (meal.getMinutesToPrepare() == null) {
             throw new EmptyRequiredFieldException("Minutes to prepare");
         }
     }

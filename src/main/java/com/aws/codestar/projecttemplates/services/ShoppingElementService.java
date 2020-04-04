@@ -6,6 +6,7 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsExcepti
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.ShoppingElementMapper;
 import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingElementRepository;
+import com.aws.codestar.projecttemplates.persistence.repositories.ShoppingListDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,18 +16,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class ShoppingElementService {
     private ShoppingElementRepository shoppingElementRepository;
     private ShoppingElementMapper shoppingElementMapper;
+    private ShoppingListDao shoppingListDao;
 
     @Autowired
-    public ShoppingElementService(ShoppingElementRepository shoppingElementRepository,
-                                  ShoppingElementMapper shoppingElementMapper) {
+    public ShoppingElementService(
+            ShoppingElementRepository shoppingElementRepository,
+            ShoppingElementMapper shoppingElementMapper,
+            ShoppingListDao shoppingListDao) {
         this.shoppingElementRepository = shoppingElementRepository;
         this.shoppingElementMapper = shoppingElementMapper;
+        this.shoppingListDao = shoppingListDao;
     }
 
     public ShoppingElementDTO create(ShoppingElementDTO shoppingElement, Long shoppingListId)
             throws ObjectIsNullException {
         validateShoppingElementObject(shoppingElement);
-
+        validateShoppingListId(shoppingListId);
         return shoppingElementMapper
                 .toDTO(shoppingElementRepository.save(shoppingElementMapper.toEntity(shoppingElement, shoppingListId)));
     }
@@ -52,6 +57,12 @@ public class ShoppingElementService {
     private void validateShoppingElementId(Long shoppingElementId) {
         if (shoppingElementId == null || !shoppingElementRepository.existsById(shoppingElementId)) {
             throw new ObjectIdDoesNotExistsException(shoppingElementId);
+        }
+    }
+
+    private void validateShoppingListId(Long shoppingListId) {
+        if (shoppingListId == null || !shoppingListDao.getRepository().existsById(shoppingListId)) {
+            throw new ObjectIdDoesNotExistsException(shoppingListId, "shoppingList");
         }
     }
 
