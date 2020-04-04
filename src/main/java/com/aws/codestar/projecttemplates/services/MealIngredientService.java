@@ -5,6 +5,7 @@ import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealIngredientMapper;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class MealIngredientService {
     private MealIngredientDao mealIngredientDao;
     private MealIngredientMapper mealIngredientMapper;
+    private MealDao mealDao;
 
     @Autowired
-    public MealIngredientService(MealIngredientDao mealIngredientDao,
-                                 MealIngredientMapper mealIngredientMapper) {
+    public MealIngredientService(
+            MealIngredientDao mealIngredientDao,
+            MealIngredientMapper mealIngredientMapper,
+            MealDao mealDao) {
         this.mealIngredientDao = mealIngredientDao;
         this.mealIngredientMapper = mealIngredientMapper;
+        this.mealDao = mealDao;
     }
 
     public MealIngredientDTO create(MealIngredientDTO mealIngredient, Long mealId) throws ObjectIsNullException {
         validateMealIngredientObject(mealIngredient);
+        validateMealId(mealId);
         return mealIngredientMapper
                 .toDTO(mealIngredientDao.getRepository().save(mealIngredientMapper.toEntity(mealIngredient, mealId)));
     }
@@ -38,6 +44,12 @@ public class MealIngredientService {
     public void delete(Long id) {
         validateMealIngredientId(id);
         mealIngredientDao.getRepository().deleteById(id);
+    }
+
+    private void validateMealId(Long mealId) {
+        if (mealId == null || !mealDao.getRepository().existsById(mealId)) {
+            throw new ObjectIdDoesNotExistsException(mealId, "meal");
+        }
     }
 
     private void validateMealIngredientId(Long mealIngredientId) {
