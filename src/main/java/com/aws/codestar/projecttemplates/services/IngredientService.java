@@ -8,7 +8,6 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.IngredientMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Ingredient;
 import com.aws.codestar.projecttemplates.persistence.repositories.IngredientDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.IngredientRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,11 @@ import java.util.List;
 @Service
 @Transactional
 public class IngredientService {
-    private IngredientRepository ingredientRepository;
     private IngredientDao ingredientDao;
     private IngredientMapper ingredientMapper;
 
     @Autowired
-    public IngredientService(IngredientRepository ingredientRepository, IngredientDao ingredientDao,
-                             IngredientMapper ingredientMapper) {
-        this.ingredientRepository = ingredientRepository;
+    public IngredientService( IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
         this.ingredientDao = ingredientDao;
         this.ingredientMapper = ingredientMapper;
     }
@@ -37,7 +33,7 @@ public class IngredientService {
         Ingredient outcomeIngredient =
                 ingredientDao.getIngredientByNameAndUnit(ingredientMapper.toEntity(ingredientDTO));
         if (outcomeIngredient == null) {
-            return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredientDTO)));
+            return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
         }
         //TODO give response that meal exists
         return ingredientMapper.toDTO(outcomeIngredient);
@@ -46,13 +42,13 @@ public class IngredientService {
     @Transactional(readOnly = true)
     public IngredientDTO get(Long id) {
         validateIngredientId(id);
-        return ingredientMapper.toDTO(ingredientRepository.findById(id).get());
+        return ingredientMapper.toDTO(ingredientDao.getRepository().findById(id).get());
     }
 
     @Transactional(readOnly = true)
     public List<IngredientDTO> getAll() {
         List<IngredientDTO> ingredients = new ArrayList<>();
-        for (Ingredient ingredient : ingredientRepository.findAll()) {
+        for (Ingredient ingredient : ingredientDao.getRepository().findAll()) {
             ingredients.add(ingredientMapper.toDTO(ingredient));
         }
         return ingredients;
@@ -68,23 +64,23 @@ public class IngredientService {
 
 //    public IngredientDTO update(IngredientDTO ingredient) throws ObjectIsNullException {
 //        validateIngredientObject(ingredient);
-//        return ingredientMapper.toDTO(ingredientRepository.saveAndFlush(ingredientMapper.toEntity(ingredient)));
+//        return ingredientMapper.toDTO(ingredientDao.getRepository().saveAndFlush(ingredientMapper.toEntity(ingredient)));
 //    }
 
 
     public IngredientDTO update(IngredientDTO ingredientDTO, Long id) {
         validateIngredientId(id);
         validateIngredientObject(ingredientDTO);
-        return ingredientMapper.toDTO(ingredientRepository.save(ingredientMapper.toEntity(ingredientDTO)));
+        return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
     }
 
     public void delete(Long id) {
         validateIngredientId(id);
-        ingredientRepository.deleteById(id);
+        ingredientDao.getRepository().deleteById(id);
     }
 
     private void validateIngredientId(Long ingredientId) {
-        if (ingredientId == null || !ingredientRepository.existsById(ingredientId)) {
+        if (ingredientId == null || !ingredientDao.getRepository().existsById(ingredientId)) {
             throw new ObjectIdDoesNotExistsException(ingredientId);
         }
     }

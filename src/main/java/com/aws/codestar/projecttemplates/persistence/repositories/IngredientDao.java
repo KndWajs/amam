@@ -14,11 +14,18 @@ import java.util.List;
 public class IngredientDao {
     private QIngredient qIngredient;
 
+    private IngredientRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public IngredientDao() {
+    public IngredientDao(IngredientRepository repository) {
+        this.repository = repository;
         this.qIngredient = QIngredient.ingredient;
+    }
+
+    public IngredientRepository getRepository() {
+        return repository;
     }
 
     public List<Ingredient> getIngredientsByPartialName(String ingredientPartialName, int numberOfResults){

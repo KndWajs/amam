@@ -14,11 +14,18 @@ import java.util.List;
 public class MenuDao {
     private QMenu qMenu;
 
+    private MenuRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public MenuDao() {
+    public MenuDao(MenuRepository repository) {
+        this.repository = repository;
         this.qMenu = QMenu.menu;
+    }
+
+    public MenuRepository getRepository() {
+        return repository;
     }
 
     public List<Menu> getMenusByArchivalStatus(boolean archival) {

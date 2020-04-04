@@ -6,12 +6,13 @@ import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.dto.MenuMealDTO;
 import com.aws.codestar.projecttemplates.dto.MenuParametersDTO;
 import com.aws.codestar.projecttemplates.enums.MealType;
+import com.aws.codestar.projecttemplates.exceptions.EmptyRequiredFieldException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MenuMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
 import com.aws.codestar.projecttemplates.persistence.repositories.MenuDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.MenuRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,16 +24,14 @@ import java.util.List;
 @Service
 @Transactional
 public class MenuService {
-    private MenuRepository menuRepository;
     private MenuMapper menuMapper;
     private MenuMealService menuMealService;
     private MealService mealService;
     private MenuDao menuDao;
 
     @Autowired
-    public MenuService(MenuRepository menuRepository, MenuMapper menuMapper, MenuMealService menuMealService,
+    public MenuService(MenuMapper menuMapper, MenuMealService menuMealService,
                        MealService mealService, MenuDao menuDao) {
-        this.menuRepository = menuRepository;
         this.menuMapper = menuMapper;
         this.menuMealService = menuMealService;
         this.mealService = mealService;
@@ -44,7 +43,7 @@ public class MenuService {
         List<MenuMealDTO> menuMeals = menu.getMeals();
         menu.setMeals(new ArrayList<>());
 
-        MenuDTO savedMenu = menuMapper.toDTO(menuRepository.save(menuMapper.toEntity(menu)));
+        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menuMapper.toEntity(menu)));
 
         for (MenuMealDTO menuMeal : menuMeals) {
             savedMenu.getMeals().add(menuMeal);
@@ -66,13 +65,13 @@ public class MenuService {
     @Transactional(readOnly = true)
     public MenuDTO get(Long id) {
         validateMenuId(id);
-        return menuMapper.toDTO(menuRepository.findById(id).get());
+        return menuMapper.toDTO(menuDao.getRepository().findById(id).get());
     }
 
     @Transactional(readOnly = true)
     public List<MenuDTO> getAll() {
         List<MenuDTO> menus = new ArrayList<>();
-        for (Menu menu : menuRepository.findAll()) {
+        for (Menu menu : menuDao.getRepository().findAll()) {
             menus.add(menuMapper.toDTO(menu));
         }
         return menus;
@@ -91,17 +90,17 @@ public class MenuService {
         validateMenuObject(menu);
         validateMenuId(menu.getId());
 
-        MenuDTO savedMenu = menuMapper.toDTO(menuRepository.save(menuMapper.toEntity(menu)));
+        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menuMapper.toEntity(menu)));
         return savedMenu;
     }
 
     public void delete(Long id) {
         validateMenuId(id);
-        menuRepository.deleteById(id);
+        menuDao.getRepository().deleteById(id);
     }
 
     private void validateMenuId(Long menuId) {
-        if (menuId == null || !menuRepository.existsById(menuId)) {
+        if (menuId == null || !menuDao.getRepository().existsById(menuId)) {
             throw new ObjectIdDoesNotExistsException(menuId);
         }
     }

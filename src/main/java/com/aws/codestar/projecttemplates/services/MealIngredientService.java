@@ -5,7 +5,7 @@ import com.aws.codestar.projecttemplates.dto.MealIngredientDTO;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIdDoesNotExistsException;
 import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealIngredientMapper;
-import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientRepository;
+import com.aws.codestar.projecttemplates.persistence.repositories.MealIngredientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,35 +13,35 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class MealIngredientService {
-    private MealIngredientRepository mealIngredientRepository;
+    private MealIngredientDao mealIngredientDao;
     private MealIngredientMapper mealIngredientMapper;
 
     @Autowired
-    public MealIngredientService(MealIngredientRepository mealIngredientRepository,
+    public MealIngredientService(MealIngredientDao mealIngredientDao,
                                  MealIngredientMapper mealIngredientMapper) {
-        this.mealIngredientRepository = mealIngredientRepository;
+        this.mealIngredientDao = mealIngredientDao;
         this.mealIngredientMapper = mealIngredientMapper;
     }
 
     public MealIngredientDTO create(MealIngredientDTO mealIngredient, Long mealId) throws ObjectIsNullException {
         validateMealIngredientObject(mealIngredient);
         return mealIngredientMapper
-                .toDTO(mealIngredientRepository.save(mealIngredientMapper.toEntity(mealIngredient, mealId)));
+                .toDTO(mealIngredientDao.getRepository().save(mealIngredientMapper.toEntity(mealIngredient, mealId)));
     }
 
     @Transactional(readOnly = true)
     public MealIngredientDTO get(Long id) {
         validateMealIngredientId(id);
-        return mealIngredientMapper.toDTO(mealIngredientRepository.findById(id).get());
+        return mealIngredientMapper.toDTO(mealIngredientDao.getRepository().findById(id).get());
     }
 
     public void delete(Long id) {
         validateMealIngredientId(id);
-        mealIngredientRepository.deleteById(id);
+        mealIngredientDao.getRepository().deleteById(id);
     }
 
     private void validateMealIngredientId(Long mealIngredientId) {
-        if (mealIngredientId == null || !mealIngredientRepository.existsById(mealIngredientId)) {
+        if (mealIngredientId == null || !mealIngredientDao.getRepository().existsById(mealIngredientId)) {
             throw new ObjectIdDoesNotExistsException(mealIngredientId);
         }
     }

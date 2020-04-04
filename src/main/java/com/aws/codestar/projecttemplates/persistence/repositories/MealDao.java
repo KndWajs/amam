@@ -16,11 +16,18 @@ import java.util.List;
 public class MealDao {
     private QMeal qMeal;
 
+    private MealRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public MealDao() {
+    public MealDao(MealRepository repository) {
+        this.repository = repository;
         this.qMeal = QMeal.meal;
+    }
+
+    public MealRepository getRepository() {
+        return repository;
     }
 
     public List<Meal> getMealsByType(MealType mealType) {

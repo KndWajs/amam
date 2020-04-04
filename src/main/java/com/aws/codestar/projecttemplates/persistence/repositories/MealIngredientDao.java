@@ -14,11 +14,18 @@ import java.util.List;
 public class MealIngredientDao {
     private QMealIngredient qMealIngredient;
 
+    private MealIngredientRepository repository;
+
     @PersistenceContext
     private EntityManager em;
 
-    public MealIngredientDao() {
+    public MealIngredientDao(MealIngredientRepository repository) {
+        this.repository = repository;
         this.qMealIngredient = QMealIngredient.mealIngredient;
+    }
+
+    public MealIngredientRepository getRepository() {
+        return repository;
     }
 
     public List<MealIngredient> getMealIngredientsByIngredientId(Long ingredientId){

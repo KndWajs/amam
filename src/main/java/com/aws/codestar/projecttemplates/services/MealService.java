@@ -10,7 +10,6 @@ import com.aws.codestar.projecttemplates.exceptions.ObjectIsNullException;
 import com.aws.codestar.projecttemplates.mappers.MealMapper;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 import com.aws.codestar.projecttemplates.persistence.repositories.MealDao;
-import com.aws.codestar.projecttemplates.persistence.repositories.MealRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,15 +21,13 @@ import java.util.List;
 @Service
 @Transactional
 public class MealService {
-    private MealRepository mealRepository;
     private MealMapper mealMapper;
     private MealIngredientService mealIngredientService;
     private MealDao mealDao;
 
     @Autowired
-    public MealService(MealRepository mealRepository, MealMapper mealMapper,
+    public MealService(MealMapper mealMapper,
                        MealIngredientService mealIngredientService, MealDao mealDao) {
-        this.mealRepository = mealRepository;
         this.mealMapper = mealMapper;
         this.mealIngredientService = mealIngredientService;
         this.mealDao = mealDao;
@@ -38,7 +35,7 @@ public class MealService {
 
     public MealDTO create(MealDTO meal) throws ObjectIsNullException {
         validateMealObject(meal);
-        MealDTO savedMeal = mealMapper.toDTO(mealRepository.save(mealMapper.toEntity(meal)));
+        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(mealMapper.toEntity(meal)));
 
         for (MealIngredientDTO mealIngredient : meal.getIngredients()) {
             savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
@@ -50,13 +47,13 @@ public class MealService {
     @Transactional(readOnly = true)
     public MealDTO get(Long id) {
         validateMealId(id);
-        return mealMapper.toDTO(mealRepository.findById(id).get());
+        return mealMapper.toDTO(mealDao.getRepository().findById(id).get());
     }
 
     @Transactional(readOnly = true)
     public List<MealDTO> getAll() {
         List<MealDTO> meals = new ArrayList<>();
-        for (Meal meal : mealRepository.findAll()) {
+        for (Meal meal : mealDao.getRepository().findAll()) {
             meals.add(mealMapper.toDTO(meal));
         }
         return meals;
@@ -90,16 +87,16 @@ public class MealService {
 
 //    public MealDTO update(MealDTO meal) throws ObjectIsNullException {
 //        validateMealObject(meal);
-//        return mealMapper.toDTO(mealRepository.saveAndFlush(mealMapper.toEntity(meal)));
+//        return mealMapper.toDTO(mealDao.getRepository().saveAndFlush(mealMapper.toEntity(meal)));
 //    }
 
     public void delete(Long id) {
         validateMealId(id);
-        mealRepository.deleteById(id);
+        mealDao.getRepository().deleteById(id);
     }
 
     private void validateMealId(Long mealId) {
-        if (mealId == null || !mealRepository.existsById(mealId)) {
+        if (mealId == null || !mealDao.getRepository().existsById(mealId)) {
             throw new ObjectIdDoesNotExistsException(mealId);
         }
     }
