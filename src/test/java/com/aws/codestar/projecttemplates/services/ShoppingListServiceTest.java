@@ -43,8 +43,8 @@ public class ShoppingListServiceTest {
     @Test
     public void shouldReturnTwoShoppingListsDTOWhenGetAllNotArchivalShoppingLists() {
         // given
-        entityManager.persist(createAndSaveShoppingList());
-        entityManager.persist(createAndSaveShoppingList());
+        entityManager.persist(createShoppingList());
+        entityManager.persist(createShoppingList());
 
         // when
         List<ShoppingListDTO> shoppingLists = this.shoppingListService.getShoppingLists(false);
@@ -66,7 +66,7 @@ public class ShoppingListServiceTest {
     @Test
     public void shouldSaveShoppingList() {
         // given
-        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createAndSaveShoppingList());
+        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());
 
         // when
         ShoppingListDTO shoppingList = this.shoppingListService.create(shoppingListDTO);
@@ -81,7 +81,7 @@ public class ShoppingListServiceTest {
     @Test
     public void shouldSaveShoppingListWhenIdIsNotNull() {
         // given
-        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createAndSaveShoppingList());
+        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());
         shoppingListDTO.setId(323L);
 
         // when
@@ -98,7 +98,7 @@ public class ShoppingListServiceTest {
     public void shouldReturnShoppingListDTOWhenUpdate() {
         // given
         ShoppingListDTO shoppingListDTO =
-                this.shoppingListService.create(shoppingListMapper.toDTO(createAndSaveShoppingList()));
+                this.shoppingListService.create(shoppingListMapper.toDTO(createShoppingList()));
 
         // when
         ShoppingListDTO updatedShoppingList = this.shoppingListService.update(shoppingListDTO);
@@ -111,7 +111,7 @@ public class ShoppingListServiceTest {
     public void shouldThrowExceptionWhenUpdateShoppingListDTOIdIsNotInDb() {
         // given
         ShoppingListDTO shoppingListDTO =
-                this.shoppingListService.create(shoppingListMapper.toDTO(createAndSaveShoppingList()));
+                this.shoppingListService.create(shoppingListMapper.toDTO(createShoppingList()));
 
         // when
         // then
@@ -131,7 +131,7 @@ public class ShoppingListServiceTest {
     @Test(expected = EmptyRequiredFieldException.class)
     public void shouldThrowExceptionWhenSavedShoppingListDTOHasEmptyNameString() {
         // given
-        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createAndSaveShoppingList());
+        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());
         shoppingListDTO.setName("");
 
         // when
@@ -142,7 +142,7 @@ public class ShoppingListServiceTest {
     @Test(expected = EmptyRequiredFieldException.class)
     public void shouldThrowExceptionWhenSavedShoppingListDTOHasNullInNameString() {
         // given
-        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createAndSaveShoppingList());
+        ShoppingListDTO shoppingListDTO = shoppingListMapper.toDTO(createShoppingList());
         shoppingListDTO.setName(null);
 
         // when
@@ -150,7 +150,7 @@ public class ShoppingListServiceTest {
         this.shoppingListService.create(shoppingListDTO);
     }
 
-    private ShoppingList createAndSaveShoppingList() {
+    private ShoppingList createShoppingList() {
         ShoppingList shoppingList = ShoppingListGenerator.getSampleShoppingListEntity();
         ShoppingElement shoppingElement = ShoppingElementGenerator.getSampleShoppingElementEntity();
         Ingredient ingredient = IngredientGenerator.getSampleIngredientEntity();
