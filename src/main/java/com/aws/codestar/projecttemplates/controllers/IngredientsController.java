@@ -49,7 +49,7 @@ public class IngredientsController {
 
     @PutMapping(path = "/ingredient/{id}")
     public @ResponseBody
-    IngredientDTO updateIngredient(@RequestBody IngredientDTO ingredientDTO, @PathVariable Long id) {
-        return ingredientService.update(ingredientDTO, id);
+    IngredientDTO updateIngredient(@RequestBody IngredientDTO ingredientDTO) {
+        return ingredientService.update(ingredientDTO);
     }
 }

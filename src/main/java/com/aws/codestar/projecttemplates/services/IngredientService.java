@@ -62,14 +62,8 @@ public class IngredientService {
         return ingredients;
     }
 
-//    public IngredientDTO update(IngredientDTO ingredient) throws ObjectIsNullException {
-//        validateIngredientObject(ingredient);
-//        return ingredientMapper.toDTO(ingredientDao.getRepository().saveAndFlush(ingredientMapper.toEntity(ingredient)));
-//    }
-
-
-    public IngredientDTO update(IngredientDTO ingredientDTO, Long id) {
-        validateIngredientId(id);
+    public IngredientDTO update(IngredientDTO ingredientDTO) {
+        validateIngredientId(ingredientDTO.getId());
         validateIngredientObject(ingredientDTO);
         return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
     }
