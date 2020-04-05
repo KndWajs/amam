@@ -1,7 +1,6 @@
 package pl.fit_amam.api.services;
 
 
-import com.aws.codestar.projecttemplates.dto.*;
 import pl.fit_amam.api.dto.*;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
