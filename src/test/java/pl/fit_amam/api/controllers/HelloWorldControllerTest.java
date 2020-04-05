@@ -1,16 +1,15 @@
 package pl.fit_amam.api.controllers;
 
-import pl.fit_amam.api.Globals;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.fit_amam.api.Globals;
 
 import static org.junit.Assert.assertEquals;
 
@@ -73,7 +72,6 @@ public class HelloWorldControllerTest {
 //    }
 
     @Test
-    @DisplayName("Basic test for GET request")
     public void testGetRequest() throws JSONException {
         ResponseEntity responseEntity = controller.helloWorldGet();
 
@@ -85,7 +83,6 @@ public class HelloWorldControllerTest {
 
 
     @Test
-    @DisplayName("Basic test for POST request")
     public void testPostRequest() throws JSONException {
 //        ResponseEntity responseEntity = controller.helloWorldPost(INPUT_NAME);
 //

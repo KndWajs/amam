@@ -1,20 +1,18 @@
 package pl.fit_amam.api.mappers;
 
-import pl.fit_amam.api.base.IngredientGenerator;
-import pl.fit_amam.api.dto.IngredientDTO;
-import pl.fit_amam.api.persistence.entities.Ingredient;
-import pl.fit_amam.api.persistence.repositories.MealIngredientDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.fit_amam.api.base.IngredientGenerator;
+import pl.fit_amam.api.dto.IngredientDTO;
+import pl.fit_amam.api.persistence.entities.Ingredient;
+import pl.fit_amam.api.persistence.repositories.MealIngredientDao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IngredientMapperTest {
@@ -26,7 +24,6 @@ public class IngredientMapperTest {
 
     @Before
     public void setUp() {
-        when(mealIngredientDao.getMealIngredientsByIngredientId(any())).thenReturn(null);
     }
 
     @Test
