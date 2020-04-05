@@ -16,16 +16,13 @@ public class MealIngredient implements EntityInterface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-//TODO this id in manytomany table is not necessary
 
     @ManyToOne
-//    @MapsId("mealId")
-    @JoinColumn(name = "mealId")//TODO not necessary
+    @JoinColumn(name = "mealId")
     private Meal meal;
 
 
     @ManyToOne
-//    @MapsId("ingredientId")
     @JoinColumn(name = "ingredientId")
     private Ingredient ingredient;
 

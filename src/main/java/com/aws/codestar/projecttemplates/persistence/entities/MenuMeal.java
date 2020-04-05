@@ -19,7 +19,6 @@ public class MenuMeal implements EntityInterface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-//TODO this id in manytomany table is not necessary
 
     @ManyToOne
     @JoinColumn(name = "menuId")

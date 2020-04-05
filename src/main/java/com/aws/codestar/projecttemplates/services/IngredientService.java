@@ -35,7 +35,7 @@ public class IngredientService {
         if (outcomeIngredient == null) {
             return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
         }
-        //TODO give response that meal exists
+
         return ingredientMapper.toDTO(outcomeIngredient);
     }
 

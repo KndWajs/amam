@@ -17,9 +17,6 @@ public class IngredientCategoryMapper implements Mapper<IngredientCategoryDTO, I
         }
 
         IngredientCategoryDTO ingredientCategoryDTO = modelMapper.map(ingredientCategory, IngredientCategoryDTO.class);
-// TODO
-//        postDto.setSubmissionDate(post.getSubmissionDate(),
-//                userService.getCurrentUser().getPreference().getTimezone());
         return ingredientCategoryDTO;
     }
 
@@ -30,9 +27,6 @@ public class IngredientCategoryMapper implements Mapper<IngredientCategoryDTO, I
         }
 
         IngredientCategory ingredientCategory = modelMapper.map(ingredientCategoryDTO, IngredientCategory.class);
-//        TODO
-//        ingredientCategory.setSubmissionDate(postDto.getSubmissionDateConverted(
-//                userService.getCurrentUser().getPreference().getTimezone()));
         return ingredientCategory;
     }
 }
