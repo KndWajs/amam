@@ -27,9 +27,6 @@ public class Menu extends AbstractBaseEntity implements EntityInterface {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "userId")
-    private Integer userId;
-
     @Column(name = "archival")
     private boolean archival;
 
@@ -39,13 +36,12 @@ public class Menu extends AbstractBaseEntity implements EntityInterface {
 
     @Builder
     public Menu(String userName, Timestamp creationDate, Timestamp updateDate, Long id,
-                double numberOfPeople, String name, Integer userId, boolean archival,
+                double numberOfPeople, String name, boolean archival,
                 List<MenuMeal> menuMeals) {
         super(userName, creationDate, updateDate);
         this.id = id;
         this.numberOfPeople = numberOfPeople;
         this.name = name;
-        this.userId = userId;
         this.archival = archival;
         this.menuMeals = menuMeals;
     }

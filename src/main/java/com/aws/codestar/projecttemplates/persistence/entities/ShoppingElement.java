@@ -31,22 +31,18 @@ public class ShoppingElement extends AbstractBaseEntity implements EntityInterfa
     @Column(name = "amount")
     private Double amount;
 
-    @Column(name = "userId")
-    private Long userId;
-
     @Column(name = "alreadyBought")
     private boolean alreadyBought;
 
     @Builder
     public ShoppingElement(String userName, Timestamp creationDate, Timestamp updateDate,
                            Long id, ShoppingList shoppingList,
-                           Ingredient ingredient, Double amount, Long userId, boolean alreadyBought) {
+                           Ingredient ingredient, Double amount, boolean alreadyBought) {
         super(userName, creationDate, updateDate);
         this.id = id;
         this.shoppingList = shoppingList;
         this.ingredient = ingredient;
         this.amount = amount;
-        this.userId = userId;
         this.alreadyBought = alreadyBought;
     }
 }
