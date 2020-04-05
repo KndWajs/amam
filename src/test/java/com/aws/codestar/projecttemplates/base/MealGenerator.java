@@ -10,8 +10,11 @@ import java.sql.Timestamp;
 public class MealGenerator {
 
     public static Meal getSampleMealEntity() {
-        return new Meal(5L,
-
+        return new Meal(
+                "username",
+                new Timestamp(System.currentTimeMillis()),
+                new Timestamp(System.currentTimeMillis()),
+                5L,
                 "test meal",
                 MealType.SUPPER,
                 PreparingType.BOILED,

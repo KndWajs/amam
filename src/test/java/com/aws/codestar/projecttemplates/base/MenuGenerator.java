@@ -3,6 +3,7 @@ package com.aws.codestar.projecttemplates.base;
 import com.aws.codestar.projecttemplates.dto.MenuDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.Menu;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class MenuGenerator {
                 .numberOfPeople(7D)
                 .name("test menu name")
                 .archival(false)
+                .userName("testUserName")
+                .creationDate(new Timestamp(System.currentTimeMillis()))
+                .updateDate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 
@@ -21,6 +25,9 @@ public class MenuGenerator {
                 .numberOfPeople(7)
                 .name("test menu name")
                 .archival(false)
+                .userName("testUserName")
+                .creationDate(new Timestamp(System.currentTimeMillis()))
+                .updateDate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 

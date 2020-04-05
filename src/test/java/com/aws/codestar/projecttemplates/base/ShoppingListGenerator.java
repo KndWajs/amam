@@ -3,6 +3,7 @@ package com.aws.codestar.projecttemplates.base;
 import com.aws.codestar.projecttemplates.dto.ShoppingListDTO;
 import com.aws.codestar.projecttemplates.persistence.entities.ShoppingList;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class ShoppingListGenerator {
                 .name("test shopping list")
                 .numberOfPeople(5)
                 .archival(false)
+                .userName("testUserName")
+                .creationDate(new Timestamp(System.currentTimeMillis()))
+                .updateDate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 
@@ -21,6 +25,9 @@ public class ShoppingListGenerator {
                 .name("test shopping list")
                 .numberOfPeople(5)
                 .archival(false)
+                .userName("testUserName")
+                .creationDate(new Timestamp(System.currentTimeMillis()))
+                .updateDate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
 
