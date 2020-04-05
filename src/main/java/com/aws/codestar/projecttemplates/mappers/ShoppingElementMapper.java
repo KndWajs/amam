@@ -31,6 +31,9 @@ public class ShoppingElementMapper {
                 .ingredient(ingredientMapper.toDTO(shoppingElement.getIngredient()))
                 .amount(shoppingElement.getAmount())
                 .alreadyBought(shoppingElement.isAlreadyBought())
+                .userName(shoppingElement.getUserName())
+                .creationDate(shoppingElement.getCreationDate())
+                .updateDate(shoppingElement.getUpdateDate())
                 .build();
     }
 
@@ -45,6 +48,9 @@ public class ShoppingElementMapper {
                 .ingredient(ingredientMapper.toEntity(shoppingElement.getIngredient()))
                 .amount(shoppingElement.getAmount())
                 .alreadyBought(shoppingElement.isAlreadyBought())
+                .userName(shoppingElement.getUserName())
+                .creationDate(shoppingElement.getCreationDate())
+                .updateDate(shoppingElement.getUpdateDate())
                 .build();
     }
 

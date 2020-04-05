@@ -32,6 +32,9 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .recipe(meal.getRecipe())
                 .minutesToPrepare(meal.getMinutesToPrepare())
                 .ingredients(mealIngredientMapper.toDTOs(meal.getMealIngredients()))
+                .userName(meal.getUserName())
+                .creationDate(meal.getCreationDate())
+                .updateDate(meal.getUpdateDate())
                 .build();
     }
 
@@ -49,6 +52,9 @@ public class MealMapper implements Mapper<MealDTO, Meal> {
                 .recipe(meal.getRecipe())
                 .minutesToPrepare(meal.getMinutesToPrepare())
                 .mealIngredients(mealIngredientMapper.toEntities(meal.getIngredients(), meal.getId()))
+                .userName(meal.getUserName())
+                .creationDate(meal.getCreationDate())
+                .updateDate(meal.getUpdateDate())
                 .build();
     }
 

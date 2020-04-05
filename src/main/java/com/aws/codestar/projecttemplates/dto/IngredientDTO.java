@@ -6,16 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientDTO {
-    private Long id;
+public class IngredientDTO extends AbstractBaseDto {
 
     private String name;
 
     private IngredientUnit ingredientUnit;
     
     private String category;
+    
+    @Builder
+    public IngredientDTO(Long id, String userName, Timestamp creationDate, Timestamp updateDate, String name,
+                         IngredientUnit ingredientUnit, String category) {
+        super(id, userName, creationDate, updateDate);
+        this.name = name;
+        this.ingredientUnit = ingredientUnit;
+        this.category = category;
+    }
 }

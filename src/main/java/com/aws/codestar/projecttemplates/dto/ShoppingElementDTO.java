@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingElementDTO {
-
-    private Long id;
+public class ShoppingElementDTO extends AbstractBaseDto {
 
     private IngredientDTO ingredient;
 
@@ -19,4 +18,12 @@ public class ShoppingElementDTO {
 
     private boolean alreadyBought;
 
+    @Builder
+    public ShoppingElementDTO(Long id, String userName, Timestamp creationDate, Timestamp updateDate,
+                              IngredientDTO ingredient, Double amount, boolean alreadyBought) {
+        super(id, userName, creationDate, updateDate);
+        this.ingredient = ingredient;
+        this.amount = amount;
+        this.alreadyBought = alreadyBought;
+    }
 }

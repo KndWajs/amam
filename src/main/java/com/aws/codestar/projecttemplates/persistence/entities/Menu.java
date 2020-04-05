@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "menus")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Menu implements EntityInterface {
+public class Menu extends AbstractBaseEntity implements EntityInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +36,17 @@ public class Menu implements EntityInterface {
     @OneToMany(cascade = {CascadeType.ALL},
             mappedBy = "menu", orphanRemoval = true)
     private List<MenuMeal> menuMeals;
+
+    @Builder
+    public Menu(String userName, Timestamp creationDate, Timestamp updateDate, Long id,
+                double numberOfPeople, String name, Integer userId, boolean archival,
+                List<MenuMeal> menuMeals) {
+        super(userName, creationDate, updateDate);
+        this.id = id;
+        this.numberOfPeople = numberOfPeople;
+        this.name = name;
+        this.userId = userId;
+        this.archival = archival;
+        this.menuMeals = menuMeals;
+    }
 }

@@ -6,14 +6,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import java.sql.Timestamp;
 
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientCategoryDTO implements EntityInterface {
-    private Long id;
+public class IngredientCategoryDTO extends AbstractBaseDto implements EntityInterface {
 
     private String category;
+
+    @Builder
+    public IngredientCategoryDTO(Long id, String userName, Timestamp creationDate, Timestamp updateDate,
+                                 String category) {
+        super(id, userName, creationDate, updateDate);
+        this.category = category;
+    }
 }

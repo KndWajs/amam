@@ -5,10 +5,13 @@ import com.aws.codestar.projecttemplates.enums.MealType;
 import com.aws.codestar.projecttemplates.enums.PreparingType;
 import com.aws.codestar.projecttemplates.persistence.entities.Meal;
 
+import java.sql.Timestamp;
+
 public class MealGenerator {
 
     public static Meal getSampleMealEntity() {
         return new Meal(5L,
+
                 "test meal",
                 MealType.SUPPER,
                 PreparingType.BOILED,
@@ -20,6 +23,9 @@ public class MealGenerator {
 
     public static MealDTO getSampleMealDTO() {
         return new MealDTO(5L,
+                "username",
+                new Timestamp(System.currentTimeMillis()),
+                new Timestamp(System.currentTimeMillis()),
                 "test meal",
                 MealType.SUPPER,
                 PreparingType.BOILED,

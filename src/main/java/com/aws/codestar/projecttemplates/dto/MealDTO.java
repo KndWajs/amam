@@ -7,14 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MealDTO {
-    private Long id;
+public class MealDTO extends AbstractBaseDto {
 
     private String name;
 
@@ -28,4 +27,17 @@ public class MealDTO {
 
     private List<MealIngredientDTO> ingredients;
 
+    @Builder
+    public MealDTO(Long id, String userName, Timestamp creationDate, Timestamp updateDate,
+                   String name, MealType typeOfMeal, PreparingType typeOfPreparing, String recipe,
+                   Integer minutesToPrepare,
+                   List<MealIngredientDTO> ingredients) {
+        super(id, userName, creationDate, updateDate);
+        this.name = name;
+        this.typeOfMeal = typeOfMeal;
+        this.typeOfPreparing = typeOfPreparing;
+        this.recipe = recipe;
+        this.minutesToPrepare = minutesToPrepare;
+        this.ingredients = ingredients;
+    }
 }

@@ -26,6 +26,9 @@ public class MenuMapper implements Mapper<MenuDTO, Menu> {
                 .name(menu.getName())
                 .meals(menuMealMapper.toDTOs(menu.getMenuMeals()))
                 .archival(menu.isArchival())
+                .userName(menu.getUserName())
+                .creationDate(menu.getCreationDate())
+                .updateDate(menu.getUpdateDate())
                 .build();
     }
 
@@ -41,6 +44,9 @@ public class MenuMapper implements Mapper<MenuDTO, Menu> {
                 .name(menu.getName() == null ? null : menu.getName().toLowerCase())
                 .menuMeals(menuMealMapper.toEntities(menu.getMeals(), menu.getId()))
                 .archival(menu.isArchival())
+                .userName(menu.getUserName())
+                .creationDate(menu.getCreationDate())
+                .updateDate(menu.getUpdateDate())
                 .build();
     }
 }

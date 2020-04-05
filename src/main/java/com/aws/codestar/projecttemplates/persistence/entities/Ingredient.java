@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient implements EntityInterface, Serializable {
+public class Ingredient extends AbstractBaseEntity implements EntityInterface, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +35,16 @@ public class Ingredient implements EntityInterface, Serializable {
 
     @OneToMany(mappedBy = "ingredient")
     private List<MealIngredient> mealIngredients;
+
+    @Builder
+    public Ingredient(String userName, Timestamp creationDate, Timestamp updateDate, Long id,
+                      String name, IngredientUnit ingredientUnit, String category,
+                      List<MealIngredient> mealIngredients) {
+        super(userName, creationDate, updateDate);
+        this.id = id;
+        this.name = name;
+        this.ingredientUnit = ingredientUnit;
+        this.category = category;
+        this.mealIngredients = mealIngredients;
+    }
 }

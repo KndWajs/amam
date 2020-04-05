@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "shoppingElements")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingElement implements EntityInterface {//TODO change to ShoppingListElement?
+public class ShoppingElement extends AbstractBaseEntity implements EntityInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +36,17 @@ public class ShoppingElement implements EntityInterface {//TODO change to Shoppi
 
     @Column(name = "alreadyBought")
     private boolean alreadyBought;
+
+    @Builder
+    public ShoppingElement(String userName, Timestamp creationDate, Timestamp updateDate,
+                           Long id, ShoppingList shoppingList,
+                           Ingredient ingredient, Double amount, Long userId, boolean alreadyBought) {
+        super(userName, creationDate, updateDate);
+        this.id = id;
+        this.shoppingList = shoppingList;
+        this.ingredient = ingredient;
+        this.amount = amount;
+        this.userId = userId;
+        this.alreadyBought = alreadyBought;
+    }
 }

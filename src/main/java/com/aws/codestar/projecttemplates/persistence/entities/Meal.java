@@ -8,15 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "meals")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Meal implements EntityInterface {
+public class Meal extends AbstractBaseEntity implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -44,4 +44,18 @@ public class Meal implements EntityInterface {
             mappedBy = "meal", orphanRemoval = true)
     private List<MealIngredient> mealIngredients;
 
+    @Builder
+    public Meal(String userName, Timestamp creationDate, Timestamp updateDate, Long id,
+                String name, MealType typeOfMeal, PreparingType typeOfPreparing, String recipe,
+                Integer minutesToPrepare,
+                List<MealIngredient> mealIngredients) {
+        super(userName, creationDate, updateDate);
+        this.id = id;
+        this.name = name;
+        this.typeOfMeal = typeOfMeal;
+        this.typeOfPreparing = typeOfPreparing;
+        this.recipe = recipe;
+        this.minutesToPrepare = minutesToPrepare;
+        this.mealIngredients = mealIngredients;
+    }
 }

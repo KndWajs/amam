@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ingredientCategory")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientCategory implements EntityInterface {
+public class IngredientCategory extends AbstractBaseEntity implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,4 +22,11 @@ public class IngredientCategory implements EntityInterface {
     @Column(name = "category")
     private String category;
 
+    @Builder
+    public IngredientCategory(String userName, Timestamp creationDate, Timestamp updateDate,
+                              Long id, String category) {
+        super(userName, creationDate, updateDate);
+        this.id = id;
+        this.category = category;
+    }
 }
