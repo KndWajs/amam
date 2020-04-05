@@ -1,5 +1,6 @@
 package com.aws.codestar.projecttemplates.controllers;
 
+import com.aws.codestar.projecttemplates.Globals;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -13,15 +14,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Tests for {@link HelloWorldController}. Modify the tests in order to support your use case as you build your project.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-//@DisplayName("Tests for HelloWorldController")
 public class HelloWorldControllerTest {
 
-    private static final String EXPECTED_RESPONSE_VALUE = "Hello AWS CodeStar!";
+    private static final String EXPECTED_RESPONSE_VALUE = "This API version: " + Globals.API_VERSION;
     private static final String INPUT_NAME = "AWS CodeStar";
 
 
@@ -75,15 +72,10 @@ public class HelloWorldControllerTest {
 //        assertNotNull(response);
 //    }
 
-
-
-    /**
-     * Basic test to verify the result obtained when calling {@link HelloWorldController#helloWorldGet} successfully.
-     */
     @Test
     @DisplayName("Basic test for GET request")
     public void testGetRequest() throws JSONException {
-        ResponseEntity responseEntity = controller.helloWorldGet(INPUT_NAME);
+        ResponseEntity responseEntity = controller.helloWorldGet();
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(responseEntity.getBody().toString());
