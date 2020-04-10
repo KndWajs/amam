@@ -37,7 +37,7 @@ public class HelloWorldController {
     private MealIngredientDao mealIngredientDao;
 
     @Value("${version}")
-    private String fb;
+    private String apiVersion;
 
     @Autowired
     public HelloWorldController(MealIngredientDao mealIngredientDao) {
@@ -49,7 +49,7 @@ public class HelloWorldController {
 
 
         List<String> response = new ArrayList<>();
-        response.add("API version: " + fb);
+        response.add("API version: " + apiVersion);
         response.add("Rest version: " + Globals.API_VERSION);
 
         return ResponseEntity.ok(createResponse(response));
