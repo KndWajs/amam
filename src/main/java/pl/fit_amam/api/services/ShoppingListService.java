@@ -34,13 +34,14 @@ public class ShoppingListService {
 
     public ShoppingListDTO create(ShoppingListDTO shoppingListDTO) throws ObjectIsNullException {
         validateShoppingListObject(shoppingListDTO);
+        List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
 
         shoppingListDTO.setShoppingElements(new ArrayList<>());
         ShoppingListDTO savedShoppingList = shoppingListMapper
                 .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
 
-        if (!(shoppingListDTO.getShoppingElements() == null || shoppingListDTO.getShoppingElements().isEmpty())) {
-            List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
+        if (!(shoppingElements == null || shoppingElements.isEmpty())) {
+
             for (ShoppingElementDTO shoppingElementDTO : shoppingElements) {
                 savedShoppingList.getShoppingElements().add(shoppingElementDTO);
             }

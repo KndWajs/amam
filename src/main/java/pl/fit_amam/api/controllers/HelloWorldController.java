@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,13 @@ import pl.fit_amam.api.security.cognitojwt.TokenException;
 
 import java.io.IOException;
 import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Basic Spring web service controller that handles all GET requests.
@@ -28,6 +36,9 @@ public class HelloWorldController {
 
     private MealIngredientDao mealIngredientDao;
 
+    @Value("${version}")
+    private String fb;
+
     @Autowired
     public HelloWorldController(MealIngredientDao mealIngredientDao) {
         this.mealIngredientDao = mealIngredientDao;
@@ -35,10 +46,16 @@ public class HelloWorldController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity helloWorldGet() throws JSONException {
-        return ResponseEntity.ok(createResponse("This API version: " + Globals.API_VERSION));
+
+
+        List<String> response = new ArrayList<>();
+        response.add("API version: " + fb);
+        response.add("Rest version: " + Globals.API_VERSION);
+
+        return ResponseEntity.ok(createResponse(response));
     }
 
-    private String createResponse(String text) throws JSONException {
+    private String createResponse(List<String> text) throws JSONException {
         return new JSONObject().put("Output", text).toString();
     }
 
