@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CognitoAuthenticationToken extends AbstractAuthenticationToken {
@@ -17,6 +18,14 @@ public class CognitoAuthenticationToken extends AbstractAuthenticationToken {
         this.token = token;
         this.details = details;
         this.setAuthenticated(true);
+
+        //todo refactor this
+        List<String> auth = ((List<String>) details.getClaim("cognito:groups"));
+        if(auth ==null || auth.isEmpty()){
+            authorities.add(new CognitoAuthorities("NORMAL_USER"));
+        } else {
+            authorities.add(new CognitoAuthorities(auth.get(0)));
+        }
     }
 
     @Override
@@ -28,4 +37,11 @@ public class CognitoAuthenticationToken extends AbstractAuthenticationToken {
     public JWTClaimsSet getPrincipal() {
         return details;
     }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
 }
+
