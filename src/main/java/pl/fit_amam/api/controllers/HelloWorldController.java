@@ -16,14 +16,9 @@ import pl.fit_amam.api.security.cognitojwt.CognitoAuthenticationToken;
 import pl.fit_amam.api.security.cognitojwt.TokenException;
 
 import java.io.IOException;
-import java.util.Map;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Basic Spring web service controller that handles all GET requests.
