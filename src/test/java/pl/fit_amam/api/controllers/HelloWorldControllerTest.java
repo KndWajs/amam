@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,10 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class HelloWorldControllerTest {
 
-    private static final String EXPECTED_RESPONSE_VALUE = "This API version: " + Globals.API_VERSION;
-    private static final String INPUT_NAME = "AWS CodeStar";
+    @Value("${version}")
+    private String version;
 
+    private static final String INPUT_NAME = "AWS CodeStar";
 
     @Autowired
     private HelloWorldController controller;
@@ -77,7 +79,7 @@ public class HelloWorldControllerTest {
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(responseEntity.getBody().toString());
-        assertEquals(EXPECTED_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
+        assertEquals("[API version: " + version + ", Rest version: " + Globals.API_VERSION + "]", jsonObjectFromResponse.get("Output"));
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
