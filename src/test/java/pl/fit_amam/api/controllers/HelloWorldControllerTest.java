@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import pl.fit_amam.api.Globals;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -93,4 +94,11 @@ public class HelloWorldControllerTest {
 //        assertEquals(EXPECTED_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
 //        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
+
+
+    @Test
+    public void pipelineTest() throws JSONException {
+        assertTrue(false);
+    }
+
 }
