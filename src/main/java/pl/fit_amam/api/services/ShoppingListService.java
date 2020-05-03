@@ -1,6 +1,14 @@
 package pl.fit_amam.api.services;
 
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.*;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
@@ -8,14 +16,14 @@ import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.ShoppingListMapper;
 import pl.fit_amam.api.persistence.entities.ShoppingList;
 import pl.fit_amam.api.persistence.repositories.ShoppingListDao;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -111,6 +119,51 @@ public class ShoppingListService {
     public void delete(Long id) {
         validateShoppingListId(id);
         shoppingListDao.getRepository().deleteById(id);
+    }
+
+    public InputStream getPdfList(Long id) throws DocumentException {
+        ShoppingListDTO shoppingList = this.get(id);
+
+        Font font = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
+        Chunk chunk = new Chunk("Name: " + shoppingList.getName(), font);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        document.open();
+        PdfPTable table = new PdfPTable(3);
+        addTableHeader(table);
+        addRows(table, shoppingList);
+        document.add(chunk);
+        document.add(table);
+        document.close();
+
+        return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+    }
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("Name", "Amount", "Unit")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
+    }
+
+    private void addRows(PdfPTable table, ShoppingListDTO shoppingList) {
+
+        for (ShoppingElementDTO element : shoppingList.getShoppingElements()) {
+            table.addCell(element.getIngredient().getName());
+
+            PdfPCell amountCell = new PdfPCell(new Phrase(element.getAmount().toString()));
+            amountCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(amountCell);
+
+            table.addCell(element.getIngredient().getIngredientUnit().getDescription());
+        }
     }
 
     private void validateShoppingListId(Long shoppingListId) {

@@ -1,13 +1,18 @@
 package pl.fit_amam.api.controllers;
 
 
+import com.itextpdf.text.DocumentException;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.fit_amam.api.Globals;
 import pl.fit_amam.api.dto.MenuDTO;
 import pl.fit_amam.api.dto.ShoppingListDTO;
 import pl.fit_amam.api.services.ShoppingListService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -43,6 +48,18 @@ public class ShoppingListController {
         return shoppingListService.getAll(archival);
     }
 
+    @GetMapping(path = "/shopping-list/pdf/{id}")
+    public @ResponseBody
+    ResponseEntity getShoppingListInPdf(@PathVariable Long id)  throws DocumentException{
+        InputStreamResource resource = new InputStreamResource(shoppingListService.getPdfList(id));
+
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=shopping_list:_" + id )
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
+    }
+
     @PutMapping(path = "/shopping-list")
     public @ResponseBody
     ShoppingListDTO updateShoppingList(@RequestBody ShoppingListDTO shoppingListDTO) {
@@ -54,6 +71,6 @@ public class ShoppingListController {
     ShoppingListDTO deleteShoppingList(@PathVariable Long id) {
         ShoppingListDTO deletedShoppingList = shoppingListService.get(id);
         shoppingListService.delete(id);
-        return deletedShoppingList;
-    }
+            return deletedShoppingList;
+        }
 }
