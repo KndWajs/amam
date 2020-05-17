@@ -1,6 +1,10 @@
 package pl.fit_amam.api.services;
 
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.MealDTO;
 import pl.fit_amam.api.dto.MenuDTO;
 import pl.fit_amam.api.dto.MenuMealDTO;
@@ -12,11 +16,8 @@ import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.MenuMapper;
 import pl.fit_amam.api.persistence.entities.Menu;
 import pl.fit_amam.api.persistence.repositories.MenuDao;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,12 +39,16 @@ public class MenuService {
         this.menuDao = menuDao;
     }
 
-    public MenuDTO create(MenuDTO menu) throws ObjectIsNullException {
-        validateMenuObject(menu);
-        List<MenuMealDTO> menuMeals = menu.getMeals();
-        menu.setMeals(new ArrayList<>());
+    public MenuDTO create(MenuDTO menuDTO) throws ObjectIsNullException {
+        validateMenuObject(menuDTO);
+        List<MenuMealDTO> menuMeals = menuDTO.getMeals();
 
-        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menuMapper.toEntity(menu)));
+        Menu menu = menuMapper.toEntity(menuDTO);
+        menu.setMenuMeals(new ArrayList<>());
+        menu.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        menu.setUserName(UserService.getUserName());
+
+        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menu));
 
         if(!(menuMeals == null || menuMeals.isEmpty())){
             for (MenuMealDTO menuMeal : menuMeals) {
@@ -88,11 +93,14 @@ public class MenuService {
         return menus;
     }
 
-    public MenuDTO update(MenuDTO menu) throws ObjectIsNullException {
-        validateMenuObject(menu);
-        validateMenuId(menu.getId());
+    public MenuDTO update(MenuDTO menuDTO) throws ObjectIsNullException {
+        validateMenuObject(menuDTO);
+        validateMenuId(menuDTO.getId());
 
-        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menuMapper.toEntity(menu)));
+        Menu menu = menuMapper.toEntity(menuDTO);
+        menu.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
+        MenuDTO savedMenu = menuMapper.toDTO(menuDao.getRepository().save(menu));
         return savedMenu;
     }
 

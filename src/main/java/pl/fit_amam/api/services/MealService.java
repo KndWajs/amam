@@ -1,6 +1,10 @@
 package pl.fit_amam.api.services;
 
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.MealDTO;
 import pl.fit_amam.api.dto.MealIngredientDTO;
 import pl.fit_amam.api.enums.MealType;
@@ -10,11 +14,8 @@ import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.MealMapper;
 import pl.fit_amam.api.persistence.entities.Meal;
 import pl.fit_amam.api.persistence.repositories.MealDao;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +34,17 @@ public class MealService {
         this.mealDao = mealDao;
     }
 
-    public MealDTO create(MealDTO meal) throws ObjectIsNullException {
-        validateMealObject(meal);
-        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(mealMapper.toEntity(meal)));
+    public MealDTO create(MealDTO mealDTO) throws ObjectIsNullException {
+        validateMealObject(mealDTO);
 
-        if(!(meal.getIngredients() == null || meal.getIngredients().isEmpty())) {
-            for (MealIngredientDTO mealIngredient : meal.getIngredients()) {
+        Meal meal = mealMapper.toEntity(mealDTO);
+        meal.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        meal.setUserName(UserService.getUserName());
+
+        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(meal));
+
+        if(!(mealDTO.getIngredients() == null || mealDTO.getIngredients().isEmpty())) {
+            for (MealIngredientDTO mealIngredient : mealDTO.getIngredients()) {
                 savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
             }
         }
@@ -87,11 +93,14 @@ public class MealService {
         return meals;
     }
 
-    public MealDTO update(MealDTO meal) throws ObjectIsNullException {
-        validateMealObject(meal);
-        validateMealId(meal.getId());
+    public MealDTO update(MealDTO mealDTO) throws ObjectIsNullException {
+        validateMealObject(mealDTO);
+        validateMealId(mealDTO.getId());
 
-        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(mealMapper.toEntity(meal)));
+        Meal meal = mealMapper.toEntity(mealDTO);
+        meal.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
+        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(meal));
         return savedMeal;
     }
 

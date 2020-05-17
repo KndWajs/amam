@@ -1,6 +1,10 @@
 package pl.fit_amam.api.services;
 
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.IngredientDTO;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
@@ -8,11 +12,8 @@ import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.IngredientMapper;
 import pl.fit_amam.api.persistence.entities.Ingredient;
 import pl.fit_amam.api.persistence.repositories.IngredientDao;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +24,19 @@ public class IngredientService {
     private IngredientMapper ingredientMapper;
 
     @Autowired
-    public IngredientService( IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
+    public IngredientService(IngredientDao ingredientDao, IngredientMapper ingredientMapper) {
         this.ingredientDao = ingredientDao;
         this.ingredientMapper = ingredientMapper;
     }
 
     public IngredientDTO create(IngredientDTO ingredientDTO) throws ObjectIsNullException {
         validateIngredientObject(ingredientDTO);
-        Ingredient outcomeIngredient =
-                ingredientDao.getIngredientByNameAndUnit(ingredientMapper.toEntity(ingredientDTO));
+
+        Ingredient ingredient = ingredientMapper.toEntity(ingredientDTO);
+        ingredient.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        ingredient.setUserName(UserService.getUserName());
+
+        Ingredient outcomeIngredient = ingredientDao.getIngredientByNameAndUnit(ingredient);
         if (outcomeIngredient == null) {
             return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
         }
@@ -65,7 +70,11 @@ public class IngredientService {
     public IngredientDTO update(IngredientDTO ingredientDTO) {
         validateIngredientId(ingredientDTO.getId());
         validateIngredientObject(ingredientDTO);
-        return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredientMapper.toEntity(ingredientDTO)));
+
+        Ingredient ingredient = ingredientMapper.toEntity(ingredientDTO);
+        ingredient.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
+        return ingredientMapper.toDTO(ingredientDao.getRepository().save(ingredient));
     }
 
     public void delete(Long id) {

@@ -1,15 +1,18 @@
 package pl.fit_amam.api.services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.ShoppingElementDTO;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
 import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.ShoppingElementMapper;
+import pl.fit_amam.api.persistence.entities.ShoppingElement;
 import pl.fit_amam.api.persistence.repositories.ShoppingElementRepository;
 import pl.fit_amam.api.persistence.repositories.ShoppingListDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 
 @Service
 @Transactional
@@ -28,12 +31,17 @@ public class ShoppingElementService {
         this.shoppingListDao = shoppingListDao;
     }
 
-    public ShoppingElementDTO create(ShoppingElementDTO shoppingElement, Long shoppingListId)
+    public ShoppingElementDTO create(ShoppingElementDTO shoppingElementDTO, Long shoppingListId)
             throws ObjectIsNullException {
-        validateShoppingElementObject(shoppingElement);
+        validateShoppingElementObject(shoppingElementDTO);
         validateShoppingListId(shoppingListId);
+
+        ShoppingElement shoppingElement = shoppingElementMapper.toEntity(shoppingElementDTO, shoppingListId);
+        shoppingElement.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        shoppingElement.setUserName(UserService.getUserName());
+
         return shoppingElementMapper
-                .toDTO(shoppingElementRepository.save(shoppingElementMapper.toEntity(shoppingElement, shoppingListId)));
+                .toDTO(shoppingElementRepository.save(shoppingElement));
     }
 
     @Transactional(readOnly = true)
@@ -45,8 +53,11 @@ public class ShoppingElementService {
     public ShoppingElementDTO update(ShoppingElementDTO shoppingElementDTO, Long shoppingListId) {
         validateShoppingElementObject(shoppingElementDTO);
         validateShoppingElementId(shoppingElementDTO.getId());
-        return shoppingElementMapper.toDTO(shoppingElementRepository
-                .save(shoppingElementMapper.toEntity(shoppingElementDTO, shoppingListId)));
+
+        ShoppingElement shoppingElement = shoppingElementMapper.toEntity(shoppingElementDTO, shoppingListId);
+        shoppingElement.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
+        return shoppingElementMapper.toDTO(shoppingElementRepository.save(shoppingElement));
     }
 
     public void delete(Long id) {

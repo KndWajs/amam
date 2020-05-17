@@ -1,5 +1,9 @@
 package pl.fit_amam.api.services;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.dto.IngredientCategoryDTO;
 import pl.fit_amam.api.dto.IngredientDTO;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
@@ -7,11 +11,8 @@ import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.IngredientCategoryMapper;
 import pl.fit_amam.api.persistence.entities.IngredientCategory;
 import pl.fit_amam.api.persistence.repositories.IngredientCategoryRepository;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -32,6 +33,8 @@ public class IngredientCategoryService {
     public IngredientCategoryDTO create(IngredientCategoryDTO ingredientCategoryDTO) {
         validateIngredientCategoryObject(ingredientCategoryDTO);
         IngredientCategory newIngredientCategory = new IngredientCategory();
+        newIngredientCategory.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        newIngredientCategory.setUserName(UserService.getUserName());
         newIngredientCategory.setCategory(ingredientCategoryDTO.getCategory().toLowerCase());
         return ingredientCategoryMapper.toDTO(ingredientCategoryRepository.save(newIngredientCategory));
     }

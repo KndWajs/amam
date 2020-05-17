@@ -20,6 +20,7 @@ import pl.fit_amam.api.persistence.repositories.ShoppingListDao;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,12 +45,14 @@ public class ShoppingListService {
         validateShoppingListObject(shoppingListDTO);
         List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
 
-        shoppingListDTO.setShoppingElements(new ArrayList<>());
-        ShoppingListDTO savedShoppingList = shoppingListMapper
-                .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
+        ShoppingList shoppingList = shoppingListMapper.toEntity(shoppingListDTO);
+        shoppingList.setShoppingElements(new ArrayList<>());
+        shoppingList.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        shoppingList.setUserName(UserService.getUserName());
+
+        ShoppingListDTO savedShoppingList = shoppingListMapper.toDTO(shoppingListDao.getRepository().save(shoppingList));
 
         if (!(shoppingElements == null || shoppingElements.isEmpty())) {
-
             for (ShoppingElementDTO shoppingElementDTO : shoppingElements) {
                 savedShoppingList.getShoppingElements().add(shoppingElementDTO);
             }
@@ -110,10 +113,10 @@ public class ShoppingListService {
         validateShoppingListObject(shoppingListDTO);
         validateShoppingListId(shoppingListDTO.getId());
 
-        ShoppingListDTO savedShoppingList = shoppingListMapper
-                .toDTO(shoppingListDao.getRepository().save(shoppingListMapper.toEntity(shoppingListDTO)));
+        ShoppingList shoppingList = shoppingListMapper.toEntity(shoppingListDTO);
+        shoppingList.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 
-        return savedShoppingList;
+        return shoppingListMapper.toDTO(shoppingListDao.getRepository().save(shoppingList));
     }
 
     public void delete(Long id) {
