@@ -4,6 +4,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +14,7 @@ public class CognitoAuthenticationToken extends AbstractAuthenticationToken {
     private JWTClaimsSet details;
     private List<GrantedAuthority> authorities = new ArrayList<>();
 
-    public CognitoAuthenticationToken(String token, JWTClaimsSet details) {
+    public CognitoAuthenticationToken(String token, @NotNull JWTClaimsSet details) {
         super(new ArrayList<>());
         this.token = token;
         this.details = details;
@@ -21,7 +22,7 @@ public class CognitoAuthenticationToken extends AbstractAuthenticationToken {
 
         //todo refactor this
         List<String> auth = ((List<String>) details.getClaim("cognito:groups"));
-        if(auth ==null || auth.isEmpty()){
+        if(auth == null || auth.isEmpty()){
             authorities.add(new CognitoAuthorities("NORMAL_USER"));
         } else {
             authorities.add(new CognitoAuthorities(auth.get(0)));
