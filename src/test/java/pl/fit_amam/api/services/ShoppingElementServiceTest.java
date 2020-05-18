@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @Transactional
-public class ShoppingElementServiceTest {
+public class ShoppingElementServiceTest  extends BasicServiceTest {
     @PersistenceContext
     protected EntityManager entityManager;
 

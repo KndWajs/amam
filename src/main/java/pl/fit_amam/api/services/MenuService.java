@@ -43,8 +43,8 @@ public class MenuService {
         validateMenuObject(menuDTO);
         List<MenuMealDTO> menuMeals = menuDTO.getMeals();
 
+        menuDTO.setMeals(new ArrayList<>());
         Menu menu = menuMapper.toEntity(menuDTO);
-        menu.setMenuMeals(new ArrayList<>());
         menu.setCreationDate(new Timestamp(System.currentTimeMillis()));
         menu.setUserName(UserService.getUserName());
 

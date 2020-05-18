@@ -1,5 +1,12 @@
 package pl.fit_amam.api.services;
 
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.Application;
 import pl.fit_amam.api.base.IngredientCategoryGenerator;
 import pl.fit_amam.api.controllers.config.H2JpaConfig;
@@ -9,13 +16,6 @@ import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
 import pl.fit_amam.api.exceptions.ObjectIsNullException;
 import pl.fit_amam.api.mappers.IngredientCategoryMapper;
 import pl.fit_amam.api.persistence.entities.IngredientCategory;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @Transactional
-public class IngredientCategoryServiceTest {
+public class IngredientCategoryServiceTest extends BasicServiceTest {
     @PersistenceContext
     protected EntityManager entityManager;
 
@@ -35,6 +35,7 @@ public class IngredientCategoryServiceTest {
 
     @Autowired
     private IngredientCategoryMapper ingredientCategoryMapper;
+
 
     @Test
     public void shouldReturnTwoIngredientCategoriesDTOWhenGetAllIngredientCategories() {

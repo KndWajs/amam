@@ -45,8 +45,9 @@ public class ShoppingListService {
         validateShoppingListObject(shoppingListDTO);
         List<ShoppingElementDTO> shoppingElements = shoppingListDTO.getShoppingElements();
 
+        shoppingListDTO.setShoppingElements(new ArrayList<>());
+
         ShoppingList shoppingList = shoppingListMapper.toEntity(shoppingListDTO);
-        shoppingList.setShoppingElements(new ArrayList<>());
         shoppingList.setCreationDate(new Timestamp(System.currentTimeMillis()));
         shoppingList.setUserName(UserService.getUserName());
 
