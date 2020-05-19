@@ -3,20 +3,18 @@ package pl.fit_amam.api.controllers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.Globals;
+import pl.fit_amam.api.base.AbstractIntegrationTestBase;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-public class HelloWorldControllerTest {
+@Transactional
+public class HelloWorldControllerTest extends AbstractIntegrationTestBase {
 
     @Value("${version}")
     private String version;

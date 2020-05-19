@@ -2,14 +2,9 @@ package pl.fit_amam.api.services;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import pl.fit_amam.api.Application;
 import pl.fit_amam.api.base.IngredientCategoryGenerator;
-import pl.fit_amam.api.controllers.config.H2JpaConfig;
 import pl.fit_amam.api.dto.IngredientCategoryDTO;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
@@ -23,10 +18,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @Transactional
-public class IngredientCategoryServiceTest extends BasicServiceTest {
+public class IngredientCategoryServiceTest extends ServiceTestBase {
     @PersistenceContext
     protected EntityManager entityManager;
 

@@ -1,10 +1,11 @@
 package pl.fit_amam.api.services;
 
-import pl.fit_amam.api.Application;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import pl.fit_amam.api.base.MealGenerator;
 import pl.fit_amam.api.base.MenuGenerator;
 import pl.fit_amam.api.base.MenuMealGenerator;
-import pl.fit_amam.api.controllers.config.H2JpaConfig;
 import pl.fit_amam.api.dto.MenuMealDTO;
 import pl.fit_amam.api.exceptions.ObjectIdDoesNotExistsException;
 import pl.fit_amam.api.exceptions.ObjectIsNullException;
@@ -12,12 +13,6 @@ import pl.fit_amam.api.mappers.MenuMealMapper;
 import pl.fit_amam.api.persistence.entities.Meal;
 import pl.fit_amam.api.persistence.entities.Menu;
 import pl.fit_amam.api.persistence.entities.MenuMeal;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,10 +20,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class, H2JpaConfig.class})
 @Transactional
-public class MenuMealServiceTest extends BasicServiceTest {
+public class MenuMealServiceTest extends ServiceTestBase {
     @PersistenceContext
     protected EntityManager entityManager;
 
