@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -113,6 +114,11 @@ public class AwsCognitoJwtParserUtil {
      */
     public static void validateJWT(String jwt) throws TokenException {
         // Check if the the JWT has the three parts
+        if(jwt == null){
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, AuthenticationError.TOKEN_MISSING
+            );
+        }
         final String[] jwtParts = jwt.split("\\.");
         if (jwtParts.length != JWT_PARTS) {
             throw new TokenException(HttpStatus.UNAUTHORIZED, AuthenticationError.NOT_VALID_JSON_WEB_TOKEN, jwt);
