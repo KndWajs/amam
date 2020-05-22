@@ -2,7 +2,6 @@ package pl.fit_amam.api.controllers;
 
 
 import com.itextpdf.text.DocumentException;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
-@Tag(name = "ShoppingListController", description = "desc class")
 public class ShoppingListController {
 
     private ShoppingListService shoppingListService;
@@ -50,12 +48,11 @@ public class ShoppingListController {
 
     @GetMapping(path = "/shopping-list/pdf/{id}")
     public @ResponseBody
-    ResponseEntity getShoppingListInPdf(@PathVariable Long id)  throws DocumentException{
+    ResponseEntity getShoppingListInPdf(@PathVariable Long id) throws DocumentException {
         InputStreamResource resource = new InputStreamResource(shoppingListService.getPdfList(id));
 
-
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=shopping_list:_" + id )
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=shopping_list:_" + id)
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
     }
@@ -71,6 +68,6 @@ public class ShoppingListController {
     ShoppingListDTO deleteShoppingList(@PathVariable Long id) {
         ShoppingListDTO deletedShoppingList = shoppingListService.get(id);
         shoppingListService.delete(id);
-            return deletedShoppingList;
-        }
+        return deletedShoppingList;
+    }
 }

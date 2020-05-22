@@ -1,7 +1,6 @@
 package pl.fit_amam.api.controllers;
 
 import com.nimbusds.jwt.JWTClaimsSet;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/" + Globals.API_VERSION + "/")
 @CrossOrigin(origins = "*")
-@Tag(name = "HelloWorldController", description = "this is HelloWorldController")
 public class HelloWorldController {
 
     private MealIngredientDao mealIngredientDao;
