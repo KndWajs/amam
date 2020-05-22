@@ -1,9 +1,9 @@
 package pl.fit_amam.api.services;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pl.fit_amam.api.dto.IngredientCategoryDTO;
 import pl.fit_amam.api.dto.IngredientDTO;
 import pl.fit_amam.api.exceptions.EmptyRequiredFieldException;
