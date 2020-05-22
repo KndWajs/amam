@@ -12,7 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable()
@@ -29,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/api-docs/**",
+                "/v2/api-docs",
                 "/swagger-ui.html",
+                "/swagger-ui.html#/",
                 "/swagger-ui/**");
     }
 }
