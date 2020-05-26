@@ -1,7 +1,11 @@
 package pl.fit_amam.api.exceptions;
 
-public class EmptyRequiredFieldException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class EmptyRequiredFieldException extends ResponseStatusException {
+
     public EmptyRequiredFieldException(String field) {
-        super(field + " can not be empty!");
+        super(HttpStatus.EXPECTATION_FAILED, field + " can not be empty!");
     }
 }

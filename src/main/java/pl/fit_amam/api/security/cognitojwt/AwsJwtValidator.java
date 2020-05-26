@@ -10,6 +10,7 @@ import com.nimbusds.jwt.proc.BadJWTException;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import org.springframework.http.HttpStatus;
+import pl.fit_amam.api.exceptions.TokenException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,9 +40,9 @@ public class AwsJwtValidator {
             JWTClaimsSet claimsSet = jwtProcessor.process(token, null);
             return claimsSet;
         } catch (BadJWTException e) {
-            throw new TokenException(HttpStatus.UNAUTHORIZED, AuthenticationError.TOKEN_EXPIRED, e.getLocalizedMessage());
+            throw new TokenException(HttpStatus.UNAUTHORIZED, AuthenticationError.TOKEN_EXPIRED, e);
         } catch (Exception e) {
-            throw new TokenException(HttpStatus.UNAUTHORIZED, "Token error: ", e.getMessage());
+            throw new TokenException(HttpStatus.UNAUTHORIZED, "Token error: " + e.getMessage(), e);
         }
     }
 }

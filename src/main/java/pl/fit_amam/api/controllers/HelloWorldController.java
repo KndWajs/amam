@@ -12,7 +12,7 @@ import pl.fit_amam.api.Globals;
 import pl.fit_amam.api.persistence.repositories.MealIngredientDao;
 import pl.fit_amam.api.security.cognitojwt.AwsJwtValidator;
 import pl.fit_amam.api.security.cognitojwt.CognitoAuthenticationToken;
-import pl.fit_amam.api.security.cognitojwt.TokenException;
+import pl.fit_amam.api.exceptions.TokenException;
 
 import java.io.IOException;
 import java.util.ArrayList;

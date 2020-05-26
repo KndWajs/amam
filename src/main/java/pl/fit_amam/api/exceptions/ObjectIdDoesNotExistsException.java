@@ -1,14 +1,19 @@
 package pl.fit_amam.api.exceptions;
 
-public class ObjectIdDoesNotExistsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class ObjectIdDoesNotExistsException extends ResponseStatusException {
+
     public ObjectIdDoesNotExistsException() {
-        super("Object id does not exists!");
+        super(HttpStatus.NOT_FOUND, "Object id does not exists!");
     }
+
     public ObjectIdDoesNotExistsException(Long id) {
-        super("Object id = " + id + " does not exists! ");
+        super(HttpStatus.NOT_FOUND, "Object id = " + id + " does not exists! ");
     }
 
     public ObjectIdDoesNotExistsException(Long id, String objectType) {
-        super("Object id = " + id + " for " + objectType + " does not exists! ");
+        super(HttpStatus.NOT_FOUND, "Object id = " + id + " for " + objectType + " does not exists! ");
     }
 }
