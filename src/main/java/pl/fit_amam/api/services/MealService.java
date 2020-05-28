@@ -40,11 +40,13 @@ public class MealService {
         Meal meal = mealMapper.toEntity(mealDTO);
         meal.setCreationDate(new Timestamp(System.currentTimeMillis()));
         meal.setUserName(UserService.getUserName());
+        meal.setMealIngredients(new ArrayList<>());
 
         MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(meal));
 
         if(!(mealDTO.getIngredients() == null || mealDTO.getIngredients().isEmpty())) {
             for (MealIngredientDTO mealIngredient : mealDTO.getIngredients()) {
+                mealIngredient.setId(null);
                 savedMeal.getIngredients().add(mealIngredientService.create(mealIngredient, savedMeal.getId()));
             }
         }
@@ -100,8 +102,7 @@ public class MealService {
         Meal meal = mealMapper.toEntity(mealDTO);
         meal.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 
-        MealDTO savedMeal = mealMapper.toDTO(mealDao.getRepository().save(meal));
-        return savedMeal;
+        return mealMapper.toDTO(mealDao.getRepository().save(meal));
     }
 
     public void delete(Long id) {

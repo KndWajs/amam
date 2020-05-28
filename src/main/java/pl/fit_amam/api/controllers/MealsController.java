@@ -46,7 +46,7 @@ public class MealsController {
         return mealService.getMealsByPartialName(name, numberOfResults);
     }
 
-    @PutMapping(path = "/meal/{id}")
+    @PutMapping(path = "/meal")
     public @ResponseBody
     MealDTO updateMeal(@RequestBody MealDTO mealDto) {
         return mealService.update(mealDto);

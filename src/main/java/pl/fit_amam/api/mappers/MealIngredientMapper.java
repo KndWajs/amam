@@ -27,6 +27,7 @@ public class MealIngredientMapper {
         }
 
         return MealIngredientDTO.builder()
+                .id(mealIngredient.getId())
                 .ingredient(ingredientMapper.toDTO(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())
                 .build();
@@ -38,6 +39,7 @@ public class MealIngredientMapper {
         }
 
         return MealIngredient.builder()
+                .id(mealIngredient.getId())
                 .meal(mealId == null ? null : mealRepository.findById(mealId).get())
                 .ingredient(ingredientMapper.toEntity(mealIngredient.getIngredient()))
                 .amount(mealIngredient.getAmount())

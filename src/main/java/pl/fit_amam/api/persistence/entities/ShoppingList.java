@@ -32,9 +32,9 @@ public class ShoppingList extends AbstractBaseEntity implements EntityInterface 
     private boolean archival;
 
     @OneToMany(
-            cascade = {CascadeType.ALL}
-            ,mappedBy = "shoppingList"
-            ,orphanRemoval = true
+            cascade = {CascadeType.ALL},
+            mappedBy = "shoppingList",
+            orphanRemoval = true
     )
     private List<ShoppingElement> shoppingElements;
 

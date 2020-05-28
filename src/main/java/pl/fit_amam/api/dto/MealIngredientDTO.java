@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MealIngredientDTO {
+
+    private Long id;
+
     private IngredientDTO ingredient;
+
     private Double amount;
 }
